@@ -1,0 +1,57 @@
+/* Ported from the source design's <helmet><style> block. Everything else
+   (layout, spacing, color, typography per element) is inline styles in the
+   components, matching the source's inline-style approach — this file only
+   holds the handful of rules inline `style` props can't express: global
+   resets, pseudo-classes, and the slider hint's keyframe animation. */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #e7dfd4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: #8a5a3c;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #6f4530;
+}
+
+img {
+  display: block;
+}
+
+input,
+button {
+  font-family: inherit;
+}
+
+input:focus {
+  outline: none;
+}
+
+::selection {
+  background: #d8c6b2;
+}
+
+@keyframes rr-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+}
