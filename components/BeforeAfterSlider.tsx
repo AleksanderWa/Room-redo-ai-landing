@@ -32,6 +32,7 @@ const HERO_SAFE_AREA: CSSProperties = {
   touchAction: "none",
   cursor: "ew-resize",
   userSelect: "none",
+  WebkitTouchCallout: "none",
   background: "#ddd",
 };
 
@@ -45,6 +46,7 @@ const STORAGE_CONTAINER: CSSProperties = {
   touchAction: "none",
   cursor: "ew-resize",
   userSelect: "none",
+  WebkitTouchCallout: "none",
   background: "#ddd",
 };
 
@@ -72,6 +74,7 @@ export default function BeforeAfterSlider({
   }
 
   function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
+    e.preventDefault();
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
     } catch {
@@ -83,7 +86,10 @@ export default function BeforeAfterSlider({
   }
 
   function onPointerMove(e: ReactPointerEvent<HTMLDivElement>) {
-    if (dragging) updatePct(e);
+    if (dragging) {
+      e.preventDefault();
+      updatePct(e);
+    }
   }
 
   function onPointerUp() {
@@ -99,6 +105,7 @@ export default function BeforeAfterSlider({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
+      onPointerCancel={onPointerUp}
       style={isHero ? HERO_SAFE_AREA : STORAGE_CONTAINER}
     >
       <Image
