@@ -1,5 +1,6 @@
 import Image from "next/image";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import StyleCarousel from "@/components/StyleCarousel";
 import WaitlistForm from "@/components/WaitlistForm";
 import { styles } from "@/data/styles";
 import { steps } from "@/data/steps";
@@ -17,9 +18,8 @@ export default function Home() {
       }}
     >
       <div
+        className="rr-shell"
         style={{
-          width: "100%",
-          maxWidth: 460,
           background: "#F7F2EA",
           color: "#2C2824",
           fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
@@ -54,12 +54,12 @@ export default function Home() {
         />
 
         {/* HERO COPY + FORM */}
-        <div style={{ padding: "22px 24px 26px" }}>
+        <div className="rr-content" style={{ padding: "22px 24px 26px" }}>
           <h1
+            className="rr-hero-heading"
             style={{
               fontFamily: CORMORANT,
               fontWeight: 600,
-              fontSize: 40,
               lineHeight: 1.02,
               letterSpacing: "-0.01em",
               margin: "0 0 10px",
@@ -84,12 +84,12 @@ export default function Home() {
 
         {/* STYLES */}
         <div style={{ padding: "8px 0 30px" }}>
-          <div style={{ padding: "0 24px 14px" }}>
+          <div className="rr-content" style={{ padding: "0 24px 14px" }}>
             <h2
+              className="rr-section-heading"
               style={{
                 fontFamily: CORMORANT,
                 fontWeight: 600,
-                fontSize: 27,
                 lineHeight: 1.05,
                 margin: "0 0 4px",
               }}
@@ -100,81 +100,16 @@ export default function Home() {
               Swipe through the styles from the videos.
             </p>
           </div>
-          <div
-            style={{
-              display: "flex",
-              gap: 14,
-              overflowX: "auto",
-              padding: "4px 24px 8px",
-              scrollSnapType: "x mandatory",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            {styles.map((s) => (
-              <div
-                key={s.num}
-                style={{ flex: "0 0 auto", width: 158, scrollSnapAlign: "start" }}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    aspectRatio: "3/4",
-                    borderRadius: 14,
-                    overflow: "hidden",
-                    background: "#e5ddd2",
-                  }}
-                >
-                  <Image
-                    src={s.img}
-                    alt={s.name}
-                    fill
-                    loading="lazy"
-                    sizes="158px"
-                    style={{ objectFit: "cover" }}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      left: 10,
-                      fontFamily: CORMORANT,
-                      fontSize: 15,
-                      color: "#fff",
-                      background: "rgba(30,26,22,0.5)",
-                      width: 30,
-                      height: 30,
-                      borderRadius: 999,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {s.num}
-                  </span>
-                </div>
-                <p
-                  style={{
-                    margin: "9px 2px 0",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#2C2824",
-                  }}
-                >
-                  {s.name}
-                </p>
-              </div>
-            ))}
-          </div>
+          <StyleCarousel styles={styles} />
         </div>
 
         {/* HOW IT WORKS */}
-        <div style={{ padding: "6px 24px 30px" }}>
+        <div className="rr-content" style={{ padding: "6px 24px 30px" }}>
           <h2
+            className="rr-section-heading"
             style={{
               fontFamily: CORMORANT,
               fontWeight: 600,
-              fontSize: 27,
               lineHeight: 1.05,
               margin: "0 0 18px",
             }}
@@ -233,12 +168,12 @@ export default function Home() {
         </div>
 
         {/* SECOND BEFORE/AFTER */}
-        <div style={{ padding: "6px 24px 30px" }}>
+        <div className="rr-content" style={{ padding: "6px 24px 30px" }}>
           <h2
+            className="rr-section-heading"
             style={{
               fontFamily: CORMORANT,
               fontWeight: 600,
-              fontSize: 27,
               lineHeight: 1.05,
               margin: "0 0 4px",
             }}
@@ -254,6 +189,7 @@ export default function Home() {
             beforeAlt="Corner before"
             afterAlt="Corner after"
             heightVariant="storage"
+            priority
           />
         </div>
 
@@ -265,12 +201,12 @@ export default function Home() {
             borderTop: "1px solid rgba(44,40,36,0.08)",
           }}
         >
-          <div style={{ paddingTop: 20 }}>
+          <div className="rr-content" style={{ paddingTop: 20 }}>
             <h2
+              className="rr-closing-heading"
               style={{
                 fontFamily: CORMORANT,
                 fontWeight: 600,
-                fontSize: 32,
                 lineHeight: 1.04,
                 margin: "0 0 8px",
                 textAlign: "center",
