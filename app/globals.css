@@ -55,3 +55,68 @@ input:focus {
     transform: translateX(-5px);
   }
 }
+
+/* Desktop layout ------------------------------------------------------
+   The source design is a single fixed 460px mobile "card" — fine on a
+   phone, but on tablet/desktop it left the whole site sitting in a narrow
+   centered column with large empty margins on either side. These rules
+   widen the card at two breakpoints (full-bleed hero image + style
+   carousel use the extra width) while `.rr-content` caps text/form blocks
+   back to a readable column at the widest step, and the display type
+   scales up a notch alongside it. Mobile-first: base rules here are the
+   460px defaults, each @media block overrides them going up. */
+.rr-shell {
+  width: 100%;
+  max-width: 460px;
+}
+
+.rr-content {
+  width: 100%;
+}
+
+.rr-hero-heading {
+  font-size: 40px;
+}
+
+.rr-section-heading {
+  font-size: 27px;
+}
+
+.rr-closing-heading {
+  font-size: 32px;
+}
+
+@media (min-width: 700px) {
+  .rr-shell {
+    max-width: 640px;
+  }
+  .rr-hero-heading {
+    font-size: 46px;
+  }
+  .rr-section-heading {
+    font-size: 29px;
+  }
+  .rr-closing-heading {
+    font-size: 34px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .rr-shell {
+    max-width: 1040px;
+  }
+  .rr-content {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .rr-hero-heading {
+    font-size: 56px;
+  }
+  .rr-section-heading {
+    font-size: 32px;
+  }
+  .rr-closing-heading {
+    font-size: 38px;
+  }
+}

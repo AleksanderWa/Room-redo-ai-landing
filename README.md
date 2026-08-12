@@ -19,7 +19,7 @@ Single-page Next.js (App Router) waitlist landing page for Room Redo AI, ported 
 - Inline-style porting approach (no Tailwind) — see the plan file for why.
 - Rate limiting on `/api/waitlist` is a best-effort in-memory limiter (see `lib/ratelimit.ts`) — swap for Upstash Redis if real abuse shows up.
 - `data/steps.ts` fixes a continuity bug in the source design (three different rooms across the "How it works" steps); `public/images/detail-japandi.jpg` is copied per the asset mapping but intentionally unused after that fix.
-- `app/icon.tsx` is a placeholder monogram favicon — the source design has no logo, only a text wordmark. Swap it for a real mark if one exists.
+- `app/icon.png` is a placeholder monogram favicon (pre-rendered static asset, not a dynamic `icon.tsx` route) — the source design has no logo, only a text wordmark. Swap it for a real mark if one exists. It's static rather than a `next/og` `ImageResponse` route because `next/image`'s optimizer and `next/og` share one process-wide `sharp`/libvips instance; the optimizer permanently blocks libvips' SVG loader (a hardcoded security measure) the first time it processes a real photo, which then breaks `ImageResponse`'s SVG→PNG rendering for the rest of the dev server's life. A static file sidesteps that pipeline entirely.
 
 ## Deploy
 
