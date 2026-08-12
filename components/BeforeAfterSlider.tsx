@@ -8,7 +8,8 @@ type Props = {
   afterSrc: string;
   beforeAlt: string;
   afterAlt: string;
-  /** hero: 46vh (min 300 / max 430), flush edges. storage: 3/4 aspect, rounded, max-height 460. */
+  /** hero: wrapped in an iPhone-style device frame (see design-assets/iphone-frame-spec.md
+   *  for the safe-area geometry). storage: plain 3/4 rounded box, no frame. */
   heightVariant: "hero" | "storage";
   /** Only the hero slider shows the "drag to reveal" hint, per the source design. */
   showHint?: boolean;
@@ -16,32 +17,39 @@ type Props = {
   priority?: boolean;
 };
 
-const containerStyleByVariant: Record<Props["heightVariant"], CSSProperties> = {
-  hero: {
-    position: "relative",
-    width: "100%",
-    height: "46vh",
-    minHeight: 300,
-    maxHeight: 430,
-    overflow: "hidden",
-    touchAction: "none",
-    cursor: "ew-resize",
-    userSelect: "none",
-    background: "#ddd",
-  },
-  storage: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: "3/4",
-    maxHeight: 460,
-    overflow: "hidden",
-    borderRadius: 16,
-    touchAction: "none",
-    cursor: "ew-resize",
-    userSelect: "none",
-    background: "#ddd",
-  },
+// Safe-area geometry for the hero device frame (public/images/iphone-frame.svg,
+// viewBox 1148x1988, uniform 34-unit bezel, concentric corners: outer r 184,
+// inner/screen r 150). Percentages below are the screen rect as a fraction
+// of the outer device box, matching the SVG's inner corner radius exactly.
+const HERO_SAFE_AREA: CSSProperties = {
+  position: "absolute",
+  left: "2.962%",
+  top: "1.710%",
+  width: "94.077%",
+  height: "96.579%",
+  borderRadius: "13.89% / 7.81%",
+  overflow: "hidden",
+  touchAction: "none",
+  cursor: "ew-resize",
+  userSelect: "none",
+  background: "#ddd",
 };
+
+const STORAGE_CONTAINER: CSSProperties = {
+  position: "relative",
+  width: "100%",
+  aspectRatio: "3/4",
+  maxHeight: 460,
+  overflow: "hidden",
+  borderRadius: 16,
+  touchAction: "none",
+  cursor: "ew-resize",
+  userSelect: "none",
+  background: "#ddd",
+};
+
+const HERO_IMAGE_SIZES = "(min-width: 1100px) 470px, (min-width: 700px) 380px, 340px";
+const STORAGE_IMAGE_SIZES = "(min-width: 1100px) 1040px, (min-width: 700px) 640px, 100vw";
 
 export default function BeforeAfterSlider({
   beforeSrc,
@@ -82,20 +90,23 @@ export default function BeforeAfterSlider({
     if (dragging) setDragging(false);
   }
 
-  return (
+  const isHero = heightVariant === "hero";
+  const pillInset = isHero ? 16 : 14;
+
+  const slider = (
     <div
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
-      style={containerStyleByVariant[heightVariant]}
+      style={isHero ? HERO_SAFE_AREA : STORAGE_CONTAINER}
     >
       <Image
         src={afterSrc}
         alt={afterAlt}
         fill
         priority={priority}
-        sizes="(min-width: 460px) 460px, 100vw"
+        sizes={isHero ? HERO_IMAGE_SIZES : STORAGE_IMAGE_SIZES}
         style={{ objectFit: "cover" }}
         draggable={false}
       />
@@ -111,7 +122,7 @@ export default function BeforeAfterSlider({
           alt={beforeAlt}
           fill
           priority={priority}
-          sizes="(min-width: 460px) 460px, 100vw"
+          sizes={isHero ? HERO_IMAGE_SIZES : STORAGE_IMAGE_SIZES}
           style={{ objectFit: "cover" }}
           draggable={false}
         />
@@ -120,8 +131,8 @@ export default function BeforeAfterSlider({
       <div
         style={{
           position: "absolute",
-          top: 14,
-          left: 14,
+          top: pillInset,
+          left: pillInset,
           background: "rgba(30,26,22,0.55)",
           color: "#fff",
           fontSize: 11,
@@ -137,8 +148,8 @@ export default function BeforeAfterSlider({
       <div
         style={{
           position: "absolute",
-          top: 14,
-          right: 14,
+          top: pillInset,
+          right: pillInset,
           background: "rgba(255,255,255,0.82)",
           color: "#2C2824",
           fontSize: 11,
@@ -188,7 +199,7 @@ export default function BeforeAfterSlider({
           <div
             style={{
               position: "absolute",
-              bottom: 22,
+              bottom: 26,
               left: "50%",
               transform: "translateX(-50%)",
               opacity: hinted ? 0 : 1,
@@ -213,6 +224,38 @@ export default function BeforeAfterSlider({
             </span>
           </div>
         )}
+      </div>
+    </div>
+  );
+
+  if (!isHero) return slider;
+
+  // Hero: wrap the slider (the safe area) in the iPhone-style device frame.
+  // Sizing (min(88vw,340px) → 380px → 470px) comes from the .rr-phone CSS
+  // class in globals.css; this component just fills that width.
+  return (
+    <div className="rr-phone" style={{ position: "relative" }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: "1148 / 1988",
+          filter: "drop-shadow(0 26px 46px rgba(60,38,22,0.26))",
+        }}
+      >
+        {slider}
+        <img
+          src="/images/iphone-frame.svg"
+          alt=""
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+          }}
+        />
       </div>
     </div>
   );

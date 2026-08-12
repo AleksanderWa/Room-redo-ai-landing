@@ -28,58 +28,91 @@ export default function Home() {
         }}
       >
         {/* WORDMARK */}
-        <div style={{ textAlign: "center", padding: "14px 0 6px" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 9,
+            padding: "16px 0 6px",
+          }}
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 100 100"
+            fill="none"
+            aria-hidden="true"
+            style={{ display: "block" }}
+          >
+            <rect
+              x="20"
+              y="14"
+              width="60"
+              height="72"
+              rx="15"
+              fill="none"
+              stroke="#2C2824"
+              strokeWidth="6.5"
+            />
+            <line x1="50" y1="17" x2="50" y2="83" stroke="#2C2824" strokeWidth="4.5" />
+            <circle cx="50" cy="50" r="9.5" fill="#8A5A3C" />
+          </svg>
           <span
             style={{
               fontFamily: CORMORANT,
               fontSize: 19,
-              letterSpacing: "0.14em",
+              letterSpacing: "0.16em",
               textTransform: "uppercase",
-              color: "#4A423A",
+              color: "#2C2824",
             }}
           >
             Room&nbsp;Redo
           </span>
         </div>
 
-        {/* HERO SLIDER */}
-        <BeforeAfterSlider
-          beforeSrc="/images/hero-before.jpg"
-          afterSrc="/images/hero-after.jpg"
-          beforeAlt="Room before"
-          afterAlt="Room after redesign"
-          heightVariant="hero"
-          showHint
-          priority
-        />
+        {/* HERO */}
+        <div className="rr-hero">
+          <div className="rr-phone-col">
+            <BeforeAfterSlider
+              beforeSrc="/images/hero-before.jpg"
+              afterSrc="/images/hero-after.jpg"
+              beforeAlt="Room before"
+              afterAlt="Room after redesign"
+              heightVariant="hero"
+              showHint
+              priority
+            />
+          </div>
 
-        {/* HERO COPY + FORM */}
-        <div className="rr-content" style={{ padding: "22px 24px 26px" }}>
-          <h1
-            className="rr-hero-heading"
-            style={{
-              fontFamily: CORMORANT,
-              fontWeight: 600,
-              lineHeight: 1.02,
-              letterSpacing: "-0.01em",
-              margin: "0 0 10px",
-            }}
-          >
-            See it before you touch a thing.
-          </h1>
-          <p
-            style={{
-              fontSize: 15,
-              lineHeight: 1.45,
-              color: "#6C645A",
-              margin: "0 0 18px",
-            }}
-          >
-            Room Redo redesigns your room from a single photo. Snap it, pick
-            a style, watch it transform.
-          </p>
+          {/* HERO COPY + FORM */}
+          <div className="rr-hero-copy">
+            <h1
+              className="rr-hero-heading"
+              style={{
+                fontFamily: CORMORANT,
+                fontWeight: 600,
+                lineHeight: 1.02,
+                letterSpacing: "-0.01em",
+                margin: "0 0 10px",
+              }}
+            >
+              See it before you touch a thing.
+            </h1>
+            <p
+              style={{
+                fontSize: 15,
+                lineHeight: 1.45,
+                color: "#6C645A",
+                margin: "0 0 18px",
+              }}
+            >
+              Room Redo redesigns your room from a single photo. Snap it,
+              pick a style, watch it transform.
+            </p>
 
-          <WaitlistForm instance="hero" />
+            <WaitlistForm instance="hero" />
+          </div>
         </div>
 
         {/* STYLES */}
