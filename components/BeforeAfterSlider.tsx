@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import Image from "next/image";
 
 type Props = {
@@ -29,7 +36,10 @@ const HERO_SAFE_AREA: CSSProperties = {
   height: "96.579%",
   borderRadius: "13.89% / 7.81%",
   overflow: "hidden",
-  touchAction: "none",
+  // pan-y, not none: the phone covers most of a mobile viewport, so a vertical
+  // swipe over it has to keep scrolling the page. Horizontal drags are claimed
+  // by preventDefault() once the gesture axis-locks — see onPointerMove.
+  touchAction: "pan-y",
   cursor: "ew-resize",
   userSelect: "none",
   WebkitTouchCallout: "none",
@@ -43,12 +53,15 @@ const STORAGE_CONTAINER: CSSProperties = {
   maxHeight: 460,
   overflow: "hidden",
   borderRadius: 16,
-  touchAction: "none",
+  touchAction: "pan-y",
   cursor: "ew-resize",
   userSelect: "none",
   WebkitTouchCallout: "none",
   background: "#ddd",
 };
+
+/** Touch travel (px) before a gesture is judged horizontal (drag) or vertical (scroll). */
+const AXIS_LOCK_PX = 6;
 
 const HERO_IMAGE_SIZES = "(min-width: 1100px) 470px, (min-width: 700px) 380px, 340px";
 const STORAGE_IMAGE_SIZES = "(min-width: 1100px) 1040px, (min-width: 700px) 640px, 100vw";
@@ -63,51 +76,134 @@ export default function BeforeAfterSlider({
   priority = false,
 }: Props) {
   const [pct, setPct] = useState(50);
-  const [dragging, setDragging] = useState(false);
   const [hinted, setHinted] = useState(false);
+  // Drag state lives in a ref, not state: the move/up handlers below are native
+  // listeners registered once per drag, so they must not read stale closures.
+  const drag = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    rect: DOMRect;
+    /** Touch gestures only count as a drag once they axis-lock horizontally. */
+    committed: boolean;
+  } | null>(null);
 
-  function updatePct(e: ReactPointerEvent<HTMLDivElement>) {
-    const r = e.currentTarget.getBoundingClientRect();
-    let p = ((e.clientX - r.left) / r.width) * 100;
+  const updatePct = useCallback((clientX: number) => {
+    const r = drag.current?.rect;
+    if (!r || r.width === 0) return;
+    let p = ((clientX - r.left) / r.width) * 100;
     p = Math.max(0, Math.min(100, p));
     setPct(p);
-  }
+  }, []);
 
+  // Holds the removeEventListener closure built when the drag started, so
+  // detach() doesn't have to reference the handlers that reference it.
+  const cleanup = useRef<(() => void) | null>(null);
+
+  const detach = useCallback(() => {
+    drag.current = null;
+    cleanup.current?.();
+    cleanup.current = null;
+  }, []);
+
+  const onPointerMove = useCallback(
+    (e: globalThis.PointerEvent) => {
+      const d = drag.current;
+      if (!d || e.pointerId !== d.pointerId) return;
+
+      if (!d.committed) {
+        const dx = Math.abs(e.clientX - d.startX);
+        const dy = Math.abs(e.clientY - d.startY);
+        if (dx < AXIS_LOCK_PX && dy < AXIS_LOCK_PX) return;
+        // Vertical intent wins: bow out and let the page scroll.
+        if (dy > dx) {
+          detach();
+          return;
+        }
+        d.committed = true;
+      }
+
+      // Once committed, claim the gesture so the browser can't reinterpret it
+      // as a scroll and fire pointercancel mid-drag.
+      if (e.cancelable) e.preventDefault();
+      updatePct(e.clientX);
+    },
+    [detach, updatePct],
+  );
+
+  const onPointerEnd = useCallback(
+    (e: globalThis.PointerEvent) => {
+      const d = drag.current;
+      if (!d || e.pointerId !== d.pointerId) return;
+      // A touch that never axis-locked is a tap: jump the divider to it. Only on
+      // a real pointerup though — pointercancel means iOS took the gesture for a
+      // scroll, and jumping the divider as the page scrolls away is not a tap.
+      if (!d.committed && e.type === "pointerup") updatePct(e.clientX);
+      detach();
+    },
+    [detach, updatePct],
+  );
+
+  // iOS safety net: pointerup is not always delivered after a touch gesture.
+  const onTouchEnd = useCallback(
+    (e: TouchEvent) => {
+      const d = drag.current;
+      if (!d) return;
+      if (!d.committed) updatePct(e.changedTouches[0]?.clientX ?? d.startX);
+      detach();
+    },
+    [detach, updatePct],
+  );
+
+  // Deliberately NOT setPointerCapture + React synthetic move/up handlers: on
+  // WebKit, capturing a *touch* pointer reports success but then stops
+  // delivering pointermove/pointerup once the contact point leaves the element
+  // (WebKit bug 220196), so the drag died on the first frame on iOS. Binding to
+  // `document` for the life of the gesture is what react-compare-slider does and
+  // it works everywhere — and the drag now keeps tracking when the finger
+  // wanders outside the phone frame.
   function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
-    e.preventDefault();
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      // ignore — matches source's best-effort try/catch
-    }
-    setDragging(true);
+    if (e.button !== 0) return;
+    if (drag.current) detach();
+
+    const isTouch = e.pointerType === "touch";
+    drag.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      // Cached once so the move handler doesn't force a layout read per frame.
+      rect: e.currentTarget.getBoundingClientRect(),
+      committed: !isTouch,
+    };
+
+    document.addEventListener("pointermove", onPointerMove, { passive: false });
+    document.addEventListener("pointerup", onPointerEnd);
+    document.addEventListener("pointercancel", onPointerEnd);
+    document.addEventListener("touchend", onTouchEnd);
+    cleanup.current = () => {
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerup", onPointerEnd);
+      document.removeEventListener("pointercancel", onPointerEnd);
+      document.removeEventListener("touchend", onTouchEnd);
+    };
+
     if (showHint) setHinted(true);
-    updatePct(e);
-  }
 
-  function onPointerMove(e: ReactPointerEvent<HTMLDivElement>) {
-    if (dragging) {
+    // Mouse/pen: no axis-lock needed, jump to the click straight away. Touch
+    // must stay uncommitted here so a vertical swipe can still scroll.
+    if (!isTouch) {
       e.preventDefault();
-      updatePct(e);
+      updatePct(e.clientX);
     }
   }
 
-  function onPointerUp() {
-    if (dragging) setDragging(false);
-  }
+  useEffect(() => detach, [detach]);
 
   const isHero = heightVariant === "hero";
   const pillInset = isHero ? 16 : 14;
 
   const slider = (
-    <div
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerLeave={onPointerUp}
-      onPointerCancel={onPointerUp}
-      style={isHero ? HERO_SAFE_AREA : STORAGE_CONTAINER}
-    >
+    <div onPointerDown={onPointerDown} style={isHero ? HERO_SAFE_AREA : STORAGE_CONTAINER}>
       <Image
         src={afterSrc}
         alt={afterAlt}
