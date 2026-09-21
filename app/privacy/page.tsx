@@ -59,13 +59,12 @@ export default function PrivacyPage() {
       <h2>Who we share it with</h2>
       <p>We use a small number of service providers to run Room Redo. Each only receives what it needs to do its job:</p>
       <ul>
-        <li><strong>Cloudflare R2</strong> — stores your room and redesign photos.</li>
-        <li><strong>fal.ai</strong> — processes your room photo to generate the redesigned image.</li>
-        <li><strong>OpenAI</strong> — used to automatically check that a submitted photo is a usable room photo before generation.</li>
-        <li><strong>RevenueCat</strong> and the <strong>Apple App Store</strong> — manage your purchase and subscription status.</li>
-        <li><strong>Sentry</strong> — crash and error reporting, when enabled, to help us fix bugs.</li>
-        <li><strong>Vercel</strong> — hosts this website. Vercel Analytics collects standard, anonymized page-view analytics on this website only (not the app).</li>
-        <li><strong>Supabase</strong> — stores the email address you submit to this website&apos;s waitlist, if you join it.</li>
+        <li><strong>Cloud storage providers</strong> — store your room and redesign photos.</li>
+        <li><strong>AI processing providers</strong> — process your room photo to generate the redesigned image, and to automatically check that a submitted photo is a usable room photo before generation.</li>
+        <li><strong>Subscription management providers</strong> and the <strong>Apple App Store</strong> — manage your purchase and subscription status.</li>
+        <li><strong>Error monitoring providers</strong> — crash and error reporting, when enabled, to help us fix bugs.</li>
+        <li><strong>Website hosting and analytics providers</strong> — host this website and collect standard, anonymized page-view analytics on this website only (not the app).</li>
+        <li><strong>Database providers</strong> — store the email address you submit to this website&apos;s waitlist, if you join it.</li>
       </ul>
       <p>
         We do not sell your data, and we do not use it for third-party advertising or cross-app tracking.
