@@ -133,6 +133,46 @@ input:focus {
   }
 }
 
+/* Legal pages (/privacy, /terms) — long-form text, so plain semantic tags
+   styled once here rather than per-element inline styles like the rest of
+   the site. Scoped to .rr-legal-body so it can't leak into the marketing
+   page. */
+.rr-legal-body h2 {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.2;
+  margin: 34px 0 10px;
+}
+
+.rr-legal-body h2:first-child {
+  margin-top: 0;
+}
+
+.rr-legal-body p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #3a352f;
+  margin: 0 0 14px;
+}
+
+.rr-legal-body ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.rr-legal-body li {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #3a352f;
+  margin: 0 0 8px;
+}
+
+.rr-legal-body strong {
+  font-weight: 600;
+  color: #2c2824;
+}
+
 @media (min-width: 1100px) {
   .rr-shell {
     max-width: 1040px;

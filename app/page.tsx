@@ -275,6 +275,15 @@ export default function Home() {
                 Not ready? Follow @roomredoai on TikTok →
               </a>
             </div>
+
+            <div style={{ textAlign: "center", marginTop: 14, display: "flex", justifyContent: "center", gap: 16 }}>
+              <a href="/privacy" style={{ fontSize: 12, color: "#9A9186" }}>
+                Privacy Policy
+              </a>
+              <a href="/terms" style={{ fontSize: 12, color: "#9A9186" }}>
+                Terms of Use
+              </a>
+            </div>
           </div>
         </div>
       </div>
