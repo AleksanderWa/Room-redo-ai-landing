@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
 };
 
-const EFFECTIVE_DATE = "21 September 2026";
+const EFFECTIVE_DATE = "5 October 2026";
 
 export default function PrivacyPage() {
   return (
@@ -39,6 +39,10 @@ export default function PrivacyPage() {
           your results.
         </li>
         <li>
+          <strong>Your choices in the app.</strong> The style, room type, and extra items you pick for a
+          redesign.
+        </li>
+        <li>
           <strong>Purchase and subscription status.</strong> Whether you&apos;re subscribed, which plan,
           and your redesign balance. Payment itself is handled entirely by the Apple App Store — we never
           see or store your card details.
@@ -47,6 +51,10 @@ export default function PrivacyPage() {
           <strong>Basic usage events.</strong> App actions tied to your device identifier (e.g. a photo
           was captured, a redesign completed, the paywall was shown), used to understand and improve the
           product. Not tied to your name or contact details.
+        </li>
+        <li>
+          <strong>Crash reports.</strong> Error and crash information sent when the app fails, to help us
+          fix bugs.
         </li>
         <li>
           <strong>Support correspondence.</strong> If you email support, we receive your email address and
@@ -60,10 +68,11 @@ export default function PrivacyPage() {
       <p>We use a small number of service providers to run Room Redo. Each only receives what it needs to do its job:</p>
       <ul>
         <li><strong>Cloud storage providers</strong> — store your room and redesign photos.</li>
-        <li><strong>AI processing providers</strong> — process your room photo to generate the redesigned image, and to automatically check that a submitted photo is a usable room photo before generation.</li>
-        <li><strong>Subscription management providers</strong> and the <strong>Apple App Store</strong> — manage your purchase and subscription status.</li>
-        <li><strong>Error monitoring providers</strong> — crash and error reporting, when enabled, to help us fix bugs.</li>
-        <li><strong>Website hosting and analytics providers</strong> — host this website and collect standard, anonymized page-view analytics on this website only (not the app).</li>
+        <li><strong>AI image providers</strong>, currently fal.ai (which runs OpenAI and Flux image models) and a language-model provider, receive your room photo so they can create the redesigned image and check that the photo shows a usable room. We send them the photo and the instructions for your chosen style, not your name, email or any account details (the app has none). Your photo is used only to produce your result.</li>
+        <li><strong>RevenueCat</strong> helps us manage your purchases and subscription status together with the <strong>Apple App Store</strong>. Payment is handled entirely by Apple; we never see or store your card details.</li>
+        <li><strong>Error monitoring providers</strong> — crash and error reporting to help us fix bugs.</li>
+        <li><strong>Website hosting and analytics providers</strong> — host this website and collect standard, anonymized page-view analytics. This is about the website only.</li>
+        <li><strong>Analytics and diagnostics providers.</strong> In the app we use PostHog to understand how the app is used (for example which screens people open) and to record anonymous screen sessions that help us fix problems. Recordings hide photos and typed text. These records are linked to a random device identifier, not to your name or email. We use Sentry to receive crash and error reports.</li>
         <li><strong>Database providers</strong> — store the email address you submit to this website&apos;s waitlist, if you join it.</li>
       </ul>
       <p>
