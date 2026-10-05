@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
 };
 
-const EFFECTIVE_DATE = "14 September 2026";
+const EFFECTIVE_DATE = "5 October 2026";
 
 export default function TermsPage() {
   return (
@@ -40,6 +40,10 @@ export default function TermsPage() {
         You grant us a license to store and process your photos solely to provide the app&apos;s features to
         you (generating and displaying your redesigns). We don&apos;t use your photos to train AI models, and
         we don&apos;t sell or publish them.
+      </p>
+      <p>
+        To create a redesign, your photo is sent to third-party AI services (named in our Privacy Policy).
+        By using the redesign feature you agree that we may send your photo to them for this purpose.
       </p>
 
       <h2>Redesigns, balance, and subscriptions</h2>
