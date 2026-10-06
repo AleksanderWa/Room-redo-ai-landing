@@ -38,8 +38,7 @@ export default function TermsPage() {
       </p>
       <p>
         You grant us a license to store and process your photos solely to provide the app&apos;s features to
-        you (generating and displaying your redesigns). We don&apos;t use your photos to train AI models, and
-        we don&apos;t sell or publish them.
+        you (generating and displaying your redesigns). We don&apos;t sell or publish them.
       </p>
       <p>
         To create a redesign, your photo is sent to third-party AI services (named in our Privacy Policy).
