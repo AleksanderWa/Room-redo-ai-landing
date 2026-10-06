@@ -68,11 +68,11 @@ export default function PrivacyPage() {
       <p>We use a small number of service providers to run Room Redo. Each only receives what it needs to do its job:</p>
       <ul>
         <li><strong>Cloud storage providers</strong> — store your room and redesign photos.</li>
-        <li><strong>AI image providers</strong>, currently fal.ai (which runs OpenAI and Flux image models) and a language-model provider, receive your room photo so they can create the redesigned image and check that the photo shows a usable room. We send them the photo and the instructions for your chosen style, not your name, email or any account details (the app has none). Your photo is used only to produce your result.</li>
-        <li><strong>RevenueCat</strong> helps us manage your purchases and subscription status together with the <strong>Apple App Store</strong>. Payment is handled entirely by Apple; we never see or store your card details.</li>
+        <li><strong>AI providers</strong> (third-party AI image and language-model providers) receive your room photo so they can create the redesigned image and check that the photo shows a usable room. We send them the photo and the instructions for your chosen style, not your name, email or any account details (the app has none). Your photo is used only to produce your result.</li>
+        <li><strong>Payment and subscription providers</strong> help us manage your purchases and subscription status together with the <strong>Apple App Store</strong>. Payment is handled entirely by Apple; we never see or store your card details.</li>
         <li><strong>Error monitoring providers</strong> — crash and error reporting to help us fix bugs.</li>
         <li><strong>Website hosting and analytics providers</strong> — host this website and collect standard, anonymized page-view analytics. This is about the website only.</li>
-        <li><strong>Analytics and diagnostics providers.</strong> In the app we use PostHog to understand how the app is used (for example which screens people open) and to record anonymous screen sessions that help us fix problems. Recordings hide photos and typed text. These records are linked to a random device identifier, not to your name or email. We use Sentry to receive crash and error reports.</li>
+        <li><strong>Analytics and diagnostics providers.</strong> In the app we use analytics providers to understand how the app is used (for example which screens people open) and to record anonymous screen sessions that help us fix problems. Recordings hide photos and typed text. These records are linked to a random device identifier, not to your name or email. We use error monitoring providers to receive crash and error reports.</li>
         <li><strong>Database providers</strong> — store the email address you submit to this website&apos;s waitlist, if you join it.</li>
       </ul>
       <p>
