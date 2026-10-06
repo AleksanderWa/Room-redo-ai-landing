@@ -3,7 +3,7 @@ import { LegalLayout } from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Room Redo AI",
-  description: "How Room Redo AI collects, uses, and protects your data.",
+  description: "How Room Redo AI collects and uses your data.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -65,14 +65,14 @@ export default function PrivacyPage() {
       <p>We do not collect your precise location, contacts, or health data, and we do not request camera-roll access beyond the single photo you choose to use.</p>
 
       <h2>Who we share it with</h2>
-      <p>We use a small number of service providers to run Room Redo. Each only receives what it needs to do its job:</p>
+      <p>We use a small number of service providers to run Room Redo. Each receives the data it needs to provide its service:</p>
       <ul>
         <li><strong>Cloud storage providers</strong> — store your room and redesign photos.</li>
         <li><strong>AI providers</strong> (third-party AI image and language-model providers) receive your room photo so they can create the redesigned image and check that the photo shows a usable room. We send them the photo and the instructions for your chosen style, not your name, email or any account details (the app has none). We use your photo to produce your result.</li>
         <li><strong>Payment and subscription providers</strong> help us manage your purchases and subscription status together with the <strong>Apple App Store</strong>. Payment is handled entirely by Apple; we never see or store your card details.</li>
         <li><strong>Error monitoring providers</strong> — crash and error reporting to help us fix bugs.</li>
         <li><strong>Website hosting and analytics providers</strong> — host this website and collect standard, anonymized page-view analytics. This is about the website only.</li>
-        <li><strong>Analytics and diagnostics providers.</strong> In the app we use analytics providers to understand how the app is used (for example which screens people open) and to record anonymous screen sessions that help us fix problems. Recordings hide photos and typed text. These records are linked to a random device identifier, not to your name or email. We use error monitoring providers to receive crash and error reports.</li>
+        <li><strong>Analytics and diagnostics providers.</strong> In the app we use analytics providers to understand how the app is used (for example which screens people open) and to record anonymous screen sessions that help us fix problems. We configure recordings to mask photos and typed text. These records are linked to a random device identifier, not to your name or email. We use error monitoring providers to receive crash and error reports.</li>
         <li><strong>Database providers</strong> — store the email address you submit to this website&apos;s waitlist, if you join it.</li>
       </ul>
       <p>
@@ -83,7 +83,7 @@ export default function PrivacyPage() {
       <h2>How long we keep it</h2>
       <p>
         Room photos and redesigns are kept for as long as the room exists in the app. Deleting a room from
-        within the app deletes its photos from our storage.
+        within the app deletes its photos from our storage. AI providers may keep inputs and outputs for a limited period under their own terms.
       </p>
       <p>
         To remove everything tied to your device, use <strong>Delete my data</strong> in the app&apos;s Settings.
