@@ -24,9 +24,11 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+const TITLE = "Room Redo AI — The room you have, and the one you keep saving.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Room Redo AI — See it before you touch a thing.",
+  title: TITLE,
   description: DESCRIPTION,
   alternates: {
     canonical: "/",
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Room Redo AI",
-    title: "Room Redo AI — See it before you touch a thing.",
+    title: TITLE,
     description: DESCRIPTION,
     images: [
       {
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Room Redo AI — See it before you touch a thing.",
+    title: TITLE,
     description: DESCRIPTION,
     images: ["/og.jpg"],
   },

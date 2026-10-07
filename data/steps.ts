@@ -1,6 +1,8 @@
 // "How it works": one room, start to finish. Steps 1 and 3 are the same room
 // as the hero slider (before/after); step 2 is the Japandi card from the
 // style wall.
+import { styles } from "@/data/styles";
+
 export type Step = {
   num: string;
   line: string;
@@ -17,7 +19,7 @@ export const steps: Step[] = [
   },
   {
     num: "02",
-    line: "Pick from 47 styles.",
+    line: `Pick from ${styles.length} styles.`,
     img: "/images/styles/japandi.jpg",
     alt: "The Japandi style",
   },

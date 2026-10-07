@@ -1,5 +1,5 @@
-// Single source for the FAQ: rendered on the page and serialized into the
-// FAQPage JSON-LD in app/layout.tsx, so the two can't drift apart.
+// Single source for the FAQ: rendered by app/page.tsx and serialized into
+// the FAQPage JSON-LD built in lib/seo.ts, so the two can't drift apart.
 //
 // "How long does it take?": the approved mockup left this as a placeholder.
 // The app has no user-facing duration claim to cite, so this is the

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import Brand from "@/components/Brand";
 import DownloadCta from "@/components/DownloadCta";
 import StyleWall from "@/components/StyleWall";
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
-import { styles } from "@/data/styles";
+import { styleAlt, styles } from "@/data/styles";
 import { homeJsonLd } from "@/lib/seo";
 import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 
@@ -15,34 +16,25 @@ import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 const STYLE_COUNT = styles.length;
 const WILD_COUNT = styles.filter((s) => s.section === "Wild").length;
 
+// The wild band's five picks; names, thumbs and alt text come from
+// data/styles.ts so they can't drift from the style wall.
 const WILD_PICKS = [
-  { id: "cozy_cat_lounge", name: "Cozy Cat Lounge", alt: "Bedroom redesigned as a cat lounge" },
-  { id: "neutral_jacuzzi_spa", name: "Neutral Jacuzzi Spa", alt: "Bedroom redesigned with a jacuzzi spa" },
-  { id: "vinyl_listening_lounge", name: "Vinyl Listening Lounge", alt: "Bedroom redesigned as a vinyl listening lounge" },
-  { id: "wine_cellar_nook", name: "Wine Cellar Nook", alt: "Bedroom redesigned as a wine cellar nook" },
-  { id: "aquarium_wall", name: "Aquarium Wall", alt: "Bedroom redesigned with an aquarium wall" },
-];
+  "cozy_cat_lounge",
+  "neutral_jacuzzi_spa",
+  "vinyl_listening_lounge",
+  "wine_cellar_nook",
+  "aquarium_wall",
+].map((id) => {
+  const style = styles.find((s) => s.id === id);
+  if (!style) throw new Error(`WILD_PICKS references missing style ${id}`);
+  return style;
+});
 
 const CORNER_DESTINATIONS = [
   { img: "/images/corner/dest-library.jpg", title: "A reading nook", alt: "A corner redesigned as a reading nook" },
   { img: "/images/corner/dest-wine.jpg", title: "A wine corner", alt: "A corner redesigned as a wine corner" },
   { img: "/images/corner/dest-meditation.jpg", title: "A meditation spot", alt: "A corner redesigned as a meditation spot" },
 ];
-
-function Brand() {
-  return (
-    <Link href="/" aria-label="Room Redo home" className="rr-brand">
-      <Image
-        src="/images/brand-icon.png"
-        alt=""
-        width={28}
-        height={28}
-        className="rr-brand-icon"
-      />
-      <span className="rr-brand-word">Room Redo</span>
-    </Link>
-  );
-}
 
 function FaqItem({ faq, open }: { faq: Faq; open?: boolean }) {
   return (
@@ -179,8 +171,8 @@ export default function Home() {
               {WILD_PICKS.map((w) => (
                 <figure key={w.id} className="rr-wild-fig">
                   <Image
-                    src={`/images/styles/${w.id}.jpg`}
-                    alt={w.alt}
+                    src={w.thumb}
+                    alt={styleAlt(w)}
                     fill
                     sizes="(min-width: 1100px) 210px, (min-width: 700px) 50vw, 100vw"
                     style={{ objectFit: "cover" }}

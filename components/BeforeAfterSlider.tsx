@@ -214,16 +214,13 @@ export default function BeforeAfterSlider({
   const fetchPriority = eager ? "high" : undefined;
 
   const slider = (
+    // The surface is a labelled group, so both images keep their alt text
+    // for screen readers; the slider role (value + keys) lives on the handle.
+    // Pointer dragging stays on the whole surface.
     <div
       onPointerDown={onPointerDown}
-      onKeyDown={onKeyDown}
-      role="slider"
-      tabIndex={0}
+      role="group"
       aria-label="Before and after comparison"
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={Math.round(pct)}
-      aria-valuetext={`${Math.round(pct)}% before`}
       style={SURFACE}
     >
       <Image
@@ -263,7 +260,6 @@ export default function BeforeAfterSlider({
       </span>
 
       <div
-        aria-hidden="true"
         style={{
           position: "absolute",
           top: 0,
@@ -275,7 +271,19 @@ export default function BeforeAfterSlider({
           pointerEvents: "none",
         }}
       >
-        <div className="rr-ba-handle">
+        <div
+          className="rr-ba-handle"
+          role="slider"
+          tabIndex={0}
+          aria-label="Before and after divider"
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(pct)}
+          aria-valuetext={`${Math.round(pct)}% before`}
+          onKeyDown={onKeyDown}
+          style={{ pointerEvents: "auto" }}
+        >
           <Chevrons />
         </div>
       </div>

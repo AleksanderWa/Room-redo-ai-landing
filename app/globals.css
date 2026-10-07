@@ -198,9 +198,8 @@ button {
   color: var(--rr-cream);
 }
 
-button.rr-cta-compact,
 button.rr-cta-badge {
-  cursor: default;
+  cursor: pointer;
 }
 
 .rr-cta-compact {
@@ -252,6 +251,11 @@ button.rr-cta-badge {
 }
 
 /* Waitlist ------------------------------------------------------------- */
+
+.rr-waitlist-wrap {
+  width: 100%;
+  max-width: 480px;
+}
 
 .rr-waitlist {
   display: flex;
@@ -827,7 +831,6 @@ button.rr-cta-badge {
 }
 
 .rr-close .rr-waitlist {
-  max-width: 480px;
   text-align: left;
 }
 
@@ -949,9 +952,6 @@ button.rr-cta-badge {
     justify-content: flex-start;
   }
 
-  .rr-waitlist {
-    max-width: 480px;
-  }
   .rr-waitlist-form {
     flex-direction: row;
     align-items: center;

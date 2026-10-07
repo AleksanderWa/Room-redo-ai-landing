@@ -7,11 +7,11 @@
 #
 #        APP_REPO=/path/to/Room-redo-app bash scripts/copy-assets.sh
 #
-#   2. Optionally, design-assets/ in this repo's root (hero + storage pair,
-#      from the original design export). Skipped if the folder isn't there;
+#   2. Optionally, design-assets/ in this repo's root (hero pair + the
+#      storage "after" the OG image is cut from). Skipped if it isn't there;
 #      the copies already committed in public/images/ are used as-is.
 #
-# Run from the repo root. Then, if the storage pair changed:
+# Run from the repo root. Then, if storage-after.jpg changed:
 #   node scripts/generate-og-image.mjs
 
 set -euo pipefail
@@ -62,7 +62,6 @@ if [ -d "$SRC" ]; then
   declare -a MAP=(
     "01-welcome-before.jpg:hero-before.jpg"
     "01-welcome-after.jpg:hero-after.jpg"
-    "05-reveal-before-storage.jpg:storage-before.jpg"
     "05-reveal-after-storage.jpg:storage-after.jpg"
   )
   for pair in "${MAP[@]}"; do

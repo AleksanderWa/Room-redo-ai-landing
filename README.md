@@ -8,9 +8,9 @@ Single-page Next.js (App Router) landing page for Room Redo AI. The current layo
 2. **Assets** (already committed; only needed to refresh them): the style thumbs, corner images and app icon come from the RoomRedo app repo.
    ```bash
    APP_REPO=../Room-redo-app bash scripts/copy-assets.sh   # APP_REPO defaults to ../Room-redo-app
-   node scripts/generate-og-image.mjs                      # only if the storage pair changed
+   node scripts/generate-og-image.mjs                      # only if storage-after.jpg changed
    ```
-   If a `design-assets/` folder (the original design export) is in the repo root, the script also refreshes the hero/storage images from it. When the app adds a style, add its thumb via the script and an entry to `data/styles.ts`.
+   If a `design-assets/` folder (the original design export) is in the repo root, the script also refreshes the hero pair and storage-after.jpg (the OG image source) from it. When the app adds a style, add its thumb via the script and an entry to `data/styles.ts`.
 3. **Supabase**: create a project, run `supabase/migrations/0001_create_waitlist.sql` (SQL editor, or via the Supabase MCP once authenticated), then copy `.env.example` to `.env.local` and fill in `SUPABASE_URL` / `SUPABASE_ANON_KEY` (the anon key — never the service role key; the migration's RLS policy is insert-only).
 4. **App Store link**: set `NEXT_PUBLIC_APP_STORE_URL` to the App Store listing URL once the app is live (see `.env.example`). It's inlined at build time, so redeploy after changing it. While it's unset, every App Store button (header, hero, closing CTA) renders as a non-link "Coming soon on the App Store" with the waitlist form beneath it. Once set, the buttons link to the listing and each click is tracked in Vercel Analytics as `app_store_click` with a `placement` of `header`, `hero` or `close`.
 5. **Run**: `npm run dev`, open http://localhost:3000

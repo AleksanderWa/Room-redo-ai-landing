@@ -1,8 +1,10 @@
 "use client";
 
+import type { MouseEvent } from "react";
 import { track } from "@vercel/analytics";
 import WaitlistForm from "@/components/WaitlistForm";
 import { APP_STORE_URL } from "@/lib/site";
+import { focusWaitlist, waitlistInputId } from "@/lib/waitlistFocus";
 
 type Placement = "header" | "hero" | "close";
 
@@ -17,6 +19,22 @@ function AppleLogo({ width, height }: { width: number; height: number }) {
   );
 }
 
+// How long a same-tab App Store click waits for the analytics event before
+// navigating. `track()` only queues the event for Vercel's injected script
+// (node_modules/@vercel/analytics: it calls window.va), so we can't rely on
+// it being sent with keepalive/sendBeacon before the page unloads.
+const TRACK_DELAY_MS = 150;
+
+function onAppStoreClick(e: MouseEvent<HTMLAnchorElement>, placement: Placement) {
+  track("app_store_click", { placement });
+  // Modified or non-primary clicks open a new tab/window: the current page
+  // stays alive, so let the browser handle them untouched.
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const href = e.currentTarget.href;
+  e.preventDefault();
+  window.setTimeout(() => window.location.assign(href), TRACK_DELAY_MS);
+}
+
 /**
  * The App Store button, in the header (compact pill), hero and closing CTA
  * (badge). Two states, decided at build time by NEXT_PUBLIC_APP_STORE_URL:
@@ -24,17 +42,20 @@ function AppleLogo({ width, height }: { width: number; height: number }) {
  * - set: a real link to the listing, tracked as `app_store_click` with its
  *   placement.
  * - unset (app still in review): the same button reading "Coming soon on the
- *   App Store", as an inert aria-disabled control, with the waitlist form as
- *   the way to act on it.
+ *   App Store". It leads to the waitlist instead: the hero/closing badge
+ *   focuses the email field right below it, and the header pill scrolls to
+ *   and focuses the hero's.
  *
- * The hero always carries the waitlist line beneath the button (the mockup
- * shows it in the live state too, for regions the app isn't in); the closing
- * CTA only adds it while the button is inert.
+ * The hero always carries the waitlist line beneath the button (in the live
+ * state it's for people who can't install yet); the closing CTA only adds it
+ * before launch.
  */
 export default function DownloadCta({ placement }: { placement: Placement }) {
   const live = APP_STORE_URL !== null;
-  const onClick = () => track("app_store_click", { placement });
   const label = live ? "Download on the App Store" : "Coming soon on the App Store";
+  // Pre-launch the control's action is the waitlist, so its accessible name
+  // says so (visible label first, per label-in-name).
+  const preLaunchName = "Coming soon on the App Store: get the launch email";
 
   if (placement === "header") {
     const content = (
@@ -49,14 +70,22 @@ export default function DownloadCta({ placement }: { placement: Placement }) {
         href={APP_STORE_URL ?? undefined}
         aria-label={label}
         className="rr-cta-compact"
-        onClick={onClick}
+        onClick={(e) => onAppStoreClick(e, placement)}
       >
         {content}
       </a>
     ) : (
-      <button type="button" aria-disabled="true" aria-label={label} className="rr-cta-compact">
+      <a
+        href={`#${waitlistInputId("hero")}`}
+        aria-label={preLaunchName}
+        className="rr-cta-compact"
+        onClick={(e) => {
+          e.preventDefault();
+          focusWaitlist("hero", { scroll: true });
+        }}
+      >
         {content}
-      </button>
+      </a>
     );
   }
 
@@ -73,11 +102,21 @@ export default function DownloadCta({ placement }: { placement: Placement }) {
   );
 
   const badge = live ? (
-    <a href={APP_STORE_URL ?? undefined} aria-label={label} className="rr-cta-badge" onClick={onClick}>
+    <a
+      href={APP_STORE_URL ?? undefined}
+      aria-label={label}
+      className="rr-cta-badge"
+      onClick={(e) => onAppStoreClick(e, placement)}
+    >
       {badgeContent}
     </a>
   ) : (
-    <button type="button" aria-disabled="true" aria-label={label} className="rr-cta-badge">
+    <button
+      type="button"
+      aria-label={preLaunchName}
+      className="rr-cta-badge"
+      onClick={() => focusWaitlist(placement)}
+    >
       {badgeContent}
     </button>
   );
