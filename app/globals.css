@@ -17,8 +17,10 @@
   --rr-soft: #6b635a;
   --rr-line: #d9cfc2;
   --rr-brass: #c49a5c;
-  --rr-link: #8a5a3c;
-  --rr-link-hover: #6f4530;
+  /* Darker than the mockup's #8A5A3C, which is 4.4:1 on sand. This is
+     5.5:1 on sand and 6.5:1 on cream; the hover is 7:1 / 8.3:1. */
+  --rr-link: #7a4c30;
+  --rr-link-hover: #653e27;
   /* Small text on sand: #6B635A is too light there for 4.5:1. */
   --rr-soft-on-sand: #5e574f;
   /* Phone bezel and the wild band's caption scrim. */
@@ -67,8 +69,9 @@ button {
   font-family: inherit;
 }
 
+/* Ink, not brass: brass on sand is under 2:1, too faint for a focus ring. */
 :focus-visible {
-  outline: 2px solid var(--rr-brass);
+  outline: 2px solid var(--rr-ink);
   outline-offset: 2px;
 }
 
@@ -147,6 +150,22 @@ button {
 }
 
 /* Header ---------------------------------------------------------------- */
+
+/* Sticky, solid sand, hairline always on (as in the mockup). */
+.rr-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--rr-sand);
+  border-bottom: 1px solid var(--rr-line);
+}
+
+/* Keep anchor/focus targets clear of the sticky header (64px, 72px from
+   tablet up) when the browser scrolls them into view. */
+.rr-waitlist-input,
+[id^="waitlist-status-"] {
+  scroll-margin-top: 96px;
+}
 
 .rr-header-bar {
   height: 64px;
@@ -283,9 +302,12 @@ button.rr-cta-badge {
   font-size: 16px;
 }
 
+/* 2px ink edge (border + 1px shadow) instead of the global offset ring,
+   which would float off the pill. */
 .rr-waitlist-input:focus {
   outline: none;
   border-color: var(--rr-ink);
+  box-shadow: 0 0 0 1px var(--rr-ink);
 }
 
 .rr-waitlist-button {

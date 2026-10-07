@@ -73,7 +73,7 @@ export default function Home() {
       />
 
       {/* 1. Header */}
-      <header style={{ borderBottom: "1px solid var(--rr-line)" }}>
+      <header className="rr-header">
         <div className="rr-wrap rr-header-bar">
           <Brand />
           <DownloadCta placement="header" />
