@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent, type MouseEvent } from "react";
 import { isValidEmail, normalizeEmail } from "@/lib/validators";
 import { useAttribution } from "@/components/AttributionProvider";
+import { TIKTOK_URL } from "@/lib/site";
 
 type Status = "idle" | "error" | "success" | "dup";
 
@@ -41,6 +42,8 @@ type Props = {
 };
 
 export default function WaitlistForm({ instance }: Props) {
+  const inputId = `waitlist-email-${instance}`;
+  const inputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState(""); // honeypot
   const [status, setStatus] = useState<Status>("idle");
@@ -94,56 +97,51 @@ export default function WaitlistForm({ instance }: Props) {
     if (status === "error") setStatus("idle");
   }
 
+  function focusInput(e: MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    inputRef.current?.focus();
+  }
+
   if (done) {
     const title = doneTitle(status);
     const body = doneBody(status);
+    const Heading = instance === "close" ? "h3" : "h2";
     return (
       <div
+        role="status"
         style={{
-          border: "1px solid rgba(44,40,36,0.14)",
-          background: "#FBF8F3",
+          border: "1px solid var(--rr-line)",
+          background: "var(--rr-cream)",
           borderRadius: 14,
           padding: 20,
+          maxWidth: 480,
+          width: "100%",
           textAlign: instance === "close" ? "center" : undefined,
         }}
       >
-        {instance === "close" ? (
-          <h3
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 600,
-              fontSize: 26,
-              lineHeight: 1.1,
-              margin: "0 0 8px",
-            }}
-          >
-            {title}
-          </h3>
-        ) : (
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 600,
-              fontSize: 26,
-              lineHeight: 1.1,
-              margin: "0 0 8px",
-            }}
-          >
-            {title}
-          </h2>
-        )}
+        <Heading
+          style={{
+            fontFamily: "var(--rr-serif)",
+            fontWeight: 600,
+            fontSize: 26,
+            lineHeight: 1.1,
+            margin: "0 0 8px",
+          }}
+        >
+          {title}
+        </Heading>
         <p
           style={{
             fontSize: 14,
             lineHeight: 1.5,
-            color: "#6C645A",
+            color: "var(--rr-soft)",
             margin: "0 0 16px",
           }}
         >
           {body}
         </p>
         <a
-          href="https://www.tiktok.com/@roomredoai"
+          href={TIKTOK_URL}
           target="_blank"
           rel="noopener"
           style={{
@@ -152,8 +150,8 @@ export default function WaitlistForm({ instance }: Props) {
             justifyContent: "center",
             height: 48,
             borderRadius: 12,
-            background: "#2F2A24",
-            color: "#F7F2EA",
+            background: "var(--rr-ink)",
+            color: "var(--rr-cream)",
             fontSize: 15,
             fontWeight: 600,
           }}
@@ -167,73 +165,59 @@ export default function WaitlistForm({ instance }: Props) {
   if (!formOpen) return null;
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: "flex", flexDirection: "column", gap: 10 }}
-    >
-      <label style={honeypotStyle} aria-hidden="true">
-        Company
-        <input
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-          name="company"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-        />
-      </label>
+    <div className="rr-waitlist">
+      <p style={{ margin: 0, fontSize: 14, color: "var(--rr-soft-on-sand)" }}>
+        Not live in your region yet?{" "}
+        <a
+          href={`#${inputId}`}
+          onClick={focusInput}
+          style={{ fontWeight: 500, textDecoration: "underline" }}
+        >
+          Get the launch email →
+        </a>
+      </p>
+      <form onSubmit={handleSubmit} noValidate className="rr-waitlist-form">
+        <label style={honeypotStyle} aria-hidden="true">
+          Company
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            name="company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </label>
 
-      <input
-        type="email"
-        inputMode="email"
-        autoComplete="email"
-        placeholder="Your email"
-        value={email}
-        onChange={(e) => handleChange(e.target.value)}
-        style={{
-          width: "100%",
-          height: 52,
-          border: "1px solid rgba(44,40,36,0.18)",
-          background: "#fff",
-          borderRadius: 12,
-          padding: "0 16px",
-          fontSize: 16,
-          color: "#2C2824",
-        }}
-      />
-      <button
-        type="submit"
-        style={{
-          width: "100%",
-          height: 52,
-          border: "none",
-          borderRadius: 12,
-          background: "#2F2A24",
-          color: "#F7F2EA",
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: instance === "hero" ? "0.01em" : undefined,
-          cursor: "pointer",
-        }}
-      >
-        Grab your free spot
-      </button>
+        <label htmlFor={inputId} className="rr-sr-only">
+          Email address
+        </label>
+        <input
+          ref={inputRef}
+          id={inputId}
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          placeholder="you@email.com"
+          value={email}
+          onChange={(e) => handleChange(e.target.value)}
+          aria-invalid={status === "error"}
+          aria-describedby={status === "error" ? `${inputId}-error` : undefined}
+          className="rr-waitlist-input"
+        />
+        <button type="submit" className="rr-waitlist-button">
+          Grab your free spot
+        </button>
+      </form>
       {status === "error" && (
-        <p style={{ margin: "2px 0 0", fontSize: 13, color: "#a5522f" }}>
+        <p
+          id={`${inputId}-error`}
+          role="alert"
+          style={{ margin: 0, fontSize: 13, color: "#a5522f" }}
+        >
           {errorText}
         </p>
       )}
-      <p
-        style={{
-          margin: "4px 0 0",
-          textAlign: "center",
-          fontSize: 12,
-          letterSpacing: instance === "hero" ? "0.02em" : undefined,
-          color: "#9A9186",
-        }}
-      >
-        iOS · Launching soon · No spam, ever.
-      </p>
-    </form>
+    </div>
   );
 }

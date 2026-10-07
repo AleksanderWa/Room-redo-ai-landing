@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import Image from "next/image";
@@ -15,56 +16,56 @@ type Props = {
   afterSrc: string;
   beforeAlt: string;
   afterAlt: string;
-  /** hero: wrapped in an iPhone-style device frame (see design-assets/iphone-frame-spec.md
-   *  for the safe-area geometry). storage: plain 3/4 rounded box, no frame. */
+  /** hero: inside the mockup's flat phone frame (bezel, dynamic island).
+   *  storage: plain 3/4 rounded box, no frame; the parent sets its width. */
   heightVariant: "hero" | "storage";
-  /** Only the hero slider shows the "drag to reveal" hint, per the source design. */
-  showHint?: boolean;
-  /** Hero images are the LCP element and should load eagerly. */
-  priority?: boolean;
+  /** Above-the-fold images: load eagerly at high priority. Both halves are
+   *  LCP candidates, so this is loading="eager" rather than `preload`. */
+  eager?: boolean;
+  /** next/image `sizes` override for the storage variant. */
+  sizes?: string;
 };
 
-// Safe-area geometry for the hero device frame (public/images/iphone-frame.svg,
-// viewBox 1148x1988, uniform 34-unit bezel, concentric corners: outer r 184,
-// inner/screen r 150). Percentages below are the screen rect as a fraction
-// of the outer device box, matching the SVG's inner corner radius exactly.
-const HERO_SAFE_AREA: CSSProperties = {
+// pan-y, not none: the slider covers most of a mobile viewport, so a vertical
+// swipe over it has to keep scrolling the page. Horizontal drags are claimed
+// by preventDefault() once the gesture axis-locks — see onPointerMove.
+const SURFACE: CSSProperties = {
   position: "absolute",
-  left: "2.962%",
-  top: "1.710%",
-  width: "94.077%",
-  height: "96.579%",
-  borderRadius: "13.89% / 7.81%",
-  overflow: "hidden",
-  // pan-y, not none: the phone covers most of a mobile viewport, so a vertical
-  // swipe over it has to keep scrolling the page. Horizontal drags are claimed
-  // by preventDefault() once the gesture axis-locks — see onPointerMove.
+  inset: 0,
   touchAction: "pan-y",
   cursor: "ew-resize",
   userSelect: "none",
   WebkitTouchCallout: "none",
-  background: "#ddd",
-};
-
-const STORAGE_CONTAINER: CSSProperties = {
-  position: "relative",
-  width: "100%",
-  aspectRatio: "3/4",
-  maxHeight: 460,
-  overflow: "hidden",
-  borderRadius: 16,
-  touchAction: "pan-y",
-  cursor: "ew-resize",
-  userSelect: "none",
-  WebkitTouchCallout: "none",
-  background: "#ddd",
 };
 
 /** Touch travel (px) before a gesture is judged horizontal (drag) or vertical (scroll). */
 const AXIS_LOCK_PX = 6;
 
-const HERO_IMAGE_SIZES = "(min-width: 1100px) 470px, (min-width: 700px) 380px, 340px";
-const STORAGE_IMAGE_SIZES = "(min-width: 1100px) 1040px, (min-width: 700px) 640px, 100vw";
+/** Arrow-key step for keyboard users, in percent. */
+const KEY_STEP = 5;
+
+// Screen width inside the bezel: 340 - 2*12 from tablet up, 300 - 2*11 below.
+const HERO_IMAGE_SIZES = "(min-width: 700px) 316px, 278px";
+const STORAGE_IMAGE_SIZES = "(min-width: 700px) 480px, 100vw";
+
+function Chevrons() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--rr-ink)"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 6l-6 6 6 6" />
+      <path d="M15 6l6 6-6 6" />
+    </svg>
+  );
+}
 
 export default function BeforeAfterSlider({
   beforeSrc,
@@ -72,11 +73,10 @@ export default function BeforeAfterSlider({
   beforeAlt,
   afterAlt,
   heightVariant,
-  showHint = false,
-  priority = false,
+  eager = false,
+  sizes,
 }: Props) {
   const [pct, setPct] = useState(50);
-  const [hinted, setHinted] = useState(false);
   // Drag state lives in a ref, not state: the move/up handlers below are native
   // listeners registered once per drag, so they must not read stale closures.
   const drag = useRef<{
@@ -187,8 +187,6 @@ export default function BeforeAfterSlider({
       document.removeEventListener("touchend", onTouchEnd);
     };
 
-    if (showHint) setHinted(true);
-
     // Mouse/pen: no axis-lock needed, jump to the click straight away. Touch
     // must stay uncommitted here so a vertical swipe can still scroll.
     if (!isTouch) {
@@ -199,17 +197,42 @@ export default function BeforeAfterSlider({
 
   useEffect(() => detach, [detach]);
 
+  function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    let next: number | null = null;
+    if (e.key === "ArrowLeft" || e.key === "ArrowDown") next = pct - KEY_STEP;
+    else if (e.key === "ArrowRight" || e.key === "ArrowUp") next = pct + KEY_STEP;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = 100;
+    if (next === null) return;
+    e.preventDefault();
+    setPct(Math.max(0, Math.min(100, next)));
+  }
+
   const isHero = heightVariant === "hero";
-  const pillInset = isHero ? 16 : 14;
+  const imageSizes = isHero ? HERO_IMAGE_SIZES : (sizes ?? STORAGE_IMAGE_SIZES);
+  const loading = eager ? "eager" : "lazy";
+  const fetchPriority = eager ? "high" : undefined;
 
   const slider = (
-    <div onPointerDown={onPointerDown} style={isHero ? HERO_SAFE_AREA : STORAGE_CONTAINER}>
+    <div
+      onPointerDown={onPointerDown}
+      onKeyDown={onKeyDown}
+      role="slider"
+      tabIndex={0}
+      aria-label="Before and after comparison"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(pct)}
+      aria-valuetext={`${Math.round(pct)}% before`}
+      style={SURFACE}
+    >
       <Image
         src={afterSrc}
         alt={afterAlt}
         fill
-        priority={priority}
-        sizes={isHero ? HERO_IMAGE_SIZES : STORAGE_IMAGE_SIZES}
+        loading={loading}
+        fetchPriority={fetchPriority}
+        sizes={imageSizes}
         style={{ objectFit: "cover" }}
         draggable={false}
       />
@@ -224,141 +247,50 @@ export default function BeforeAfterSlider({
           src={beforeSrc}
           alt={beforeAlt}
           fill
-          priority={priority}
-          sizes={isHero ? HERO_IMAGE_SIZES : STORAGE_IMAGE_SIZES}
+          loading={loading}
+          fetchPriority={fetchPriority}
+          sizes={imageSizes}
           style={{ objectFit: "cover" }}
           draggable={false}
         />
       </div>
 
-      <div
-        style={{
-          position: "absolute",
-          top: pillInset,
-          left: pillInset,
-          background: "rgba(30,26,22,0.55)",
-          color: "#fff",
-          fontSize: 11,
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          padding: "5px 10px",
-          borderRadius: 999,
-          backdropFilter: "blur(2px)",
-        }}
-      >
+      <span className="rr-ba-pill rr-ba-pill--before" aria-hidden="true">
         Before
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: pillInset,
-          right: pillInset,
-          background: "rgba(255,255,255,0.82)",
-          color: "#2C2824",
-          fontSize: 11,
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          padding: "5px 10px",
-          borderRadius: 999,
-        }}
-      >
+      </span>
+      <span className="rr-ba-pill rr-ba-pill--after" aria-hidden="true">
         After
-      </div>
+      </span>
 
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           top: 0,
           bottom: 0,
           left: `${pct}%`,
           width: 2,
-          background: "rgba(255,255,255,0.95)",
-          transform: "translateX(-1px)",
-          boxShadow: "0 0 8px rgba(0,0,0,0.25)",
+          marginLeft: -1,
+          background: "var(--rr-cream)",
           pointerEvents: "none",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-            width: 44,
-            height: 44,
-            borderRadius: 999,
-            background: "#fff",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 3,
-          }}
-        >
-          <span style={{ color: "#2C2824", fontSize: 13, lineHeight: 1 }}>‹</span>
-          <span style={{ color: "#2C2824", fontSize: 13, lineHeight: 1 }}>›</span>
+        <div className="rr-ba-handle">
+          <Chevrons />
         </div>
-        {showHint && (
-          <div
-            style={{
-              position: "absolute",
-              bottom: 26,
-              left: "50%",
-              transform: "translateX(-50%)",
-              opacity: hinted ? 0 : 1,
-              transition: "opacity 0.4s",
-              pointerEvents: "none",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-block",
-                whiteSpace: "nowrap",
-                background: "rgba(30,26,22,0.7)",
-                color: "#fff",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                padding: "5px 11px",
-                borderRadius: 999,
-                animation: "rr-nudge 1.6s ease-in-out infinite",
-              }}
-            >
-              drag to reveal
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );
 
-  if (!isHero) return slider;
+  if (!isHero) return <div className="rr-plain-frame">{slider}</div>;
 
-  // Hero: wrap the slider (the safe area) in the iPhone-style device frame.
-  // Sizing (min(88vw,340px) → 380px → 470px) comes from the .rr-phone CSS
-  // class in globals.css; this component just fills that width.
+  // Hero: the mockup's flat phone frame. Width (300px mobile, 340px from
+  // tablet up) comes from .rr-phone in globals.css.
   return (
-    <div className="rr-phone" style={{ position: "relative" }}>
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          aspectRatio: "1148 / 1988",
-          filter: "drop-shadow(0 26px 46px rgba(60,38,22,0.26))",
-        }}
-      >
+    <div className="rr-phone">
+      <div className="rr-phone-screen">
         {slider}
-        <img
-          src="/images/iphone-frame.svg"
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            pointerEvents: "none",
-          }}
-        />
+        <div className="rr-phone-island" aria-hidden="true" />
       </div>
     </div>
   );
