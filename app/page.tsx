@@ -6,6 +6,7 @@ import StyleWall from "@/components/StyleWall";
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
 import { styles } from "@/data/styles";
+import { homeJsonLd } from "@/lib/seo";
 import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 
 // Section order, copy and sizes follow the approved mockups (Main.dc.html at
@@ -70,6 +71,15 @@ function FaqItem({ faq, open }: { faq: Faq; open?: boolean }) {
 export default function Home() {
   return (
     <>
+      {/* Structured data, per the Next 16 JSON-LD guide: a plain script tag
+          with `<` escaped. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(homeJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       {/* 1. Header */}
       <header style={{ borderBottom: "1px solid var(--rr-line)" }}>
         <div className="rr-wrap rr-header-bar">
