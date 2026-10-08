@@ -83,14 +83,17 @@ export default function PrivacyPage() {
       <h2>How long we keep it</h2>
       <p>
         Room photos and redesigns are kept for as long as the room exists in the app. Deleting a room from
-        within the app deletes its photos from our storage. AI providers may keep inputs and outputs for a limited period under their own terms.
+        within the app removes its photos from our storage. In rare cases, such as a failed delete, a leftover
+        copy can remain briefly. A daily cleanup removes such leftovers within a day or two. AI providers may
+        keep inputs and outputs for a limited period under their own terms.
       </p>
       <p>
         To remove everything tied to your device, use <strong>Delete my data</strong> in the app&apos;s Settings.
-        This deactivates your device immediately — your spaces are no longer accessible in the app. Stored
-        copies may be retained until a later deletion pass; email{" "}
+        This deactivates your device right away, so your spaces are no longer accessible in the app. Your
+        photos, including originals and redesigns, are then removed from our storage within 8 days. Your
+        purchase and balance record stays, because it is needed for purchases, and it holds no photos. Email{" "}
         <a href="mailto:support@airoomredo.com">support@airoomredo.com</a> with your device identifier if
-        you need an earlier wipe. Deleting your data does not cancel an App Store subscription — cancel that
+        you need an earlier wipe. Deleting your data does not cancel an App Store subscription. Cancel that
         separately in your Apple subscription settings.
       </p>
 
