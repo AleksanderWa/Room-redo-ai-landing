@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AttributionProvider } from "@/components/AttributionProvider";
+import { DESCRIPTION } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 // Self-hosted via next/font (replaces the source's render-blocking Google
@@ -22,13 +24,12 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const SITE_URL = "https://roomredoai.com";
+const TITLE = "Room Redo AI — The room you have, and the one you keep saving.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Room Redo AI — See it before you touch a thing.",
-  description:
-    "Room Redo redesigns your room from a single photo. Snap it, pick a style, watch it transform. Join the waitlist for iOS.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/",
   },
@@ -36,9 +37,8 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Room Redo AI",
-    title: "Room Redo AI — See it before you touch a thing.",
-    description:
-      "Room Redo redesigns your room from a single photo. Snap it, pick a style, watch it transform.",
+    title: TITLE,
+    description: DESCRIPTION,
     images: [
       {
         url: "/og.jpg",
@@ -50,9 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Room Redo AI — See it before you touch a thing.",
-    description:
-      "Room Redo redesigns your room from a single photo. Snap it, pick a style, watch it transform.",
+    title: TITLE,
+    description: DESCRIPTION,
     images: ["/og.jpg"],
   },
 };
