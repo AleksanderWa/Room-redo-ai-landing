@@ -7,8 +7,9 @@
 #   2. The corners section's results: the app's corner-flow results for
 #      that photo, in CORNER_RESULTS_DIR (mapping: scripts/corner-results.json).
 #      scripts/make-corner-crops.mjs aligns them to the photo and cuts the
-#      photo and every result with one shared 3:4 crop. Skipped (keeping the
-#      committed images) when CORNER_RESULTS_DIR isn't set.
+#      photo and every result with one shared 3:4 crop. CORNER_RESULTS_DIR
+#      is required while any entry has a "file" (the script exits 1 without
+#      it); stale understairs-<id>.jpg files for removed ids are deleted.
 #   2b. Hero pair: the backend's cluttered-bedroom QA photo and the app's
 #      Japandi result for it, aligned and cropped to 9:16 (720x1280) by
 #      scripts/make-hero-crops.mjs, plus step-reveal.jpg from the same pair.
@@ -68,9 +69,17 @@ trap cleanup EXIT
 
 # 2. Corners section: the under-stairs photo + the app's results for it,
 # aligned and cropped together (no proofs; run the script by hand for those).
+# Result ids with an image: entries in corner-results.json whose "file" is a
+# non-empty string (same rule as make-corner-crops.mjs and data/corners.ts).
+CORNER_IDS="$(node -e '
+  const r = require("./scripts/corner-results.json");
+  console.log(r.filter((e) => typeof e.file === "string" && e.file.trim() !== "").map((e) => e.id).join(" "));
+')"
 CORNER_BEFORE="$APP_REPO/assets/e2e/corner-understairs.jpg"
-if [ -z "${CORNER_RESULTS_DIR:-}" ]; then
-  echo "note: CORNER_RESULTS_DIR not set — keeping the committed corner images."
+if [ -n "$CORNER_IDS" ] && [ -z "${CORNER_RESULTS_DIR:-}" ]; then
+  echo "error: CORNER_RESULTS_DIR is not set, but scripts/corner-results.json lists results ($CORNER_IDS)." >&2
+  echo "       Point it at the folder with the result images." >&2
+  exit 1
 elif [ ! -f "$CORNER_BEFORE" ]; then
   echo "warning: missing $CORNER_BEFORE" >&2
   missing=1
@@ -78,6 +87,16 @@ else
   CORNER_OUT="$(mktemp -d)"
   TMP_DIRS+=("$CORNER_OUT")
   node scripts/make-corner-crops.mjs --before="$CORNER_BEFORE" --out="$CORNER_OUT" --no-proofs
+  # Drop stale results (ids no longer in the mapping) before copying.
+  for f in "$DEST"/corner/understairs-*.jpg; do
+    [ -e "$f" ] || continue
+    id="$(basename "$f" .jpg)"
+    id="${id#understairs-}"
+    case " before $CORNER_IDS " in
+      *" $id "*) ;;
+      *) rm "$f"; echo "removed stale $f" ;;
+    esac
+  done
   cp "$CORNER_OUT"/understairs-*.jpg "$DEST/corner/"
   echo "corner before + results written"
 fi

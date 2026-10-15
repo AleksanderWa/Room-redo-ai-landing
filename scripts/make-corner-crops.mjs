@@ -23,7 +23,7 @@ import { mkdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { boxInAfter, estimateAlignment, placedRect } from "./lib/align.mjs";
+import { estimateAlignment, placedRect } from "./lib/align.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, "..");
@@ -47,15 +47,22 @@ const PROOFS = process.argv.includes("--no-proofs")
 
 const SIZE = { width: 900, height: 1200 };
 const JPEG = { quality: 82, progressive: true };
-const ALIGN = { scales: [0.6, 1.2], shiftX: 0.25, shiftY: 0.25, minOverlap: 0.4 };
+// Results are framed tighter than the photo (observed scale 0.83-0.93), so
+// the range starts well below that; minOverlap 0.4 lets a result that
+// covers ~0.75^2 of the photo still qualify.
+const ALIGN = { scales: [0.75, 1.2], shiftX: 0.25, shiftY: 0.25, minOverlap: 0.4 };
+// The shared crop must keep at least this share of the before photo.
+const MIN_SHARED_AREA = 0.5;
 
 if (!RESULTS_DIR) {
   console.error("error: set CORNER_RESULTS_DIR (or --results=DIR) to the folder with the result images.");
   process.exit(1);
 }
 
+// "Has a result" rule; keep in sync with data/corners.ts (same expression).
+const hasResult = (r) => typeof r.file === "string" && r.file.trim() !== "";
 const results = JSON.parse(readFileSync(join(here, "corner-results.json"), "utf8")).filter(
-  (r) => r.file
+  hasResult
 );
 
 async function main() {
@@ -70,8 +77,13 @@ async function main() {
   for (const r of results) {
     r.path = join(RESULTS_DIR, r.file);
     r.meta = await sharp(r.path).metadata();
-    r.a = await estimateAlignment(BEFORE, r.path, ALIGN);
+    r.a = await estimateAlignment(BEFORE, r.path, { ...ALIGN, name: `${r.id} (${r.file})` });
     const p = placedRect(r.a, bm.height);
+    // Share of the before photo this result covers, to name the worst one.
+    r.coverage =
+      (Math.max(0, Math.min(bm.width, p.x1) - Math.max(0, p.x0)) *
+        Math.max(0, Math.min(bm.height, p.y1) - Math.max(0, p.y0))) /
+      (bm.width * bm.height);
     inter = {
       x0: Math.max(inter.x0, p.x0),
       y0: Math.max(inter.y0, p.y0),
@@ -85,18 +97,53 @@ async function main() {
     );
   }
 
-  // Largest 3:4 box inside the intersection, centred in it. Inset 1px so
-  // rounding never samples outside a result.
+  const interArea =
+    Math.max(0, inter.x1 - inter.x0) * Math.max(0, inter.y1 - inter.y0);
+  if (interArea < MIN_SHARED_AREA * bm.width * bm.height) {
+    const worst = results.reduce((w, r) => (r.coverage < w.coverage ? r : w));
+    throw new Error(
+      `shared crop too small: the area every result covers is ${Math.round(
+        (100 * interArea) / (bm.width * bm.height)
+      )}% of the before photo (need ${MIN_SHARED_AREA * 100}%). ` +
+        `Worst-aligned: ${worst.id} (${worst.file}), covering ${Math.round(100 * worst.coverage)}% ` +
+        `(edge MAD ${worst.a.cost.toFixed(4)}).`
+    );
+  }
+
+  // A box in a result's native pixels for `box` (BEFORE pixels), exactly
+  // 3:4 (width a multiple of 3), centred on the same point; null if it
+  // doesn't fit inside the result.
+  function resultBox(r, box) {
+    const k = r.meta.height / (bm.height * r.a.s);
+    const width = 3 * Math.round((box.width * k) / 3);
+    const height = (width / 3) * 4;
+    const left = Math.round((box.left + box.width / 2 - r.a.dx) * k - width / 2);
+    const top = Math.round((box.top + box.height / 2 - r.a.dy) * k - height / 2);
+    const fits =
+      left >= 0 && top >= 0 && left + width <= r.meta.width && top + height <= r.meta.height;
+    return fits ? { left, top, width, height } : null;
+  }
+
+  // Largest exactly-3:4 box inside the intersection, centred in it, then
+  // shrunk (never clamped per result) until it fits inside every result, so
+  // the before and all results show the same region and nothing stretches.
   const iw = Math.floor(inter.x1 - inter.x0) - 2;
   const ih = Math.floor(inter.y1 - inter.y0) - 2;
-  const height = Math.min(ih, Math.floor((iw * 4) / 3));
-  const width = Math.floor((height * 3) / 4);
-  const box = {
-    left: Math.round((inter.x0 + inter.x1 - width) / 2),
-    top: Math.round((inter.y0 + inter.y1 - height) / 2),
-    width,
-    height,
-  };
+  let n = Math.floor(Math.min(ih / 4, iw / 3));
+  let box;
+  for (; n > 0; n--) {
+    const width = 3 * n;
+    const height = 4 * n;
+    box = {
+      left: Math.round((inter.x0 + inter.x1 - width) / 2),
+      top: Math.round((inter.y0 + inter.y1 - height) / 2),
+      width,
+      height,
+    };
+    if (results.every((r) => (r.ex = resultBox(r, box)))) break;
+  }
+  if (n === 0) throw new Error("no 3:4 box fits inside every result");
+  const { width, height } = box;
   console.log(
     `shared crop: ${width}x${height} at (${box.left},${box.top}) in BEFORE px ` +
       `(BEFORE scaled x${(SIZE.height / height).toFixed(2)} to ${SIZE.width}x${SIZE.height})`
@@ -110,15 +157,16 @@ async function main() {
       .png()
       .toBuffer();
 
+  const assert34 = (b, what) => {
+    if (b.width * 4 !== b.height * 3) throw new Error(`${what} crop ${b.width}x${b.height} is not 3:4`);
+  };
+  assert34(box, "before");
   const before = await resize(BEFORE, box);
   await sharp(before).jpeg(JPEG).toFile(join(OUT, "understairs-before.jpg"));
 
   for (const r of results) {
-    const ex = boxInAfter(box, r.a, bm.height, r.meta.height);
-    ex.left = Math.max(0, ex.left);
-    ex.top = Math.max(0, ex.top);
-    ex.width = Math.min(ex.width, r.meta.width - ex.left);
-    ex.height = Math.min(ex.height, r.meta.height - ex.top);
+    const ex = r.ex;
+    assert34(ex, r.id);
     const after = await resize(r.path, ex);
     await sharp(after).jpeg(JPEG).toFile(join(OUT, `understairs-${r.id}.jpg`));
     console.log(`  ${r.id}: result crop ${ex.width}x${ex.height} at (${ex.left},${ex.top}) native px`);

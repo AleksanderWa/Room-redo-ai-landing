@@ -111,14 +111,34 @@ export const range = (from, to, step) => {
   return out;
 };
 
+// Coarse-to-fine schedule: the first pass covers the whole scale/shift
+// range; each later pass refines around the previous best at a larger
+// working height. Steps are in working-size pixels.
+export const CORNER_PASSES = [
+  { height: 60, scaleStep: 0.02, shiftStep: 1 },
+  { height: 120, scaleSpan: 0.03, scaleStep: 0.03 / 6, shiftSpan: 3, shiftStep: 0.5 },
+  { height: 300, scaleSpan: 0.012, scaleStep: 0.012 / 6, shiftSpan: 3, shiftStep: 0.5 },
+];
+
 /**
- * Coarse-to-fine search over working heights 60 -> 120 -> 300 px.
- * Options: scales [lo, hi] for the coarse pass, shiftX / shiftY as fractions
- * of BEFORE's width / height, minOverlap (fraction of BEFORE covered).
- * Returns { afterW, s, dx, dy, cost } in full-res BEFORE pixels.
+ * Estimates where AFTER sits in BEFORE.
+ * Options: scales [lo, hi] for the first pass (its grid is snapped to
+ * multiples of the step, so moving a bound never shifts the grid), shiftX /
+ * shiftY as fractions of BEFORE's width / height, minOverlap (fraction of
+ * BEFORE the placement must cover), passes (schedule, default
+ * CORNER_PASSES), name (used in errors).
+ * Returns { afterW, s, dx, dy, cost } in full-res BEFORE pixels; throws if
+ * no placement satisfies minOverlap.
  */
 export async function estimateAlignment(beforePath, afterPath, opts = {}) {
-  const { scales = [0.9, 1.15], shiftX = 0.15, shiftY = 0.1, minOverlap = 0.85 } = opts;
+  const {
+    scales = [0.9, 1.15],
+    shiftX = 0.15,
+    shiftY = 0.1,
+    minOverlap = 0.85,
+    passes = CORNER_PASSES,
+    name = afterPath,
+  } = opts;
   const bm = await sharp(beforePath).metadata();
   const am = await sharp(afterPath).metadata();
   const H = bm.height;
@@ -134,27 +154,38 @@ export async function estimateAlignment(beforePath, afterPath, opts = {}) {
     };
   };
 
-  // Pass 0: whole range, coarse.
-  let m = await maps(60);
-  let best = search(
-    m.b, m.a,
-    range(scales[0], scales[1], 0.02),
-    range(-shiftX * m.b.width, shiftX * m.b.width, 1),
-    range(-shiftY * m.b.height, shiftY * m.b.height, 1),
-    minOverlap
-  );
-  // Refinement passes around the previous best.
-  for (const [h, ds, dp, sp] of [[120, 0.03, 3, 0.5], [300, 0.012, 3, 0.5]]) {
-    const prevK = m.k;
-    m = await maps(h);
-    const f = m.k / prevK;
-    best = search(
-      m.b, m.a,
-      range(best.s - ds, best.s + ds, ds / 6),
-      range(best.dx * f - dp, best.dx * f + dp, sp),
-      range(best.dy * f - dp, best.dy * f + dp, sp),
-      minOverlap
-    );
+  let best = null;
+  let m = null;
+  let prevH = 0;
+  for (const p of passes) {
+    m = await maps(p.height);
+    if (!best) {
+      const lo = +(Math.ceil(scales[0] / p.scaleStep - 1e-9) * p.scaleStep).toFixed(6);
+      best = search(
+        m.b, m.a,
+        range(lo, scales[1], p.scaleStep),
+        range(-shiftX * m.b.width, shiftX * m.b.width, p.shiftStep),
+        range(-shiftY * m.b.height, shiftY * m.b.height, p.shiftStep),
+        minOverlap
+      );
+    } else {
+      const f = p.height / prevH;
+      best = search(
+        m.b, m.a,
+        range(best.s - p.scaleSpan, best.s + p.scaleSpan, p.scaleStep),
+        range(best.dx * f - p.shiftSpan, best.dx * f + p.shiftSpan, p.shiftStep),
+        range(best.dy * f - p.shiftSpan, best.dy * f + p.shiftSpan, p.shiftStep),
+        minOverlap
+      );
+    }
+    if (!Number.isFinite(best.c)) {
+      throw new Error(
+        `alignment failed for ${name}: no placement covers at least ${Math.round(minOverlap * 100)}% ` +
+          `of the before photo (scale ${scales[0]}-${scales[1]}, shift ±${shiftX * 100}% x / ±${shiftY * 100}% y, ` +
+          `pass at ${p.height}px). Is it a result for this photo?`
+      );
+    }
+    prevH = p.height;
   }
   return { afterW, s: best.s, dx: best.dx / m.k, dy: best.dy / m.k, cost: best.c };
 }

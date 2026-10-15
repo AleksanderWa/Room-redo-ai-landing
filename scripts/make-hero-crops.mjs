@@ -29,7 +29,7 @@
 // the 9x16 pair and step-reveal.jpg into public/images/.
 
 import sharp from "sharp";
-import { cost, edgeMap, grayRaw, range, search } from "./lib/align.mjs";
+import { cost, edgeMap, estimateAlignment, grayRaw } from "./lib/align.mjs";
 import { mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -74,56 +74,33 @@ const CREAM = "#f7f2ea"; // --rr-cream
 const JPEG = { quality: 82, progressive: true };
 
 // ---------------------------------------------------------------------------
-// Alignment
-//
-// Model and edge-map helpers: scripts/lib/align.mjs. The hero pair differs
-// only slightly, so this uses a narrow two-pass search (0.9-1.15 scale)
-// rather than the library's wider estimateAlignment().
+// Alignment: estimateAlignment() from scripts/lib/align.mjs. The hero pair
+// differs only slightly, so it uses a narrow range and a two-pass schedule.
 // ---------------------------------------------------------------------------
 
-async function align(beforeMeta, afterMeta) {
-  // AFTER at BEFORE's height (full-res units).
-  const afterW = Math.round((afterMeta.width * beforeMeta.height) / afterMeta.height);
+const HERO_ALIGN = {
+  scales: [0.9, 1.15],
+  shiftX: 0.15,
+  shiftY: 0.1,
+  minOverlap: 0.85,
+  passes: [
+    { height: 120, scaleStep: 0.01, shiftStep: 1 },
+    { height: 300, scaleSpan: 0.012, scaleStep: 0.003, shiftSpan: 3, shiftStep: 0.5 },
+  ],
+};
+
+async function align(beforeMeta) {
+  const a = await estimateAlignment(BEFORE, AFTER, { ...HERO_ALIGN, name: AFTER });
+
+  // Unaligned placement (AFTER at BEFORE height, centred) at the final
+  // working size, only for comparison in the printout.
   const H = beforeMeta.height;
-  const W = beforeMeta.width;
+  const k = 300 / H;
+  const b = edgeMap(await grayRaw(BEFORE, Math.round(beforeMeta.width * k), 300));
+  const af = edgeMap(await grayRaw(AFTER, Math.round(a.afterW * k), 300));
+  const identityCost = cost(b, af, 1, ((beforeMeta.width - a.afterW) / 2) * k, 0);
 
-  // Pass 1: working height 120.
-  const k1 = 120 / H;
-  const b1 = edgeMap(await grayRaw(BEFORE, Math.round(W * k1), 120));
-  const a1 = edgeMap(await grayRaw(AFTER, Math.round(afterW * k1), 120));
-  const p1 = search(
-    b1,
-    a1,
-    range(0.9, 1.15, 0.01),
-    range(-0.15 * b1.width, 0.15 * b1.width, 1),
-    range(-0.1 * b1.height, 0.1 * b1.height, 1)
-  );
-
-  // Pass 2: working height 300, around pass 1.
-  const k2 = 300 / H;
-  const b2 = edgeMap(await grayRaw(BEFORE, Math.round(W * k2), 300));
-  const a2 = edgeMap(await grayRaw(AFTER, Math.round(afterW * k2), 300));
-  const f = 300 / 120;
-  const p2 = search(
-    b2,
-    a2,
-    range(p1.s - 0.012, p1.s + 0.012, 0.003),
-    range(p1.dx * f - 3, p1.dx * f + 3, 0.5),
-    range(p1.dy * f - 3, p1.dy * f + 3, 0.5)
-  );
-
-  // Identity placement (AFTER at BEFORE height, left-aligned, centred) for
-  // comparison in the printout.
-  const identity = cost(b2, a2, 1, ((W - afterW) / 2) * k2, 0);
-
-  return {
-    afterW,
-    s: p2.s,
-    dx: p2.dx / k2,
-    dy: p2.dy / k2,
-    cost: p2.c,
-    identityCost: identity,
-  };
+  return { ...a, identityCost };
 }
 
 // ---------------------------------------------------------------------------
@@ -139,7 +116,7 @@ async function main() {
   console.log(`before: ${BEFORE} (${W}x${H})`);
   console.log(`after:  ${AFTER} (${afterMeta.width}x${afterMeta.height})`);
 
-  const a = await align(beforeMeta, afterMeta);
+  const a = await align(beforeMeta);
   const placedW = a.afterW * a.s;
   const placedH = H * a.s;
   console.log(

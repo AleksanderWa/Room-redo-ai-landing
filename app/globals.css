@@ -753,6 +753,15 @@ button.rr-cta-badge {
   justify-self: center;
 }
 
+/* While a newly picked result is still loading (>150ms), the previous one
+   stays up, slightly dimmed. */
+.rr-corners-media .rr-plain-frame {
+  transition: opacity 150ms ease-out;
+}
+.rr-corners-media--busy .rr-plain-frame {
+  opacity: 0.7;
+}
+
 .rr-corners-caption {
   margin: 12px 0 0;
   font-size: 13px;
@@ -760,12 +769,6 @@ button.rr-cta-badge {
   text-align: center;
 }
 
-.rr-corners-caption-em {
-  font-family: var(--rr-serif);
-  font-style: italic;
-  font-size: 17px;
-  color: var(--rr-ink);
-}
 
 /* Purpose chips: one radio group under a "Make it usable" eyebrow, with
    "or" + "Surprise me" at the end of the row (kept together when it wraps).
@@ -1216,9 +1219,6 @@ button.rr-cta-badge {
 
   .rr-corners-caption {
     font-size: 14px;
-  }
-  .rr-corners-caption-em {
-    font-size: 19px;
   }
   .rr-corners-chips {
     margin-top: 32px;

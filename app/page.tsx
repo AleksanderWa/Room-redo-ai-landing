@@ -6,6 +6,12 @@ import Brand from "@/components/Brand";
 import DownloadCta from "@/components/DownloadCta";
 import PinMosaic from "@/components/PinMosaic";
 import StyleWall from "@/components/StyleWall";
+import {
+  CORNER_BEFORE,
+  CORNER_DEFAULT_ID,
+  CORNER_RESULTS,
+  USABLE_EYEBROW,
+} from "@/data/corners";
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
 import { styleAlt, styleById, styles } from "@/data/styles";
@@ -191,7 +197,12 @@ export default function Home() {
                 </p>
               </div>
 
-              <CornerShowcase />
+              <CornerShowcase
+                before={CORNER_BEFORE}
+                results={CORNER_RESULTS}
+                defaultId={CORNER_DEFAULT_ID}
+                eyebrow={USABLE_EYEBROW}
+              />
             </div>
           </div>
         </section>
