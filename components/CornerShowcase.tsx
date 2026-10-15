@@ -20,6 +20,13 @@ const DEFAULT_INDEX = Math.max(
   CORNER_RESULTS.findIndex((r) => r.id === CORNER_DEFAULT_ID)
 );
 
+// One row: the "Make it usable" chips, then "or", then "Surprise me". Chip
+// order (and arrow-key order) is CORNER_RESULTS order, surprise last.
+const indexed = CORNER_RESULTS.map((r, i) => ({ r, i }));
+const usable = indexed.filter(({ r }) => r.group === "usable");
+const surprise = indexed.filter(({ r }) => r.group === "surprise");
+const usableLabel = CORNER_GROUPS.find((g) => g.id === "usable")?.label ?? "";
+
 const preloaded = new Set<string>();
 
 function preload(result: CornerResult) {
@@ -33,8 +40,9 @@ function preload(result: CornerResult) {
 }
 
 /**
- * The corners section's interactive part: purpose chips (a radio group, in
- * the app's two groups) and one before/after slider whose "after" is the
+ * The corners section's interactive part: purpose chips (one radio group:
+ * the "Make it usable" purposes, then "or", then "Surprise me") and one
+ * before/after slider whose "after" is the
  * selected result. Renders two grid children: .rr-corners-chips and
  * .rr-corners-media (placed by the .rr-corners grid in globals.css).
  *
@@ -65,6 +73,27 @@ export default function CornerShowcase() {
     select(next, true);
   }
 
+  function chip(r: CornerResult, i: number) {
+    return (
+      <button
+        key={r.id}
+        ref={(el) => {
+          chips.current[i] = el;
+        }}
+        type="button"
+        role="radio"
+        aria-checked={i === index}
+        tabIndex={i === index ? 0 : -1}
+        className="rr-chip"
+        onClick={() => select(i, false)}
+        onPointerEnter={() => preload(r)}
+        onFocus={() => preload(r)}
+      >
+        {r.label}
+      </button>
+    );
+  }
+
   return (
     <>
       <div
@@ -73,39 +102,21 @@ export default function CornerShowcase() {
         aria-label="Corner ideas"
         onKeyDown={onKeyDown}
       >
-        {CORNER_GROUPS.map((group) => {
-          const items = CORNER_RESULTS.map((r, i) => ({ r, i })).filter(
-            ({ r }) => r.group === group.id
-          );
-          if (items.length === 0) return null;
-          return (
-            <div key={group.id} className="rr-corners-chip-group">
-              <span className="rr-corner-kicker" aria-hidden="true">
-                {group.label}
+        <span className="rr-corner-kicker" aria-hidden="true">
+          {usableLabel}
+        </span>
+        <div className="rr-corners-chip-row">
+          {usable.map(({ r, i }) => chip(r, i))}
+          {surprise.length > 0 && (
+            // "or" + the surprise chip(s) wrap together, never apart.
+            <span className="rr-corners-chip-or-group">
+              <span className="rr-corners-chip-or" aria-hidden="true">
+                or
               </span>
-              <div className="rr-corners-chip-row">
-                {items.map(({ r, i }) => (
-                  <button
-                    key={r.id}
-                    ref={(el) => {
-                      chips.current[i] = el;
-                    }}
-                    type="button"
-                    role="radio"
-                    aria-checked={i === index}
-                    tabIndex={i === index ? 0 : -1}
-                    className="rr-chip"
-                    onClick={() => select(i, false)}
-                    onPointerEnter={() => preload(r)}
-                    onFocus={() => preload(r)}
-                  >
-                    {r.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+              {surprise.map(({ r, i }) => chip(r, i))}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="rr-corners-media">

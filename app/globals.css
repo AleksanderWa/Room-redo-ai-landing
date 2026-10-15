@@ -767,26 +767,35 @@ button.rr-cta-badge {
   color: var(--rr-ink);
 }
 
-/* Purpose chips: a radio group in the app's two groups, each with an
-   eyebrow. Chip look reuses .rr-chip from the style wall filter. */
+/* Purpose chips: one radio group under a "Make it usable" eyebrow, with
+   "or" + "Surprise me" at the end of the row (kept together when it wraps).
+   Chip look reuses .rr-chip from the style wall filter. */
 .rr-corners-chips {
   grid-area: chips;
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px 24px;
-  margin-top: 24px;
-}
-
-.rr-corners-chip-group {
-  display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  margin-top: 24px;
 }
 
 .rr-corners-chip-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
+}
+
+.rr-corners-chip-or-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.rr-corners-chip-or {
+  padding: 0 2px;
+  font-size: 13px;
+  color: var(--rr-soft-on-sand);
 }
 
 .rr-corner-kicker {
