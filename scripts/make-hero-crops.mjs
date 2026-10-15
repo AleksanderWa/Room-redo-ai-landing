@@ -29,6 +29,7 @@
 // the 9x16 pair and step-reveal.jpg into public/images/.
 
 import sharp from "sharp";
+import { cost, edgeMap, grayRaw, range, search } from "./lib/align.mjs";
 import { mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -75,112 +76,10 @@ const JPEG = { quality: 82, progressive: true };
 // ---------------------------------------------------------------------------
 // Alignment
 //
-// Model: AFTER is first resized to BEFORE's height, then scaled by `s` and
-// placed with its top-left at (dx, dy) in BEFORE's pixel space. Searched by
-// minimising the mean absolute difference between blurred Sobel edge maps
-// of the two (grayscale, downscaled): edges capture the room's structure
-// (wall corners, ceiling slope, window) and ignore the restyle's colours.
-// Coarse grid at a small working size, then a finer pass around the best.
+// Model and edge-map helpers: scripts/lib/align.mjs. The hero pair differs
+// only slightly, so this uses a narrow two-pass search (0.9-1.15 scale)
+// rather than the library's wider estimateAlignment().
 // ---------------------------------------------------------------------------
-
-async function grayRaw(input, width, height) {
-  const { data, info } = await sharp(input)
-    .resize(width, height, { fit: "fill" })
-    .greyscale()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-  return { data, width: info.width, height: info.height };
-}
-
-function edgeMap({ data, width, height }) {
-  const mag = new Float32Array(width * height);
-  const at = (x, y) =>
-    data[Math.min(height - 1, Math.max(0, y)) * width + Math.min(width - 1, Math.max(0, x))];
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const gx =
-        at(x + 1, y - 1) + 2 * at(x + 1, y) + at(x + 1, y + 1) -
-        at(x - 1, y - 1) - 2 * at(x - 1, y) - at(x - 1, y + 1);
-      const gy =
-        at(x - 1, y + 1) + 2 * at(x, y + 1) + at(x + 1, y + 1) -
-        at(x - 1, y - 1) - 2 * at(x, y - 1) - at(x + 1, y - 1);
-      mag[y * width + x] = Math.hypot(gx, gy);
-    }
-  }
-  // 3x3 box blur so near-misses still score, then normalise to 0..1.
-  const out = new Float32Array(width * height);
-  let max = 0;
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      let sum = 0;
-      let n = 0;
-      for (let j = -1; j <= 1; j++) {
-        for (let i = -1; i <= 1; i++) {
-          const xx = x + i;
-          const yy = y + j;
-          if (xx < 0 || yy < 0 || xx >= width || yy >= height) continue;
-          sum += mag[yy * width + xx];
-          n++;
-        }
-      }
-      out[y * width + x] = sum / n;
-      if (out[y * width + x] > max) max = out[y * width + x];
-    }
-  }
-  for (let k = 0; k < out.length; k++) out[k] /= max || 1;
-  return { data: out, width, height };
-}
-
-// Mean abs diff over the overlap; rejects placements covering < 85% of
-// BEFORE so the search can't "win" by sliding AFTER mostly off-frame.
-function cost(before, after, s, dx, dy) {
-  const { width: w, height: h } = before;
-  let sum = 0;
-  let n = 0;
-  for (let y = 0; y < h; y += 1) {
-    const ay = (y - dy) / s;
-    if (ay < 0 || ay > after.height - 1) continue;
-    const y0 = Math.floor(ay);
-    const fy = ay - y0;
-    const y1 = Math.min(y0 + 1, after.height - 1);
-    for (let x = 0; x < w; x += 1) {
-      const ax = (x - dx) / s;
-      if (ax < 0 || ax > after.width - 1) continue;
-      const x0 = Math.floor(ax);
-      const fx = ax - x0;
-      const x1 = Math.min(x0 + 1, after.width - 1);
-      const a = after.data;
-      const v =
-        a[y0 * after.width + x0] * (1 - fx) * (1 - fy) +
-        a[y0 * after.width + x1] * fx * (1 - fy) +
-        a[y1 * after.width + x0] * (1 - fx) * fy +
-        a[y1 * after.width + x1] * fx * fy;
-      sum += Math.abs(v - before.data[y * w + x]);
-      n++;
-    }
-  }
-  if (n < 0.85 * w * h) return Infinity;
-  return sum / n;
-}
-
-function search(before, after, scales, dxs, dys) {
-  let best = { c: Infinity };
-  for (const s of scales) {
-    for (const dx of dxs) {
-      for (const dy of dys) {
-        const c = cost(before, after, s, dx, dy);
-        if (c < best.c) best = { c, s, dx, dy };
-      }
-    }
-  }
-  return best;
-}
-
-const range = (from, to, step) => {
-  const out = [];
-  for (let v = from; v <= to + 1e-9; v += step) out.push(+v.toFixed(6));
-  return out;
-};
 
 async function align(beforeMeta, afterMeta) {
   // AFTER at BEFORE's height (full-res units).

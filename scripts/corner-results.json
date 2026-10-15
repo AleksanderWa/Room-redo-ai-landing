@@ -1,0 +1,42 @@
+[
+  {
+    "id": "store",
+    "file": null,
+    "label": "Store things",
+    "group": "usable",
+    "caption": "Under the stairs → storage that disappears into the wall.",
+    "alt": "The same space under the stairs, fitted with storage cabinets and a bench"
+  },
+  {
+    "id": "work",
+    "file": "5.jpg",
+    "label": "Work or study",
+    "group": "usable",
+    "caption": "Under the stairs → a desk you'll actually use.",
+    "alt": "The same space under the stairs as a study nook: a built-in desk with drawers, a chair and shelves"
+  },
+  {
+    "id": "laundry",
+    "file": "7.jpg",
+    "label": "Laundry & household",
+    "group": "usable",
+    "caption": "Under the stairs → a laundry corner, finally out of sight.",
+    "alt": "The same space under the stairs as a laundry corner: a washer and dryer side by side with cupboards and shelves"
+  },
+  {
+    "id": "pick",
+    "file": "4.jpg",
+    "label": "Pick for me",
+    "group": "usable",
+    "caption": "Under the stairs → an entryway with a seat and a place for everything.",
+    "alt": "The same space under the stairs as an entryway: a reading bench, woven baskets, coat hooks and a shoe bench"
+  },
+  {
+    "id": "surprise",
+    "file": "6.jpg",
+    "label": "Surprise me",
+    "group": "surprise",
+    "caption": "Under the stairs → a reading nook with a little bar.",
+    "alt": "The same space under the stairs as a velvet reading nook beside a lit walnut bar"
+  }
+]
