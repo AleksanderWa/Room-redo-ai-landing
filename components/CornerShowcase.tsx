@@ -169,6 +169,7 @@ export default function CornerShowcase({ before, results, defaultId, eyebrow }: 
         <p className="rr-corners-caption" aria-live="polite">
           {current.caption}
         </p>
+        <p className="rr-corners-note">Real results from the app, all from this one photo.</p>
       </div>
     </>
   );

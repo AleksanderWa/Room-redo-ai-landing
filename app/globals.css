@@ -769,6 +769,21 @@ button.rr-cta-badge {
   text-align: center;
 }
 
+/* Captions change per chip and wrap to 1 or 2 lines on narrow screens;
+   reserve 2 lines there so nothing below jumps when switching. */
+@media (max-width: 599px) {
+  .rr-corners-caption {
+    min-height: 3.2em; /* 2 x the inherited 1.6 line-height */
+  }
+}
+
+/* Static provenance line under the caption. */
+.rr-corners-note {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--rr-soft-on-sand);
+  text-align: center;
+}
 
 /* Purpose chips: one radio group under a "Make it usable" eyebrow, with
    "or" + "Surprise me" at the end of the row (kept together when it wraps).
@@ -1219,6 +1234,9 @@ button.rr-cta-badge {
 
   .rr-corners-caption {
     font-size: 14px;
+  }
+  .rr-corners-note {
+    font-size: 12px;
   }
   .rr-corners-chips {
     margin-top: 32px;
