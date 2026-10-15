@@ -1,6 +1,7 @@
-// "How it works": one room, start to finish. Steps 1 and 3 are the same room
-// as the hero slider (before/after); step 2 is the Japandi card from the
-// style wall.
+// "How it works": one room, start to finish. Step 1 is the hero's before;
+// step 2 is the Japandi card from the style wall; step 3 is the reveal, a
+// half-before/half-after split of the hero pair (step-reveal.jpg, built by
+// scripts/make-hero-crops.mjs).
 import { styles } from "@/data/styles";
 
 export type Step = {
@@ -26,7 +27,7 @@ export const steps: Step[] = [
   {
     num: "03",
     line: "Watch it develop, like a print.",
-    img: "/images/hero-after.jpg",
-    alt: "The same bedroom, redesigned in Japandi",
+    img: "/images/step-reveal.jpg",
+    alt: "The bedroom, half before and half after",
   },
 ];

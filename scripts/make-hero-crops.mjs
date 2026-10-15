@@ -6,19 +6,27 @@
 // applies one crop box identically to both.
 //
 //   node scripts/make-hero-crops.mjs [--before=PATH] [--after=PATH]
-//        [--out=DIR] [--center-x=0..1]
+//        [--out=DIR] [--center-x=0..1] [--variants=9x16,3x4] [--no-proofs]
 //
-// Same options via env: BEFORE, AFTER, OUT_DIR, CENTER_X. Defaults are the
-// sibling repos' cluttered-bedroom / japandi pair, and $TMPDIR/hero-crops.
-// --center-x is the crop centre as a fraction of BEFORE's width (default:
-// the bed in the default pair).
+// Same options via env: BEFORE, AFTER, OUT_DIR, CENTER_X, VARIANTS,
+// NO_PROOFS=1. Defaults are the sibling repos' cluttered-bedroom / japandi
+// pair, $TMPDIR/hero-crops, both variants, proofs on. --center-x is the crop
+// centre as a fraction of BEFORE's width (default: the bed in the default
+// pair).
 //
-// Writes, per variant (9x16 at 1080x1920, 3x4 at 900x1200):
+// Writes, per selected variant (9x16 at 720x1280, 3x4 at 900x1200):
 //   hero-<v>-before.jpg, hero-<v>-after.jpg   q82 progressive JPEGs
 //   proof-<v>-side-by-side.jpg                 the pair next to each other
 //   proof-<v>-split.jpg                        left half BEFORE, right half AFTER
 //   proof-<v>-blend.jpg                        50% opacity overlay of the two
-// Outputs are previews; copying them into public/images/ is a separate step.
+// and always:
+//   step-reveal.jpg   384x512 "How it works" step 3: left half BEFORE, right
+//                     half AFTER, thin cream divider (from the 3:4 box)
+// 720x1280 because the generated AFTER is only 864px tall: the hero phone
+// shows it at ~385 CSS px wide, so 720w covers ~1.9x DPR without inventing
+// pixels the source doesn't have (1080x1920 was a 2.2x upscale).
+// scripts/copy-assets.sh runs this with --variants=9x16 --no-proofs and copies
+// the 9x16 pair and step-reveal.jpg into public/images/.
 
 import sharp from "sharp";
 import { mkdirSync } from "node:fs";
@@ -47,10 +55,20 @@ const AFTER = arg(
 const OUT = arg("out", "OUT_DIR", join(tmpdir(), "hero-crops"));
 const CENTER_X = Number(arg("center-x", "CENTER_X", "0.64"));
 
-const VARIANTS = [
-  { name: "9x16", aspect: 9 / 16, width: 1080, height: 1920 },
+const ALL_VARIANTS = [
+  { name: "9x16", aspect: 9 / 16, width: 720, height: 1280 },
   { name: "3x4", aspect: 3 / 4, width: 900, height: 1200 },
 ];
+const wanted = arg("variants", "VARIANTS", "9x16,3x4").split(",");
+const VARIANTS = ALL_VARIANTS.filter((v) => wanted.includes(v.name));
+if (VARIANTS.length === 0) {
+  console.error(`error: --variants must list some of ${ALL_VARIANTS.map((v) => v.name).join(",")}`);
+  process.exit(1);
+}
+const PROOFS = !process.argv.includes("--no-proofs") && process.env.NO_PROOFS !== "1";
+
+const STEP_REVEAL = { width: 384, height: 512 };
+const CREAM = "#f7f2ea"; // --rr-cream
 
 const JPEG = { quality: 82, progressive: true };
 
@@ -269,34 +287,56 @@ async function main() {
   };
   console.log(`overlap: x ${cover.x0}..${cover.x1}, y ${cover.y0}..${cover.y1}`);
 
-  for (const v of VARIANTS) {
+  function boxFor(aspect) {
     const ch = cover.y1 - cover.y0;
-    const cw = Math.round(ch * v.aspect);
+    const cw = Math.round(ch * aspect);
     const cx = CENTER_X * W;
-    const x = Math.round(
-      Math.min(cover.x1 - cw, Math.max(cover.x0, cx - cw / 2))
-    );
-    const box = { left: x, top: cover.y0, width: cw, height: ch };
+    const x = Math.round(Math.min(cover.x1 - cw, Math.max(cover.x0, cx - cw / 2)));
+    return { left: x, top: cover.y0, width: cw, height: ch };
+  }
+
+  // Crops stay lossless (PNG buffers) until the single JPEG encode on write.
+  async function cropPair(box, width, height) {
+    const crop = (input) =>
+      sharp(input)
+        .extract(box)
+        .resize(width, height, { fit: "fill", kernel: "lanczos3" })
+        .png()
+        .toBuffer();
+    return Promise.all([crop(BEFORE), crop(afterAligned)]);
+  }
+
+  // Left half BEFORE, right half AFTER, with a divider line.
+  async function split(before, after, width, height, divider, color) {
+    const half = Math.round(width / 2);
+    const rightHalf = await sharp(after)
+      .extract({ left: half, top: 0, width: width - half, height })
+      .toBuffer();
+    const line = await sharp({
+      create: { width: divider, height, channels: 3, background: color },
+    })
+      .png()
+      .toBuffer();
+    return sharp(before).composite([
+      { input: rightHalf, left: half, top: 0 },
+      { input: line, left: half - Math.floor(divider / 2), top: 0 },
+    ]);
+  }
+
+  for (const v of VARIANTS) {
+    const box = boxFor(v.aspect);
+    const ch = box.height;
     console.log(
-      `${v.name}: crop ${cw}x${ch} at (${box.left},${box.top}) in BEFORE pixels ` +
-        `-> ${v.width}x${v.height} (upscale x${(v.height / ch).toFixed(2)} from BEFORE, ` +
+      `${v.name}: crop ${box.width}x${ch} at (${box.left},${box.top}) in BEFORE pixels ` +
+        `-> ${v.width}x${v.height} (scale x${(v.height / ch).toFixed(2)} from BEFORE, ` +
         `x${((v.height / ch) * (placedH / afterMeta.height)).toFixed(2)} from AFTER's native pixels)`
     );
 
-    const beforeCrop = await sharp(BEFORE)
-      .extract(box)
-      .resize(v.width, v.height, { fit: "fill", kernel: "lanczos3" })
-      .jpeg(JPEG)
-      .toBuffer();
-    const afterCrop = await sharp(afterAligned)
-      .extract(box)
-      .resize(v.width, v.height, { fit: "fill", kernel: "lanczos3" })
-      .jpeg(JPEG)
-      .toBuffer();
-    await sharp(beforeCrop).toFile(join(OUT, `hero-${v.name}-before.jpg`));
-    await sharp(afterCrop).toFile(join(OUT, `hero-${v.name}-after.jpg`));
+    const [beforeCrop, afterCrop] = await cropPair(box, v.width, v.height);
+    await sharp(beforeCrop).jpeg(JPEG).toFile(join(OUT, `hero-${v.name}-before.jpg`));
+    await sharp(afterCrop).jpeg(JPEG).toFile(join(OUT, `hero-${v.name}-after.jpg`));
 
-    // Proofs.
+    if (!PROOFS) continue;
     const gap = 16;
     await sharp({
       create: { width: v.width * 2 + gap, height: v.height, channels: 3, background: "#fff" },
@@ -308,31 +348,25 @@ async function main() {
       .jpeg(JPEG)
       .toFile(join(OUT, `proof-${v.name}-side-by-side.jpg`));
 
-    const half = Math.round(v.width / 2);
-    const rightHalf = await sharp(afterCrop)
-      .extract({ left: half, top: 0, width: v.width - half, height: v.height })
-      .toBuffer();
-    const line = await sharp({
-      create: { width: 2, height: v.height, channels: 3, background: "#ff3b30" },
-    })
-      .png()
-      .toBuffer();
-    await sharp(beforeCrop)
-      .composite([
-        { input: rightHalf, left: half, top: 0 },
-        { input: line, left: half - 1, top: 0 },
-      ])
+    await (await split(beforeCrop, afterCrop, v.width, v.height, 2, "#ff3b30"))
       .jpeg(JPEG)
       .toFile(join(OUT, `proof-${v.name}-split.jpg`));
 
-    const translucent = await sharp(afterCrop)
-      .ensureAlpha(0.5)
-      .png()
-      .toBuffer();
+    const translucent = await sharp(afterCrop).ensureAlpha(0.5).png().toBuffer();
     await sharp(beforeCrop)
       .composite([{ input: translucent, left: 0, top: 0 }])
       .jpeg(JPEG)
       .toFile(join(OUT, `proof-${v.name}-blend.jpg`));
+  }
+
+  // "How it works" step 3: the reveal, as a half-and-half split.
+  {
+    const { width, height } = STEP_REVEAL;
+    const [b, af] = await cropPair(boxFor(width / height), width, height);
+    await (await split(b, af, width, height, 2, CREAM))
+      .jpeg(JPEG)
+      .toFile(join(OUT, "step-reveal.jpg"));
+    console.log(`step-reveal: ${width}x${height}`);
   }
 
   console.log(`wrote outputs to ${OUT}`);

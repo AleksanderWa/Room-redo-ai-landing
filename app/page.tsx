@@ -7,7 +7,7 @@ import PinMosaic from "@/components/PinMosaic";
 import StyleWall from "@/components/StyleWall";
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
-import { styleAlt, styles } from "@/data/styles";
+import { styleAlt, styleById, styles } from "@/data/styles";
 import { homeJsonLd } from "@/lib/seo";
 import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 
@@ -25,11 +25,7 @@ const WILD_PICKS = [
   "vinyl_listening_lounge",
   "wine_cellar_nook",
   "aquarium_wall",
-].map((id) => {
-  const style = styles.find((s) => s.id === id);
-  if (!style) throw new Error(`WILD_PICKS references missing style ${id}`);
-  return style;
-});
+].map(styleById);
 
 // All three are real results generated from the same under-stairs photo as
 // the corners slider above them.
@@ -238,7 +234,7 @@ export default function Home() {
                         alt={d.alt}
                         fill
                         sizes="(min-width: 1100px) 170px, (min-width: 700px) 30vw, 31vw"
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: "cover", objectPosition: "50% 85%" }}
                       />
                     </div>
                     <figcaption style={{ display: "flex", flexDirection: "column", gap: 2 }}>

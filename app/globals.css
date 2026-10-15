@@ -781,10 +781,12 @@ button.rr-cta-badge {
   gap: 8px;
 }
 
+/* Portrait, so the floor-level design fills the tile rather than the white
+   underside of the stairs (the assets are pre-cropped to 3:4 to match). */
 .rr-corner-thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   border-radius: 8px;
   overflow: hidden;
   background: var(--rr-line);
@@ -1352,7 +1354,6 @@ button.rr-cta-badge {
     justify-content: center;
   }
   .rr-tension-h2 {
-    max-width: 600px;
     font-size: 64px;
   }
   .rr-tension-sub {

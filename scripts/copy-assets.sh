@@ -5,10 +5,11 @@
 #   1. The RoomRedo app repo (style thumbs, corner pair, icon).
 #   2. The backend repo (the three "Or becomes" corner tiles: real results
 #      from verify runs on the same under-stairs photo as the corner pair).
-#      These are re-encoded (q82 progressive JPEG via sharp), not copied.
+#      These are cropped to 3:4 and re-encoded (q82 progressive JPEG via
+#      sharp), not copied.
 #   2b. Hero pair: the backend's cluttered-bedroom QA photo and the app's
-#      Japandi result for it, aligned and cropped to 9:16 (1080x1920) by
-#      scripts/make-hero-crops.mjs.
+#      Japandi result for it, aligned and cropped to 9:16 (720x1280) by
+#      scripts/make-hero-crops.mjs, plus step-reveal.jpg from the same pair.
 #
 #   Both paths default to sibling checkouts; override with APP_REPO /
 #   BACKEND_REPO:
@@ -64,32 +65,49 @@ copy "$APP_REPO/assets/icon-master.png" "app/icon.png"
 copy "$APP_REPO/assets/icon-master.png" "$DEST/brand-icon.png"
 
 # 2. Corner tiles from the backend's verify runs (same under-stairs photo).
+# Each is cropped to a 3:4 window (left and width as fractions of the source
+# width, vertical position 0..1) so the floor-level design fills the tile
+# instead of the white underside of the stairs; the tea nook's crop also
+# drops the box and bag at the far left.
 reencode() {
-  local from="$1" to="$2"
+  local from="$1" to="$2" left="$3" width="$4" ypos="$5"
   if [ ! -f "$from" ]; then
     echo "warning: missing $from" >&2
     missing=1
     return
   fi
-  node -e 'require("sharp")(process.argv[1]).jpeg({ quality: 82, progressive: true }).toFile(process.argv[2]).catch((e) => { console.error(e); process.exit(1); })' "$from" "$to"
+  node --input-type=module -e '
+    import sharp from "sharp";
+    const [from, to, left, width, ypos] = process.argv.slice(1);
+    const m = await sharp(from).metadata();
+    const w = Math.round(m.width * Number(width));
+    const h = Math.min(m.height, Math.round((w * 4) / 3));
+    await sharp(from)
+      .extract({ left: Math.round(m.width * Number(left)), top: Math.round((m.height - h) * Number(ypos)), width: w, height: h })
+      .jpeg({ quality: 82, progressive: true })
+      .toFile(to);
+  ' "$from" "$to" "$left" "$width" "$ypos"
   echo "re-encoded $from -> $to"
 }
 VERIFY="$BACKEND_REPO/verify-out"
-reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep1.jpg" "$DEST/corner/understairs-tea-nook.jpg"
-reencode "$VERIFY/2026-09-10-d4-bold-surprise-me-understairs/rep3.jpg" "$DEST/corner/understairs-zen-garden.jpg"
-reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep2.jpg" "$DEST/corner/understairs-climbing-wall.jpg"
+reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep1.jpg" "$DEST/corner/understairs-tea-nook.jpg" 0.27 0.72 0.85
+reencode "$VERIFY/2026-09-10-d4-bold-surprise-me-understairs/rep3.jpg" "$DEST/corner/understairs-zen-garden.jpg" 0.18 0.74 0.8
+reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep2.jpg" "$DEST/corner/understairs-climbing-wall.jpg" 0.16 0.74 0.8
 
-# 2b. Hero pair, built by make-hero-crops.mjs (alignment + 9:16 crop). Its
-# proofs land in a temp dir; check proof-9x16-split.jpg there if the
-# sources change. Also used by "How it works" steps 1 and 3.
+# 2b. Hero pair + the "How it works" reveal (step-reveal.jpg), built by
+# make-hero-crops.mjs (alignment + 9:16 crop). Only the 9x16 variant, no
+# proofs; run the script by hand to get the proof composites.
 HERO_BEFORE="$BACKEND_REPO/fixtures/qa-photos/cluttered-bedroom.jpg"
 HERO_AFTER="$APP_REPO/assets/images/styles/japandi.jpg"
 if [ -f "$HERO_BEFORE" ] && [ -f "$HERO_AFTER" ]; then
   HERO_OUT="$(mktemp -d)"
-  node scripts/make-hero-crops.mjs --before="$HERO_BEFORE" --after="$HERO_AFTER" --out="$HERO_OUT"
+  trap 'rm -rf "$HERO_OUT"' EXIT
+  node scripts/make-hero-crops.mjs --before="$HERO_BEFORE" --after="$HERO_AFTER" \
+    --out="$HERO_OUT" --variants=9x16 --no-proofs
   cp "$HERO_OUT/hero-9x16-before.jpg" "$DEST/hero-before.jpg"
   cp "$HERO_OUT/hero-9x16-after.jpg" "$DEST/hero-after.jpg"
-  echo "hero pair written (proofs in $HERO_OUT)"
+  cp "$HERO_OUT/step-reveal.jpg" "$DEST/step-reveal.jpg"
+  echo "hero pair + step-reveal written"
 else
   echo "warning: missing $HERO_BEFORE or $HERO_AFTER" >&2
   missing=1

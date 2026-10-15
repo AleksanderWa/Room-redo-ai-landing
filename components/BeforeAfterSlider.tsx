@@ -45,7 +45,10 @@ const AXIS_LOCK_PX = 6;
 const KEY_STEP = 5;
 
 // Screen width inside the bezel: 340 - 2*12 from tablet up, 300 - 2*11 below.
-const HERO_IMAGE_SIZES = "(min-width: 700px) 316px, 278px";
+// The hero screen is 9:19.5 (278px / 316px wide) but the images are 9:16
+// with object-fit: cover, so they render at screen height x 9/16: ~339px
+// and ~386px wide. `sizes` is that rendered width, not the screen width.
+const HERO_IMAGE_SIZES = "(min-width: 700px) 386px, 339px";
 const STORAGE_IMAGE_SIZES = "(min-width: 700px) 480px, 100vw";
 
 function Chevrons() {

@@ -96,6 +96,16 @@ export const styles: Style[] = [
   s("wine_cellar_nook", "Wine Cellar Nook", "Wild"),
 ];
 
+const STYLES_BY_ID = new Map(styles.map((style) => [style.id, style]));
+
+/** Looks a style up by id; throws on an unknown id so a typo in a curated
+ *  pick list fails the build instead of rendering a broken tile. */
+export function styleById(id: string): Style {
+  const style = STYLES_BY_ID.get(id);
+  if (!style) throw new Error(`Unknown style id: ${id}`);
+  return style;
+}
+
 /** Alt text in the mockup's phrasing: "in Japandi" for the serious styles,
  * "as a Library Nook" for the wild concepts. */
 export function styleAlt(style: Style): string {

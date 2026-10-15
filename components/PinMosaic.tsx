@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { styles, type Style } from "@/data/styles";
+import { styleById } from "@/data/styles";
 
 // Decorative "saved pins" around the tension headline ("You've saved 400
 // rooms on Pinterest…"). Every thumb is the same bedroom, which is the point.
@@ -26,8 +26,10 @@ type PinSpec = {
 };
 
 // Desktop columns, outer-left to outer-right; the centre grid track is empty.
-// Offsets (globals.css) and heights are sized so each column covers the
-// section at 1100px (narrowest pins, ~111px). Pills only on inner columns:
+// Offsets (globals.css) and heights are sized so four pins cover the
+// section at 1100px (narrowest pins, ~111px); the fifth keeps columns going
+// when zoom or larger text makes the section taller. Pins that fall below
+// the section clip are never requested, so it costs nothing at normal sizes. Pills only on inner columns:
 // the outer ones crop at the viewport edge between 1100 and 1180px.
 const WALL: { cls: string; pins: PinSpec[] }[] = [
   {
@@ -37,6 +39,7 @@ const WALL: { cls: string; pins: PinSpec[] }[] = [
       { id: "industrial", shape: "xtall", tilt: 2 },
       { id: "english_country", shape: "std", tilt: -2 },
       { id: "blush_jacuzzi_spa", shape: "tall", tilt: 2.5 },
+      { id: "rustic_cabin", shape: "std", tilt: -2 },
     ],
   },
   {
@@ -46,6 +49,7 @@ const WALL: { cls: string; pins: PinSpec[] }[] = [
       { id: "soft_parisian", shape: "xtall", tilt: -3, saved: "bottom" },
       { id: "library_nook", shape: "tall", tilt: 2.5 },
       { id: "art_deco", shape: "tall", tilt: -2 },
+      { id: "organic_modern", shape: "xtall", tilt: 2.5 },
     ],
   },
   {
@@ -55,6 +59,7 @@ const WALL: { cls: string; pins: PinSpec[] }[] = [
       { id: "dark_luxury", shape: "xtall", tilt: 2, saved: "bottom" },
       { id: "mediterranean", shape: "tall", tilt: -2.5 },
       { id: "coastal", shape: "xtall", tilt: 2 },
+      { id: "timeless_classic", shape: "std", tilt: -2.5 },
     ],
   },
   {
@@ -64,6 +69,7 @@ const WALL: { cls: string; pins: PinSpec[] }[] = [
       { id: "urban_jungle_corner", shape: "tall", tilt: -2 },
       { id: "seventies_retro", shape: "xtall", tilt: 2.5 },
       { id: "mid_century_modern", shape: "std", tilt: -2 },
+      { id: "farmhouse", shape: "tall", tilt: 2 },
     ],
   },
 ];
@@ -87,14 +93,8 @@ const STRIP_BOTTOM: PinSpec[] = [
 const WALL_SIZES = "180px";
 const STRIP_SIZES = "(min-width: 700px) 150px, 116px";
 
-function lookup(id: string): Style {
-  const style = styles.find((s) => s.id === id);
-  if (!style) throw new Error(`PinMosaic references missing style ${id}`);
-  return style;
-}
-
 function Pin({ pin, sizes }: { pin: PinSpec; sizes: string }) {
-  const style = lookup(pin.id);
+  const style = styleById(pin.id);
   const css: CSSProperties = { transform: `rotate(${pin.tilt}deg)` };
   if (pin.marginTop !== undefined) css.marginTop = pin.marginTop;
   if (pin.marginBottom !== undefined) css.marginBottom = pin.marginBottom;
