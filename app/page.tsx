@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import CornerShowcase from "@/components/CornerShowcase";
 import Brand from "@/components/Brand";
 import DownloadCta from "@/components/DownloadCta";
 import PinMosaic from "@/components/PinMosaic";
@@ -26,26 +27,6 @@ const WILD_PICKS = [
   "wine_cellar_nook",
   "aquarium_wall",
 ].map(styleById);
-
-// All three are real results generated from the same under-stairs photo as
-// the corners slider above them.
-const CORNER_DESTINATIONS = [
-  {
-    img: "/images/corner/understairs-tea-nook.jpg",
-    title: "A tea nook",
-    alt: "The same under-stairs space as a tea nook: tatami floor, a low wooden table set for tea, green wall panels and a paper lantern",
-  },
-  {
-    img: "/images/corner/understairs-zen-garden.jpg",
-    title: "A zen garden",
-    alt: "The same under-stairs space as a zen garden: raked white gravel, river stones, a moss wall with a water spout and a meditation cushion",
-  },
-  {
-    img: "/images/corner/understairs-climbing-wall.jpg",
-    title: "A climbing wall",
-    alt: "The same under-stairs space as a bouldering wall: angled panels covered in bright holds above a blue crash mat",
-  },
-];
 
 function FaqItem({ faq, open }: { faq: Faq; open?: boolean }) {
   return (
@@ -206,44 +187,11 @@ export default function Home() {
                   <span>you step over every day.</span>
                 </h2>
                 <p className="rr-lede" style={{ color: "var(--rr-soft-on-sand)", maxWidth: 460 }}>
-                  Point the camera at one messy spot, tell us what it&apos;s for, and see it sorted.
+                  Point the camera at one messy spot. Make it usable, or let it surprise you.
                 </p>
               </div>
 
-              <div className="rr-corners-media">
-                <BeforeAfterSlider
-                  beforeSrc="/images/corner/understairs-before.jpg"
-                  afterSrc="/images/corner/understairs-after.jpg"
-                  beforeAlt="The cluttered space under the stairs, before"
-                  afterAlt="The same space under the stairs, made usable"
-                  heightVariant="storage"
-                  sizes="(min-width: 700px) 480px, 100vw"
-                />
-                <p className="rr-corners-caption">
-                  Under the stairs: from dumping ground to{" "}
-                  <span className="rr-corners-caption-em">actually usable.</span>
-                </p>
-              </div>
-
-              <div className="rr-corners-tiles">
-                {CORNER_DESTINATIONS.map((d) => (
-                  <figure key={d.img} className="rr-corner-fig">
-                    <div className="rr-corner-thumb">
-                      <Image
-                        src={d.img}
-                        alt={d.alt}
-                        fill
-                        sizes="(min-width: 1100px) 170px, (min-width: 700px) 30vw, 31vw"
-                        style={{ objectFit: "cover", objectPosition: "50% 85%" }}
-                      />
-                    </div>
-                    <figcaption style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                      <span className="rr-corner-kicker">Or becomes</span>
-                      <span className="rr-corner-title">{d.title}</span>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
+              <CornerShowcase />
             </div>
           </div>
         </section>

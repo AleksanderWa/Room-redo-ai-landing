@@ -2,11 +2,13 @@
 # Copies the landing page's images into public/images/ (and the favicon into
 # app/), from three places:
 #
-#   1. The RoomRedo app repo (style thumbs, corner pair, icon).
-#   2. The backend repo (the three "Or becomes" corner tiles: real results
-#      from verify runs on the same under-stairs photo as the corner pair).
-#      These are cropped to 3:4 and re-encoded (q82 progressive JPEG via
-#      sharp), not copied.
+#   1. The RoomRedo app repo (style thumbs, icon, and the under-stairs
+#      photo the corners section starts from).
+#   2. The corners section's results: the app's corner-flow results for
+#      that photo, in CORNER_RESULTS_DIR (mapping: scripts/corner-results.json).
+#      scripts/make-corner-crops.mjs aligns them to the photo and cuts the
+#      photo and every result with one shared 3:4 crop. Skipped (keeping the
+#      committed images) when CORNER_RESULTS_DIR isn't set.
 #   2b. Hero pair: the backend's cluttered-bedroom QA photo and the app's
 #      Japandi result for it, aligned and cropped to 9:16 (720x1280) by
 #      scripts/make-hero-crops.mjs, plus step-reveal.jpg from the same pair.
@@ -55,44 +57,30 @@ for f in "$APP_REPO"/assets/images/styles/thumbs/*.jpg; do
   copy "$f" "$DEST/styles/$(basename "$f")"
 done
 
-# 1b. Corners section. The before/after pair must be the same space (the
-# under-stairs set); never mix a before and an after from different sets.
-copy "$APP_REPO/assets/e2e/corner-understairs.jpg" "$DEST/corner/understairs-before.jpg"
-copy "$APP_REPO/assets/images/corner/useable.jpg" "$DEST/corner/understairs-after.jpg"
-
 # 1c. App icon: favicon + header/footer mark.
 copy "$APP_REPO/assets/icon-master.png" "app/icon.png"
 copy "$APP_REPO/assets/icon-master.png" "$DEST/brand-icon.png"
 
-# 2. Corner tiles from the backend's verify runs (same under-stairs photo).
-# Each is cropped to a 3:4 window (left and width as fractions of the source
-# width, vertical position 0..1) so the floor-level design fills the tile
-# instead of the white underside of the stairs; the tea nook's crop also
-# drops the box and bag at the far left.
-reencode() {
-  local from="$1" to="$2" left="$3" width="$4" ypos="$5"
-  if [ ! -f "$from" ]; then
-    echo "warning: missing $from" >&2
-    missing=1
-    return
-  fi
-  node --input-type=module -e '
-    import sharp from "sharp";
-    const [from, to, left, width, ypos] = process.argv.slice(1);
-    const m = await sharp(from).metadata();
-    const w = Math.round(m.width * Number(width));
-    const h = Math.min(m.height, Math.round((w * 4) / 3));
-    await sharp(from)
-      .extract({ left: Math.round(m.width * Number(left)), top: Math.round((m.height - h) * Number(ypos)), width: w, height: h })
-      .jpeg({ quality: 82, progressive: true })
-      .toFile(to);
-  ' "$from" "$to" "$left" "$width" "$ypos"
-  echo "re-encoded $from -> $to"
-}
-VERIFY="$BACKEND_REPO/verify-out"
-reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep1.jpg" "$DEST/corner/understairs-tea-nook.jpg" 0.27 0.72 0.85
-reencode "$VERIFY/2026-09-10-d4-bold-surprise-me-understairs/rep3.jpg" "$DEST/corner/understairs-zen-garden.jpg" 0.18 0.74 0.8
-reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep2.jpg" "$DEST/corner/understairs-climbing-wall.jpg" 0.16 0.74 0.8
+# Temp dirs removed on exit, however the script ends.
+TMP_DIRS=()
+cleanup() { if [ ${#TMP_DIRS[@]} -gt 0 ]; then rm -rf "${TMP_DIRS[@]}"; fi; }
+trap cleanup EXIT
+
+# 2. Corners section: the under-stairs photo + the app's results for it,
+# aligned and cropped together (no proofs; run the script by hand for those).
+CORNER_BEFORE="$APP_REPO/assets/e2e/corner-understairs.jpg"
+if [ -z "${CORNER_RESULTS_DIR:-}" ]; then
+  echo "note: CORNER_RESULTS_DIR not set — keeping the committed corner images."
+elif [ ! -f "$CORNER_BEFORE" ]; then
+  echo "warning: missing $CORNER_BEFORE" >&2
+  missing=1
+else
+  CORNER_OUT="$(mktemp -d)"
+  TMP_DIRS+=("$CORNER_OUT")
+  node scripts/make-corner-crops.mjs --before="$CORNER_BEFORE" --out="$CORNER_OUT" --no-proofs
+  cp "$CORNER_OUT"/understairs-*.jpg "$DEST/corner/"
+  echo "corner before + results written"
+fi
 
 # 2b. Hero pair + the "How it works" reveal (step-reveal.jpg), built by
 # make-hero-crops.mjs (alignment + 9:16 crop). Only the 9x16 variant, no
@@ -101,7 +89,7 @@ HERO_BEFORE="$BACKEND_REPO/fixtures/qa-photos/cluttered-bedroom.jpg"
 HERO_AFTER="$APP_REPO/assets/images/styles/japandi.jpg"
 if [ -f "$HERO_BEFORE" ] && [ -f "$HERO_AFTER" ]; then
   HERO_OUT="$(mktemp -d)"
-  trap 'rm -rf "$HERO_OUT"' EXIT
+  TMP_DIRS+=("$HERO_OUT")
   node scripts/make-hero-crops.mjs --before="$HERO_BEFORE" --after="$HERO_AFTER" \
     --out="$HERO_OUT" --variants=9x16 --no-proofs
   cp "$HERO_OUT/hero-9x16-before.jpg" "$DEST/hero-before.jpg"

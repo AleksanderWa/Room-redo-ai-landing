@@ -611,7 +611,8 @@ button.rr-cta-badge {
   cursor: pointer;
 }
 
-.rr-chip[aria-pressed="true"] {
+.rr-chip[aria-pressed="true"],
+.rr-chip[aria-checked="true"] {
   border-color: var(--rr-ink);
   background: var(--rr-ink);
   color: var(--rr-cream);
@@ -733,8 +734,8 @@ button.rr-cta-badge {
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     "head"
-    "media"
-    "tiles";
+    "chips"
+    "media";
 }
 
 .rr-corners-head {
@@ -766,30 +767,26 @@ button.rr-cta-badge {
   color: var(--rr-ink);
 }
 
-.rr-corners-tiles {
-  grid-area: tiles;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 20px;
+/* Purpose chips: a radio group in the app's two groups, each with an
+   eyebrow. Chip look reuses .rr-chip from the style wall filter. */
+.rr-corners-chips {
+  grid-area: chips;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin-top: 24px;
 }
 
-.rr-corner-fig {
-  margin: 0;
+.rr-corners-chip-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Portrait, so the floor-level design fills the tile rather than the white
-   underside of the stairs (the assets are pre-cropped to 3:4 to match). */
-.rr-corner-thumb {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--rr-line);
+.rr-corners-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .rr-corner-kicker {
@@ -798,14 +795,6 @@ button.rr-cta-badge {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--rr-soft-on-sand);
-}
-
-.rr-corner-title {
-  font-family: var(--rr-serif);
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.2;
-  color: var(--rr-ink);
 }
 
 /* How it works ---------------------------------------------------------- */
@@ -1222,18 +1211,11 @@ button.rr-cta-badge {
   .rr-corners-caption-em {
     font-size: 19px;
   }
-  .rr-corners-tiles {
-    gap: 16px;
+  .rr-corners-chips {
     margin-top: 32px;
-  }
-  .rr-corner-fig {
-    gap: 10px;
   }
   .rr-corner-kicker {
     font-size: 11px;
-  }
-  .rr-corner-title {
-    font-size: 21px;
   }
 
   .rr-steps {
@@ -1407,14 +1389,14 @@ button.rr-cta-badge {
     aspect-ratio: 3 / 4;
   }
 
-  /* Copy + tiles on the left, centered against the slider on the right. */
+  /* Copy + chips on the left, centered against the slider on the right. */
   .rr-corners {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: 1fr auto auto 1fr;
     grid-template-areas:
       ".     media"
       "head  media"
-      "tiles media"
+      "chips media"
       ".     media";
     column-gap: 64px;
   }
@@ -1425,8 +1407,8 @@ button.rr-cta-badge {
     margin-top: 0;
     align-self: center;
   }
-  .rr-corners-tiles {
-    margin-top: 48px;
+  .rr-corners-chips {
+    margin-top: 40px;
   }
 
   .rr-steps {

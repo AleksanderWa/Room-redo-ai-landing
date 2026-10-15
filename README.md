@@ -5,9 +5,10 @@ Single-page Next.js (App Router) landing page for Room Redo AI. The current layo
 ## Setup
 
 1. **Install deps**: `npm install`
-2. **Assets** (already committed; only needed to refresh them): the style thumbs, corner before/after pair and app icon come from the RoomRedo app repo; the three "Or becomes" corner tiles are real results from the backend repo's `verify-out/` runs on the same under-stairs photo (cropped to 3:4 and re-encoded to q82 progressive JPEG).
+2. **Assets** (already committed; only needed to refresh them): the style thumbs and app icon come from the RoomRedo app repo. The corners section (`components/CornerShowcase.tsx`) shows the app's under-stairs photo against the app's corner-flow results for it, listed in `scripts/corner-results.json` (id, file, chip label, group, caption, alt; the page reads the same file). `scripts/make-corner-crops.mjs` aligns each result to the photo and cuts all of them with one shared 3:4 crop; `copy-assets.sh` runs it when `CORNER_RESULTS_DIR` points at the folder of result images. To add a result (e.g. "Store things"), set its `file` in the JSON and re-run.
    ```bash
-   APP_REPO=../Room-redo-app BACKEND_REPO=../room-redo-backend bash scripts/copy-assets.sh   # both default to these sibling paths
+   APP_REPO=../Room-redo-app BACKEND_REPO=../room-redo-backend CORNER_RESULTS_DIR=/path/to/corner-results \
+     bash scripts/copy-assets.sh   # repos default to these sibling paths
    node scripts/generate-og-image.mjs                      # only if storage-after.jpg changed
    ```
    The hero pair (720x1280) is the backend's cluttered-bedroom QA photo and the app's Japandi result for it, aligned and cropped to 9:16 by `scripts/make-hero-crops.mjs`, which the script runs; it also builds `step-reveal.jpg` ("How it works" step 3, a half-before/half-after split). Run `node scripts/make-hero-crops.mjs` by hand for the alignment proof composites. If a `design-assets/` folder (the original design export) is in the repo root, the script also refreshes storage-after.jpg (the OG image source) from it. When the app adds a style, add its thumb via the script and an entry to `data/styles.ts`.
