@@ -1,20 +1,33 @@
-// Ported from the source design's `steps` array, with one deliberate fix:
-// the source used three different rooms across the three steps, which broke
-// the "one room, transformed" narrative. Step 1 and step 3 now use the same
-// room as the hero slider (before/after), and step 2 keeps a style card.
-//
-// Note: `design-assets/08-roomdetail-japandi.jpg` (public/images/detail-japandi.jpg)
-// is still copied into the project per the asset mapping, but is intentionally
-// unused after this fix — kept for traceability / a possible future section,
-// not a bug.
+// "How it works": one room, start to finish. Step 1 is the hero's before;
+// step 2 is the Japandi card from the style wall; step 3 is the reveal, a
+// half-before/half-after split of the hero pair (step-reveal.jpg, built by
+// scripts/make-hero-crops.mjs).
+import { styles } from "@/data/styles";
+
 export type Step = {
   num: string;
   line: string;
   img: string;
+  alt: string;
 };
 
 export const steps: Step[] = [
-  { num: "01", line: "Snap one photo of your room.", img: "/images/hero-before.jpg" },
-  { num: "02", line: "Pick from six designer styles.", img: "/images/style-coastal.jpg" },
-  { num: "03", line: "See it transformed in seconds.", img: "/images/hero-after.jpg" },
+  {
+    num: "01",
+    line: "Snap one photo of your room.",
+    img: "/images/hero-before.jpg",
+    alt: "A bedroom photo, as taken",
+  },
+  {
+    num: "02",
+    line: `Pick from ${styles.length} styles.`,
+    img: "/images/styles/japandi.jpg",
+    alt: "The Japandi style",
+  },
+  {
+    num: "03",
+    line: "Watch it develop, like a print.",
+    img: "/images/step-reveal.jpg",
+    alt: "The bedroom, half before and half after",
+  },
 ];
