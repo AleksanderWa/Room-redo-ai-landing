@@ -579,6 +579,8 @@ button.rr-cta-badge {
 }
 
 .rr-pins-wall { display: none; }
+/* Fifth strip pin, tablet only (mobile strips stay at four). */
+.rr-pin--wide-only { display: none; }
 
 @supports not ((mask-image: none) or (-webkit-mask-image: none)) {
   .rr-pins { display: none; }
@@ -1145,13 +1147,11 @@ button.rr-cta-badge {
     display: list-item;
   }
 
+  /* Tablet keeps the mobile pattern: a cropped row of pins above the text
+     and one below (5 per row, bigger), so nothing sits beside the text. */
   .rr-tension {
-    min-height: 600px;
-    padding-top: 128px;
-    padding-bottom: 128px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding-top: 232px;
+    padding-bottom: 232px;
   }
   .rr-tension-h2 {
     max-width: 600px;
@@ -1163,46 +1163,12 @@ button.rr-cta-badge {
     font-size: 20px;
   }
 
-  .rr-pins-strip { display: none; }
-  .rr-pins-wall {
-    display: grid;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: calc(100% + 64px);
-    transform: translateX(-50%);
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1fr);
-    column-gap: 16px;
-    overflow: hidden;
-    -webkit-mask-image:
-      radial-gradient(440px 37% at 50% 50%, transparent 70%, #000 100%),
-      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      radial-gradient(440px 37% at 50% 50%, transparent 70%, #000 100%),
-      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
-    mask-composite: intersect;
+  .rr-pins-strip {
+    gap: 12px;
+    height: 200px;
   }
-  .rr-pins-col {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 0;
-    align-self: start;
-  }
-  .rr-pins-col--split { align-self: stretch; }
-  .rr-pins-col--desk { display: none; }
-  .rr-pins-col--1 { margin-top: -30%; }
-  .rr-pins-col--2 { margin-top: -45%; }
-  .rr-pins-col--6 { margin-top: -12%; }
-  .rr-pins-col--7 { margin-top: -60%; }
-  .rr-pin--foot { margin-top: auto; }
-  .rr-pins-col--3 .rr-pin--head { margin-top: -55%; }
-  .rr-pins-col--3 .rr-pin--foot { margin-bottom: -35%; }
-  .rr-pins-col--4 .rr-pin--foot { margin-bottom: -70%; }
-  .rr-pins-col--5 .rr-pin--head { margin-top: -95%; }
+  .rr-pins-strip .rr-pin { flex-basis: 150px; width: 150px; }
+  .rr-pin--wide-only { display: block; }
 
   .rr-chips {
     gap: 10px;
@@ -1374,37 +1340,57 @@ button.rr-cta-badge {
     margin-top: 80px;
   }
 
+  /* Desktop: pins only in two flanking column pairs; the centre track is
+     plain sand. The wall is wider than the viewport at 1100-1180px, so the
+     outer columns crop; "Saved" pills sit on the inner columns only. */
   .rr-tension {
     min-height: 660px;
     padding-top: 140px;
     padding-bottom: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .rr-tension-h2 {
-    max-width: 760px;
+    max-width: 600px;
     font-size: 64px;
   }
   .rr-tension-sub {
-    margin-top: 32px;
+    max-width: 600px;
+    margin: 32px auto 0;
     font-size: 22px;
   }
 
+  .rr-pins-strip { display: none; }
   .rr-pins-wall {
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
     width: min(1440px, max(1180px, 100%));
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    transform: translateX(-50%);
+    /* 656px centre track + two 20px gaps = 696px clear: the 600px text box
+       plus 48px each side. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 656px minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     column-gap: 20px;
-    -webkit-mask-image:
-      radial-gradient(560px 38% at 50% 50%, transparent 68%, #000 100%),
-      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      radial-gradient(560px 38% at 50% 50%, transparent 68%, #000 100%),
-      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%),
-      linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-    mask-composite: intersect;
+    overflow: hidden;
+    /* Only the section's top and bottom edges fade, never beside the text. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
   }
-  .rr-pins-col { gap: 20px; }
-  .rr-pins-col--desk { display: flex; }
+  .rr-pins-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+    align-self: start;
+  }
+  .rr-pins-col--1 { grid-column: 1; margin-top: -30%; }
+  .rr-pins-col--2 { grid-column: 2; margin-top: -45%; }
+  .rr-pins-col--3 { grid-column: 4; margin-top: -12%; }
+  .rr-pins-col--4 { grid-column: 5; margin-top: -60%; }
 
   .rr-style-grid {
     grid-template-columns: repeat(8, minmax(0, 1fr));
