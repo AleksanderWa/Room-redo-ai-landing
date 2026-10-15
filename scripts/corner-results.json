@@ -1,11 +1,11 @@
 [
   {
     "id": "store",
-    "file": null,
+    "file": "10.jpg",
     "label": "Store things",
     "group": "usable",
     "caption": "Under the stairs → storage that disappears into the wall.",
-    "alt": "The same space under the stairs, fitted with storage cabinets and a bench"
+    "alt": "The same space under the stairs fitted with built-in cabinets that follow the slope, a stack of drawers and a cushioned bench"
   },
   {
     "id": "work",
