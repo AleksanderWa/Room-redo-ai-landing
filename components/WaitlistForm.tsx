@@ -26,8 +26,11 @@ type Outcome = "success" | "dup";
 // Timings (ms); the CSS in globals.css (Waitlist) uses the same values.
 /** Minimum time the "Saving" state shows, so a fast response still reads. */
 const MIN_PENDING_MS = 350;
-/** Form fade/lift out before the card replaces it. */
+/** Form fade/lift out. */
 const LEAVE_MS = 180;
+/** The card (and the height morph) starts this far into the form's fade,
+ *  so the two overlap and there's never a blank frame. */
+const CARD_START_MS = 100;
 /** Wrapper height morph (form -> card); the height is released after it. */
 const MORPH_MS = 320;
 
@@ -134,14 +137,14 @@ export default function WaitlistForm({ instance }: Props) {
     timers.current.push(setTimeout(fn, ms));
   }
 
-  // Success (200 or 409): fade the form out, then swap in the card.
+  // Success (200 or 409): fade the form out and, overlapping it, bring the
+  // card in. While leaving, the form is taken out of flow (see
+  // .rr-waitlist--leaving) and sits on top of the incoming card.
   function finish(outcome: Outcome) {
     if (wrapRef.current) setHeight(wrapRef.current.offsetHeight);
     setLeaving(true);
-    later(() => {
-      setLeaving(false);
-      setStatus(outcome);
-    }, LEAVE_MS);
+    later(() => setStatus(outcome), CARD_START_MS);
+    later(() => setLeaving(false), LEAVE_MS);
   }
 
   function fail(text: string) {
@@ -220,7 +223,7 @@ export default function WaitlistForm({ instance }: Props) {
       className="rr-waitlist-wrap"
       style={height !== undefined ? { height, overflow: "hidden" } : undefined}
     >
-      {formOpen && (
+      {(formOpen || leaving) && (
         <div className={`rr-waitlist${leaving ? " rr-waitlist--leaving" : ""}`}>
           <p style={{ margin: 0, fontSize: 14, color: "var(--rr-soft-on-sand)" }}>
             {LEAD.text}{" "}

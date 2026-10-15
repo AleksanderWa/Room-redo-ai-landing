@@ -325,20 +325,28 @@ button.rr-cta-badge {
 }
 
 /* Waitlist submit motion. Pending: "Saving" + three pulsing dots. Success:
-   the form fades/lifts out (180ms), the wrapper's height morphs to the
-   card's (320ms), the card fades/lifts in (320ms, ease-out), the brass
+   the form fades/lifts out (180ms); 100ms in, the wrapper's height morphs
+   to the card's (320ms) and the card fades/lifts in (320ms, ease-out), the brass
    badge's check draws itself (450ms), then title/body/button fade in 60ms
    apart. Error: a small horizontal shake of the field (240ms). Timings
    match WaitlistForm.tsx. */
 .rr-waitlist-wrap {
+  position: relative;
   transition: height 320ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* The card starts 100ms into this 180ms fade, so the two overlap. The
+   form's opacity holds early and drops late (an ease-in on opacity only)
+   so at no point are both below ~50%; its lift stays ease-out. */
 .rr-waitlist {
-  transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1),
+  transition: opacity 180ms cubic-bezier(0.55, 0, 1, 0.45),
     transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .rr-waitlist--leaving {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 1;
+  pointer-events: none;
   opacity: 0;
   transform: translateY(-6px);
 }
@@ -439,7 +447,7 @@ button.rr-cta-badge {
     transition: none;
   }
   .rr-waitlist {
-    transition: opacity 120ms linear;
+    transition: opacity 180ms cubic-bezier(0.55, 0, 1, 0.45);
   }
   .rr-waitlist--leaving {
     transform: none;
@@ -452,7 +460,7 @@ button.rr-cta-badge {
     animation: none;
   }
   .rr-waitlist-card {
-    animation: rr-wl-fade 150ms linear both;
+    animation: rr-wl-fade 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
   .rr-waitlist-badge path {
     animation: none;
