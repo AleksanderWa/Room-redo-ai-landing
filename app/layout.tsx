@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { AttributionProvider } from "@/components/AttributionProvider";
 import { DESCRIPTION } from "@/lib/seo";
@@ -71,6 +72,12 @@ export default function RootLayout({
       <body>
         <AttributionProvider>{children}</AttributionProvider>
         <Analytics />
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="3983af40-7d5a-4636-b225-f8ac2bf84070"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
