@@ -477,11 +477,20 @@ button.rr-cta-badge {
   height: 34px;
 }
 
-/* Tension -------------------------------------------------------------- */
+/* Tension ---------------------------------------------------------------- */
+
+.rr-tension-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  overflow: clip;
+}
 
 .rr-tension {
-  padding-top: 96px;
-  padding-bottom: 96px;
+  position: relative;
+  z-index: 1;
+  padding-top: 200px;
+  padding-bottom: 200px;
   text-align: center;
 }
 
@@ -490,12 +499,92 @@ button.rr-cta-badge {
   margin: 0 auto;
   font-size: 38px;
   line-height: 1.1;
+  text-wrap: balance;
 }
 
 .rr-tension-sub {
   margin: 24px 0 0;
   font-size: 18px;
   color: var(--rr-soft-on-sand);
+}
+
+/* Pin mosaic: decorative wall of saved pins behind the tension headline. */
+.rr-pins {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.rr-pin {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--rr-dock);
+  box-shadow: 0 1px 2px rgba(44, 40, 36, 0.1), 0 10px 24px -10px rgba(44, 40, 36, 0.3);
+}
+.rr-pin--short { aspect-ratio: 1 / 1; }
+.rr-pin--std { aspect-ratio: 3 / 4; }
+.rr-pin--tall { aspect-ratio: 2 / 3; }
+.rr-pin--xtall { aspect-ratio: 9 / 16; }
+
+.rr-pin-saved {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 7px 0 6px;
+  border-radius: 100px;
+  background: var(--rr-cream);
+  color: var(--rr-ink);
+  font-family: var(--rr-sans);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 1px 2px rgba(44, 40, 36, 0.15);
+}
+.rr-pin-saved--top { top: 8px; bottom: auto; }
+.rr-pin-saved svg { flex: none; width: 9px; height: 11px; }
+
+/* Mobile: one cropped strip above the text, one below. */
+.rr-pins-strip {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  height: 168px;
+}
+.rr-pins-strip .rr-pin { flex: 0 0 116px; width: 116px; }
+.rr-pins-strip--top {
+  top: 0;
+  align-items: flex-end;
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 55%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 55%);
+}
+.rr-pins-strip--bottom {
+  bottom: 0;
+  align-items: flex-start;
+  transform: translateX(calc(-50% + 40px));
+  -webkit-mask-image: linear-gradient(to top, transparent 0, #000 55%);
+  mask-image: linear-gradient(to top, transparent 0, #000 55%);
+}
+
+.rr-pins-wall { display: none; }
+
+@supports not ((mask-image: none) or (-webkit-mask-image: none)) {
+  .rr-pins { display: none; }
+}
+@media (forced-colors: active) {
+  .rr-pins { display: none; }
 }
 
 /* Style wall ------------------------------------------------------------ */
@@ -1057,10 +1146,15 @@ button.rr-cta-badge {
   }
 
   .rr-tension {
+    min-height: 600px;
     padding-top: 128px;
     padding-bottom: 128px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .rr-tension-h2 {
+    max-width: 600px;
     font-size: 52px;
     line-height: 1.08;
   }
@@ -1068,6 +1162,47 @@ button.rr-cta-badge {
     margin-top: 28px;
     font-size: 20px;
   }
+
+  .rr-pins-strip { display: none; }
+  .rr-pins-wall {
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: calc(100% + 64px);
+    transform: translateX(-50%);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: 16px;
+    overflow: hidden;
+    -webkit-mask-image:
+      radial-gradient(440px 37% at 50% 50%, transparent 70%, #000 100%),
+      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(440px 37% at 50% 50%, transparent 70%, #000 100%),
+      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .rr-pins-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    align-self: start;
+  }
+  .rr-pins-col--split { align-self: stretch; }
+  .rr-pins-col--desk { display: none; }
+  .rr-pins-col--1 { margin-top: -30%; }
+  .rr-pins-col--2 { margin-top: -45%; }
+  .rr-pins-col--6 { margin-top: -12%; }
+  .rr-pins-col--7 { margin-top: -60%; }
+  .rr-pin--foot { margin-top: auto; }
+  .rr-pins-col--3 .rr-pin--head { margin-top: -55%; }
+  .rr-pins-col--3 .rr-pin--foot { margin-bottom: -35%; }
+  .rr-pins-col--4 .rr-pin--foot { margin-bottom: -70%; }
+  .rr-pins-col--5 .rr-pin--head { margin-top: -95%; }
 
   .rr-chips {
     gap: 10px;
@@ -1240,16 +1375,36 @@ button.rr-cta-badge {
   }
 
   .rr-tension {
-    padding-top: 160px;
-    padding-bottom: 160px;
+    min-height: 660px;
+    padding-top: 140px;
+    padding-bottom: 140px;
   }
   .rr-tension-h2 {
+    max-width: 760px;
     font-size: 64px;
   }
   .rr-tension-sub {
     margin-top: 32px;
     font-size: 22px;
   }
+
+  .rr-pins-wall {
+    width: min(1440px, max(1180px, 100%));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    column-gap: 20px;
+    -webkit-mask-image:
+      radial-gradient(560px 38% at 50% 50%, transparent 68%, #000 100%),
+      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(560px 38% at 50% 50%, transparent 68%, #000 100%),
+      linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .rr-pins-col { gap: 20px; }
+  .rr-pins-col--desk { display: flex; }
 
   .rr-style-grid {
     grid-template-columns: repeat(8, minmax(0, 1fr));

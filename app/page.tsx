@@ -3,6 +3,7 @@ import Link from "next/link";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import Brand from "@/components/Brand";
 import DownloadCta from "@/components/DownloadCta";
+import PinMosaic from "@/components/PinMosaic";
 import StyleWall from "@/components/StyleWall";
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
@@ -135,7 +136,8 @@ export default function Home() {
         </section>
 
         {/* 3. Tension */}
-        <section>
+        <section className="rr-tension-section">
+          <PinMosaic />
           <div className="rr-wrap rr-tension rr-reveal">
             <h2 className="rr-display rr-tension-h2">
               <span>You&apos;ve saved 400 rooms on Pinterest.</span>
