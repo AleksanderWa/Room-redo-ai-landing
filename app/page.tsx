@@ -115,7 +115,7 @@ export default function Home() {
                   beforeSrc="/images/hero-before.jpg"
                   afterSrc="/images/hero-after.jpg"
                   beforeAlt="A cluttered bedroom, before"
-                  afterAlt="The same bedroom, redesigned"
+                  afterAlt="The same bedroom, redesigned in Japandi"
                   heightVariant="hero"
                   eager
                 />

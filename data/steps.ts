@@ -27,6 +27,6 @@ export const steps: Step[] = [
     num: "03",
     line: "Watch it develop, like a print.",
     img: "/images/hero-after.jpg",
-    alt: "The same bedroom, redesigned",
+    alt: "The same bedroom, redesigned in Japandi",
   },
 ];

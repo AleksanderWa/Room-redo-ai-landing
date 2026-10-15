@@ -6,6 +6,9 @@
 #   2. The backend repo (the three "Or becomes" corner tiles: real results
 #      from verify runs on the same under-stairs photo as the corner pair).
 #      These are re-encoded (q82 progressive JPEG via sharp), not copied.
+#   2b. Hero pair: the backend's cluttered-bedroom QA photo and the app's
+#      Japandi result for it, aligned and cropped to 9:16 (1080x1920) by
+#      scripts/make-hero-crops.mjs.
 #
 #   Both paths default to sibling checkouts; override with APP_REPO /
 #   BACKEND_REPO:
@@ -13,8 +16,8 @@
 #        APP_REPO=/path/to/Room-redo-app BACKEND_REPO=/path/to/room-redo-backend \
 #          bash scripts/copy-assets.sh
 #
-#   3. Optionally, design-assets/ in this repo's root (hero pair + the
-#      storage "after" the OG image is cut from). Skipped if it isn't there;
+#   3. Optionally, design-assets/ in this repo's root (the storage "after"
+#      the OG image is cut from). Skipped if it isn't there;
 #      the copies already committed in public/images/ are used as-is.
 #
 # Run from the repo root. Then, if storage-after.jpg changed:
@@ -76,19 +79,33 @@ reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep1.jpg" "$
 reencode "$VERIFY/2026-09-10-d4-bold-surprise-me-understairs/rep3.jpg" "$DEST/corner/understairs-zen-garden.jpg"
 reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep2.jpg" "$DEST/corner/understairs-climbing-wall.jpg"
 
+# 2b. Hero pair, built by make-hero-crops.mjs (alignment + 9:16 crop). Its
+# proofs land in a temp dir; check proof-9x16-split.jpg there if the
+# sources change. Also used by "How it works" steps 1 and 3.
+HERO_BEFORE="$BACKEND_REPO/fixtures/qa-photos/cluttered-bedroom.jpg"
+HERO_AFTER="$APP_REPO/assets/images/styles/japandi.jpg"
+if [ -f "$HERO_BEFORE" ] && [ -f "$HERO_AFTER" ]; then
+  HERO_OUT="$(mktemp -d)"
+  node scripts/make-hero-crops.mjs --before="$HERO_BEFORE" --after="$HERO_AFTER" --out="$HERO_OUT"
+  cp "$HERO_OUT/hero-9x16-before.jpg" "$DEST/hero-before.jpg"
+  cp "$HERO_OUT/hero-9x16-after.jpg" "$DEST/hero-after.jpg"
+  echo "hero pair written (proofs in $HERO_OUT)"
+else
+  echo "warning: missing $HERO_BEFORE or $HERO_AFTER" >&2
+  missing=1
+fi
+
 # 3. Original design export (optional).
 SRC="design-assets"
 if [ -d "$SRC" ]; then
   declare -a MAP=(
-    "01-welcome-before.jpg:hero-before.jpg"
-    "01-welcome-after.jpg:hero-after.jpg"
     "05-reveal-after-storage.jpg:storage-after.jpg"
   )
   for pair in "${MAP[@]}"; do
     copy "$SRC/${pair%%:*}" "$DEST/${pair##*:}"
   done
 else
-  echo "note: $SRC/ not found — keeping the committed hero/storage images."
+  echo "note: $SRC/ not found — keeping the committed storage image."
 fi
 
 if [ "$missing" -eq 1 ]; then
