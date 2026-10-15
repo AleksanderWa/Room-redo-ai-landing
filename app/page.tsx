@@ -30,10 +30,24 @@ const WILD_PICKS = [
   return style;
 });
 
+// All three are real results generated from the same under-stairs photo as
+// the corners slider above them.
 const CORNER_DESTINATIONS = [
-  { img: "/images/corner/dest-library.jpg", title: "A reading nook", alt: "A corner redesigned as a reading nook" },
-  { img: "/images/corner/dest-wine.jpg", title: "A wine corner", alt: "A corner redesigned as a wine corner" },
-  { img: "/images/corner/dest-meditation.jpg", title: "A meditation spot", alt: "A corner redesigned as a meditation spot" },
+  {
+    img: "/images/corner/understairs-tea-nook.jpg",
+    title: "A tea nook",
+    alt: "The same under-stairs space as a tea nook: tatami floor, a low wooden table set for tea, green wall panels and a paper lantern",
+  },
+  {
+    img: "/images/corner/understairs-zen-garden.jpg",
+    title: "A zen garden",
+    alt: "The same under-stairs space as a zen garden: raked white gravel, river stones, a moss wall with a water spout and a meditation cushion",
+  },
+  {
+    img: "/images/corner/understairs-climbing-wall.jpg",
+    title: "A climbing wall",
+    alt: "The same under-stairs space as a bouldering wall: angled panels covered in bright holds above a blue crash mat",
+  },
 ];
 
 function FaqItem({ faq, open }: { faq: Faq; open?: boolean }) {
@@ -226,7 +240,7 @@ export default function Home() {
                       />
                     </div>
                     <figcaption style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                      <span className="rr-corner-kicker">Becomes</span>
+                      <span className="rr-corner-kicker">Or becomes</span>
                       <span className="rr-corner-title">{d.title}</span>
                     </figcaption>
                   </figure>

@@ -5,9 +5,9 @@ Single-page Next.js (App Router) landing page for Room Redo AI. The current layo
 ## Setup
 
 1. **Install deps**: `npm install`
-2. **Assets** (already committed; only needed to refresh them): the style thumbs, corner images and app icon come from the RoomRedo app repo.
+2. **Assets** (already committed; only needed to refresh them): the style thumbs, corner before/after pair and app icon come from the RoomRedo app repo; the three "Or becomes" corner tiles are real results from the backend repo's `verify-out/` runs on the same under-stairs photo (re-encoded to q82 progressive JPEG).
    ```bash
-   APP_REPO=../Room-redo-app bash scripts/copy-assets.sh   # APP_REPO defaults to ../Room-redo-app
+   APP_REPO=../Room-redo-app BACKEND_REPO=../room-redo-backend bash scripts/copy-assets.sh   # both default to these sibling paths
    node scripts/generate-og-image.mjs                      # only if storage-after.jpg changed
    ```
    If a `design-assets/` folder (the original design export) is in the repo root, the script also refreshes the hero pair and storage-after.jpg (the OG image source) from it. When the app adds a style, add its thumb via the script and an entry to `data/styles.ts`.

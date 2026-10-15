@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 # Copies the landing page's images into public/images/ (and the favicon into
-# app/), from two places:
+# app/), from three places:
 #
-#   1. The RoomRedo app repo (style thumbs, corner pair + destinations, icon).
-#      Path defaults to a sibling checkout; override with APP_REPO:
+#   1. The RoomRedo app repo (style thumbs, corner pair, icon).
+#   2. The backend repo (the three "Or becomes" corner tiles: real results
+#      from verify runs on the same under-stairs photo as the corner pair).
+#      These are re-encoded (q82 progressive JPEG via sharp), not copied.
 #
-#        APP_REPO=/path/to/Room-redo-app bash scripts/copy-assets.sh
+#   Both paths default to sibling checkouts; override with APP_REPO /
+#   BACKEND_REPO:
 #
-#   2. Optionally, design-assets/ in this repo's root (hero pair + the
+#        APP_REPO=/path/to/Room-redo-app BACKEND_REPO=/path/to/room-redo-backend \
+#          bash scripts/copy-assets.sh
+#
+#   3. Optionally, design-assets/ in this repo's root (hero pair + the
 #      storage "after" the OG image is cut from). Skipped if it isn't there;
 #      the copies already committed in public/images/ are used as-is.
 #
@@ -17,6 +23,7 @@
 set -euo pipefail
 
 APP_REPO="${APP_REPO:-../Room-redo-app}"
+BACKEND_REPO="${BACKEND_REPO:-../room-redo-backend}"
 DEST="public/images"
 
 if [ ! -d "$APP_REPO/assets" ]; then
@@ -48,15 +55,28 @@ done
 # under-stairs set); never mix a before and an after from different sets.
 copy "$APP_REPO/assets/e2e/corner-understairs.jpg" "$DEST/corner/understairs-before.jpg"
 copy "$APP_REPO/assets/images/corner/useable.jpg" "$DEST/corner/understairs-after.jpg"
-for d in library wine meditation; do
-  copy "$APP_REPO/assets/images/corner/dest-$d.jpg" "$DEST/corner/dest-$d.jpg"
-done
 
 # 1c. App icon: favicon + header/footer mark.
 copy "$APP_REPO/assets/icon-master.png" "app/icon.png"
 copy "$APP_REPO/assets/icon-master.png" "$DEST/brand-icon.png"
 
-# 2. Original design export (optional).
+# 2. Corner tiles from the backend's verify runs (same under-stairs photo).
+reencode() {
+  local from="$1" to="$2"
+  if [ ! -f "$from" ]; then
+    echo "warning: missing $from" >&2
+    missing=1
+    return
+  fi
+  node -e 'require("sharp")(process.argv[1]).jpeg({ quality: 82, progressive: true }).toFile(process.argv[2]).catch((e) => { console.error(e); process.exit(1); })' "$from" "$to"
+  echo "re-encoded $from -> $to"
+}
+VERIFY="$BACKEND_REPO/verify-out"
+reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep1.jpg" "$DEST/corner/understairs-tea-nook.jpg"
+reencode "$VERIFY/2026-09-10-d4-bold-surprise-me-understairs/rep3.jpg" "$DEST/corner/understairs-zen-garden.jpg"
+reencode "$VERIFY/2026-09-10-d4-bold-realism-constraint/understairs_rep2.jpg" "$DEST/corner/understairs-climbing-wall.jpg"
+
+# 3. Original design export (optional).
 SRC="design-assets"
 if [ -d "$SRC" ]; then
   declare -a MAP=(
