@@ -324,6 +324,157 @@ button.rr-cta-badge {
   cursor: pointer;
 }
 
+/* Waitlist submit motion. Pending: "Saving" + three pulsing dots. Success:
+   the form fades/lifts out (180ms); 100ms in, the wrapper's height morphs
+   to the card's (320ms) and the card fades/lifts in (320ms, ease-out), the brass
+   badge's check draws itself (450ms), then title/body/button fade in 60ms
+   apart. Error: a small horizontal shake of the field (240ms). Timings
+   match WaitlistForm.tsx. */
+.rr-waitlist-wrap {
+  position: relative;
+  transition: height 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* The card starts 100ms into this 180ms fade, so the two overlap. The
+   form's opacity holds early and drops late (an ease-in on opacity only)
+   so at no point are both below ~50%; its lift stays ease-out. */
+.rr-waitlist {
+  transition: opacity 180ms cubic-bezier(0.55, 0, 1, 0.45),
+    transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.rr-waitlist--leaving {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.rr-waitlist-button:disabled,
+.rr-waitlist-input:disabled {
+  cursor: default;
+}
+.rr-waitlist-input:disabled {
+  opacity: 0.6;
+}
+
+.rr-waitlist-saving {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1px;
+}
+.rr-waitlist-dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 2px;
+}
+.rr-waitlist-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: rr-wl-dot 1s ease-in-out infinite;
+}
+.rr-waitlist-dots span:nth-child(2) { animation-delay: 160ms; }
+.rr-waitlist-dots span:nth-child(3) { animation-delay: 320ms; }
+
+@keyframes rr-wl-dot {
+  0%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
+}
+
+.rr-waitlist-input--shake {
+  animation: rr-wl-shake 240ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes rr-wl-shake {
+  0%, 100% { transform: translateX(0); }
+  17% { transform: translateX(-4px); }
+  33% { transform: translateX(4px); }
+  50% { transform: translateX(-3px); }
+  67% { transform: translateX(3px); }
+  83% { transform: translateX(-1px); }
+}
+
+.rr-waitlist-card {
+  animation: rr-wl-card-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes rr-wl-card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rr-waitlist-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 0 0 12px;
+  border-radius: 50%;
+  background: var(--rr-brass);
+  color: var(--rr-ink);
+}
+.rr-close .rr-waitlist-badge {
+  margin-inline: auto;
+}
+.rr-waitlist-badge path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: rr-wl-draw 450ms cubic-bezier(0.65, 0, 0.35, 1) 200ms both;
+}
+@keyframes rr-wl-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+.rr-waitlist-card-item {
+  animation: rr-wl-item-in 260ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.rr-waitlist-card > :is(h2, h3).rr-waitlist-card-item { animation-delay: 160ms; }
+.rr-waitlist-card > p.rr-waitlist-card-item { animation-delay: 220ms; }
+.rr-waitlist-card > a.rr-waitlist-card-item { animation-delay: 280ms; }
+@keyframes rr-wl-item-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Reduced motion: opacity only, no movement, shake or drawing; the dots
+   show without pulsing and the check is already drawn. */
+@media (prefers-reduced-motion: reduce) {
+  .rr-waitlist-wrap {
+    transition: none;
+  }
+  .rr-waitlist {
+    transition: opacity 180ms cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  .rr-waitlist--leaving {
+    transform: none;
+  }
+  .rr-waitlist-dots span {
+    animation: none;
+    opacity: 0.6;
+  }
+  .rr-waitlist-input--shake {
+    animation: none;
+  }
+  .rr-waitlist-card {
+    animation: rr-wl-fade 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .rr-waitlist-badge path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .rr-waitlist-card-item {
+    animation: none;
+  }
+}
+@keyframes rr-wl-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Hero ------------------------------------------------------------------ */
 
 .rr-hero {

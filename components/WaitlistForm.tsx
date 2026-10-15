@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, type FormEvent, type MouseEvent } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type MouseEvent,
+} from "react";
 import { isValidEmail, normalizeEmail } from "@/lib/validators";
 import { useAttribution } from "@/components/AttributionProvider";
 import { APP_STORE_URL, TIKTOK_URL } from "@/lib/site";
@@ -11,7 +18,21 @@ import {
   type WaitlistInstance,
 } from "@/lib/waitlistFocus";
 
-type Status = "idle" | "error" | "success" | "dup";
+type Status = "idle" | "pending" | "error" | "success" | "dup";
+
+/** Outcome of the request, held until the leave animation finishes. */
+type Outcome = "success" | "dup";
+
+// Timings (ms); the CSS in globals.css (Waitlist) uses the same values.
+/** Minimum time the "Saving" state shows, so a fast response still reads. */
+const MIN_PENDING_MS = 350;
+/** Form fade/lift out. */
+const LEAVE_MS = 180;
+/** The card (and the height morph) starts this far into the form's fade,
+ *  so the two overlap and there's never a blank frame. */
+const CARD_START_MS = 100;
+/** Wrapper height morph (form -> card); the height is released after it. */
+const MORPH_MS = 320;
 
 // Copy ported verbatim from the source design's DCLogic (its own em dashes
 // were mangled by an encoding round-trip in the export; restored here).
@@ -70,20 +91,93 @@ export default function WaitlistForm({ instance }: Props) {
   const [company, setCompany] = useState(""); // honeypot
   const [status, setStatus] = useState<Status>("idle");
   const [errorText, setErrorText] = useState(ERROR_TEXT);
+  // Form is fading out; the card replaces it once LEAVE_MS has passed.
+  const [leaving, setLeaving] = useState(false);
+  // Bumped on each error to replay the input shake.
+  const [shake, setShake] = useState(0);
+  // Button width locked while its label is "Saving", so it doesn't jump.
+  const [buttonMinWidth, setButtonMinWidth] = useState<number | undefined>();
+  // Explicit height of the wrapper while the form morphs into the card.
+  const [height, setHeight] = useState<number | undefined>();
   const source = useAttribution();
 
-  const formOpen = status === "idle" || status === "error";
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  const pending = status === "pending";
+  const formOpen = status === "idle" || status === "error" || pending;
   const done = status === "success" || status === "dup";
+
+  // Card just mounted: animate the wrapper from the form's height (locked in
+  // finish()) to the card's, then release it; move focus to the title.
+  useLayoutEffect(() => {
+    if (!done || !cardRef.current) return;
+    setHeight(cardRef.current.offsetHeight);
+    const release = setTimeout(() => setHeight(undefined), MORPH_MS + 40);
+
+    const title = titleRef.current;
+    if (title) {
+      title.focus({ preventScroll: true });
+      const r = title.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > window.innerHeight) {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        title.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+      }
+    }
+    return () => clearTimeout(release);
+  }, [done]);
+
+  function later(fn: () => void, ms: number) {
+    timers.current.push(setTimeout(fn, ms));
+  }
+
+  // Success (200 or 409): fade the form out and, overlapping it, bring the
+  // card in. While leaving, the form is taken out of flow (see
+  // .rr-waitlist--leaving) and sits on top of the incoming card.
+  function finish(outcome: Outcome) {
+    if (wrapRef.current) setHeight(wrapRef.current.offsetHeight);
+    setLeaving(true);
+    later(() => setStatus(outcome), CARD_START_MS);
+    later(() => setLeaving(false), LEAVE_MS);
+  }
+
+  function fail(text: string) {
+    setErrorText(text);
+    setStatus("error");
+    setButtonMinWidth(undefined);
+    setShake((n) => n + 1);
+    // The button was disabled while pending, which drops focus; hand it
+    // back to the field the error is about.
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (pending || leaving) return;
     const normalized = normalizeEmail(email);
 
     if (!isValidEmail(normalized)) {
       setErrorText(ERROR_TEXT);
       setStatus("error");
+      setShake((n) => n + 1);
+      // The shake remounts the input (see key); keep the caret in it.
+      requestAnimationFrame(() => inputRef.current?.focus());
       return;
     }
+
+    setButtonMinWidth(buttonRef.current?.getBoundingClientRect().width);
+    setStatus("pending");
+    const started = Date.now();
+    const settle = async () => {
+      const wait = MIN_PENDING_MS - (Date.now() - started);
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    };
 
     try {
       const res = await fetch("/api/waitlist", {
@@ -94,23 +188,19 @@ export default function WaitlistForm({ instance }: Props) {
 
       if (res.status === 200) {
         const body = (await res.json()) as { status?: string };
-        setStatus(body.status === "dup" ? "dup" : "success");
+        await settle();
+        finish(body.status === "dup" ? "dup" : "success");
         return;
       }
+      await settle();
       if (res.status === 409) {
-        setStatus("dup");
+        finish("dup");
         return;
       }
-      if (res.status === 400) {
-        setErrorText(ERROR_TEXT);
-        setStatus("error");
-        return;
-      }
-      setErrorText(NETWORK_ERROR_TEXT);
-      setStatus("error");
+      fail(res.status === 400 ? ERROR_TEXT : NETWORK_ERROR_TEXT);
     } catch {
-      setErrorText(NETWORK_ERROR_TEXT);
-      setStatus("error");
+      await settle();
+      fail(NETWORK_ERROR_TEXT);
     }
   }
 
@@ -118,6 +208,7 @@ export default function WaitlistForm({ instance }: Props) {
     setEmail(value);
     if (status === "error") setStatus("idle");
   }
+
 
   function focusInput(e: MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
@@ -127,9 +218,13 @@ export default function WaitlistForm({ instance }: Props) {
   const Heading = instance === "close" ? "h3" : "h2";
 
   return (
-    <div className="rr-waitlist-wrap">
-      {formOpen && (
-        <div className="rr-waitlist">
+    <div
+      ref={wrapRef}
+      className="rr-waitlist-wrap"
+      style={height !== undefined ? { height, overflow: "hidden" } : undefined}
+    >
+      {(formOpen || leaving) && (
+        <div className={`rr-waitlist${leaving ? " rr-waitlist--leaving" : ""}`}>
           <p style={{ margin: 0, fontSize: 14, color: "var(--rr-soft-on-sand)" }}>
             {LEAD.text}{" "}
             <a
@@ -140,7 +235,12 @@ export default function WaitlistForm({ instance }: Props) {
               {LEAD.link}
             </a>
           </p>
-          <form onSubmit={handleSubmit} noValidate className="rr-waitlist-form">
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="rr-waitlist-form"
+            aria-busy={pending || leaving}
+          >
             <label style={honeypotStyle} aria-hidden="true">
               Company
               <input
@@ -166,10 +266,31 @@ export default function WaitlistForm({ instance }: Props) {
               onChange={(e) => handleChange(e.target.value)}
               aria-invalid={status === "error"}
               aria-describedby={status === "error" ? `${inputId}-error` : undefined}
-              className="rr-waitlist-input"
+              disabled={pending || leaving}
+              ref={inputRef}
+              // Remounted per error so the shake animation replays.
+              key={shake}
+              className={`rr-waitlist-input${shake > 0 && status === "error" ? " rr-waitlist-input--shake" : ""}`}
             />
-            <button type="submit" className="rr-waitlist-button">
-              Grab your free spot
+            <button
+              type="submit"
+              ref={buttonRef}
+              disabled={pending || leaving}
+              className="rr-waitlist-button"
+              style={buttonMinWidth ? { minWidth: buttonMinWidth } : undefined}
+            >
+              {pending || leaving ? (
+                <span className="rr-waitlist-saving">
+                  Saving
+                  <span className="rr-waitlist-dots" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                </span>
+              ) : (
+                "Grab your free spot"
+              )}
             </button>
           </form>
           {status === "error" && (
@@ -193,6 +314,8 @@ export default function WaitlistForm({ instance }: Props) {
       >
         {done && (
           <div
+            ref={cardRef}
+            className="rr-waitlist-card"
             style={{
               border: "1px solid var(--rr-line)",
               background: "var(--rr-cream)",
@@ -201,18 +324,35 @@ export default function WaitlistForm({ instance }: Props) {
               textAlign: instance === "close" ? "center" : undefined,
             }}
           >
+            <span className="rr-waitlist-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+                <path
+                  d="M5 12.5l4.5 4.5L19 7.5"
+                  stroke="currentColor"
+                  strokeWidth="2.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  pathLength={1}
+                />
+              </svg>
+            </span>
             <Heading
+              ref={titleRef}
+              tabIndex={-1}
+              className="rr-waitlist-card-item"
               style={{
                 fontFamily: "var(--rr-serif)",
                 fontWeight: 600,
                 fontSize: 26,
                 lineHeight: 1.1,
                 margin: "0 0 8px",
+                outline: "none",
               }}
             >
               {doneTitle(status)}
             </Heading>
             <p
+              className="rr-waitlist-card-item"
               style={{
                 fontSize: 14,
                 lineHeight: 1.5,
@@ -226,6 +366,7 @@ export default function WaitlistForm({ instance }: Props) {
               href={TIKTOK_URL}
               target="_blank"
               rel="noopener"
+              className="rr-waitlist-card-item"
               style={{
                 display: "flex",
                 alignItems: "center",
