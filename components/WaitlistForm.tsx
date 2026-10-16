@@ -10,6 +10,7 @@ import {
 } from "react";
 import { isValidEmail, normalizeEmail } from "@/lib/validators";
 import { useAttribution } from "@/components/AttributionProvider";
+import { captureEvent } from "@/lib/analytics";
 import { APP_STORE_URL, TIKTOK_URL } from "@/lib/site";
 import {
   focusWaitlist,
@@ -189,11 +190,16 @@ export default function WaitlistForm({ instance }: Props) {
       if (res.status === 200) {
         const body = (await res.json()) as { status?: string };
         await settle();
+        captureEvent("waitlist_joined", {
+          instance,
+          duplicate: body.status === "dup",
+        });
         finish(body.status === "dup" ? "dup" : "success");
         return;
       }
       await settle();
       if (res.status === 409) {
+        captureEvent("waitlist_joined", { instance, duplicate: true });
         finish("dup");
         return;
       }
@@ -248,6 +254,7 @@ export default function WaitlistForm({ instance }: Props) {
                 tabIndex={-1}
                 autoComplete="off"
                 name="company"
+                className="ph-no-capture"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
               />
@@ -270,7 +277,7 @@ export default function WaitlistForm({ instance }: Props) {
               ref={inputRef}
               // Remounted per error so the shake animation replays.
               key={shake}
-              className={`rr-waitlist-input${shake > 0 && status === "error" ? " rr-waitlist-input--shake" : ""}`}
+              className={`ph-no-capture rr-waitlist-input${shake > 0 && status === "error" ? " rr-waitlist-input--shake" : ""}`}
             />
             <button
               type="submit"

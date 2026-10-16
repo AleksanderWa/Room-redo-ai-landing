@@ -40,4 +40,4 @@ Failures: missing config logs the missing var names and returns 503; any insert 
 
 ## Deploy
 
-Vercel (`www.airoomredo.com` is the canonical site; both `airoomredo.com` and `roomredoai.com` serve the same project — see the plan file §7 for domain/DNS steps). Env vars needed in Vercel: `NEXT_PUBLIC_STORAGE_SUPABASE_URL` and `STORAGE_SUPABASE_ANON_KEY` (added by the Supabase integration), and `NEXT_PUBLIC_APP_STORE_URL` once the app is live.
+Vercel (`www.airoomredo.com` is the canonical site; both `airoomredo.com` and `roomredoai.com` serve the same project — see the plan file §7 for domain/DNS steps). Env vars needed in Vercel: `NEXT_PUBLIC_STORAGE_SUPABASE_URL` and `STORAGE_SUPABASE_ANON_KEY` (added by the Supabase integration), `NEXT_PUBLIC_APP_STORE_URL` once the app is live, and `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` (product analytics + session replay via `instrumentation-client.ts`; unset key disables it; the PostHog project must allow `airoomredo.com` and `www.airoomredo.com`).
