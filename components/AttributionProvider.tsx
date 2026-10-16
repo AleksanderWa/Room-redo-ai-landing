@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useSearchParams } from "next/navigation";
+import { registerAttribution } from "@/lib/analytics";
 
 // Shares the `?v=` TikTok attribution param between the hero and closing
 // waitlist forms, so whichever one the visitor actually submits still
@@ -52,6 +53,10 @@ function AttributionReader({
 export function AttributionProvider({ children }: { children: ReactNode }) {
   const [source, setSource] = useState<string | null>(null);
   const onValue = useCallback((v: string | null) => setSource(v), []);
+
+  useEffect(() => {
+    if (source) registerAttribution(source);
+  }, [source]);
 
   return (
     <AttributionContext.Provider value={source}>

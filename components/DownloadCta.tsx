@@ -2,6 +2,7 @@
 
 import type { MouseEvent } from "react";
 import { track } from "@vercel/analytics";
+import { captureEvent } from "@/lib/analytics";
 import WaitlistForm from "@/components/WaitlistForm";
 import { APP_STORE_URL } from "@/lib/site";
 import { focusWaitlist, waitlistInputId } from "@/lib/waitlistFocus";
@@ -27,6 +28,14 @@ const TRACK_DELAY_MS = 150;
 
 function onAppStoreClick(e: MouseEvent<HTMLAnchorElement>, placement: Placement) {
   track("app_store_click", { placement });
+  // `source` (TikTok attribution) is a PostHog super property, so it rides along.
+  // Sent immediately via sendBeacon (not the batch queue) so it survives the
+  // same-tab navigation to the App Store.
+  captureEvent(
+    "download_cta_clicked",
+    { placement },
+    { send_instantly: true, transport: "sendBeacon" },
+  );
   // Modified or non-primary clicks open a new tab/window: the current page
   // stays alive, so let the browser handle them untouched.
   if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
