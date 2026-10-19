@@ -38,6 +38,10 @@ Failures: missing config logs the missing var names and returns 503; any insert 
 - `data/faq.ts` feeds both the FAQ section and the homepage's `FAQPage` JSON-LD; edit it there and both stay in sync.
 - `app/icon.png` is the app's icon (`assets/icon-master.png` in the app repo), as a static file rather than a dynamic `icon.tsx` route because `next/image`'s optimizer and `next/og` share one process-wide `sharp`/libvips instance; the optimizer permanently blocks libvips' SVG loader (a hardcoded security measure) the first time it processes a real photo, which then breaks `ImageResponse`'s SVG→PNG rendering for the rest of the dev server's life. A static file sidesteps that pipeline entirely.
 
+## IndexNow
+
+After a deploy that changes content, tell Bing and other IndexNow engines: `npm run indexnow`. It reads the key from `public/<key>.txt` (public by design, the file name is the key), takes the URLs from the live `https://www.airoomredo.com/sitemap.xml`, POSTs them to `api.indexnow.org` and prints the HTTP status (200 or 202 means accepted). No dependencies. The key file must be live on the site before the first run. When content changes, also bump the `lastModified` dates in `app/sitemap.ts`.
+
 ## Deploy
 
 Vercel (`www.airoomredo.com` is the canonical site; both `airoomredo.com` and `roomredoai.com` serve the same project — see the plan file §7 for domain/DNS steps). Env vars needed in Vercel: `NEXT_PUBLIC_STORAGE_SUPABASE_URL` and `STORAGE_SUPABASE_ANON_KEY` (added by the Supabase integration), `NEXT_PUBLIC_APP_STORE_URL` once the app is live, and `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` (product analytics + session replay via `instrumentation-client.ts`; unset key disables it; the PostHog project must allow `airoomredo.com` and `www.airoomredo.com`).

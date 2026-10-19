@@ -1,0 +1,22 @@
+# Room Redo
+
+> Room Redo redesigns your own room from a single photo, in 47 styles, from Japandi to a cat lounge. It is an iPhone app.
+
+Snap one photo. Pick a style. Watch your own room change.
+
+## Links
+
+- [Website](https://www.airoomredo.com): what the app does, the style wall and the FAQ
+- [Room Redo on the App Store](https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415): download for iPhone
+- [Privacy policy](https://www.airoomredo.com/privacy)
+- [Terms of use](https://www.airoomredo.com/terms)
+
+## FAQ
+
+- Do I need an account? No. Your device is enough.
+- What happens to my photos? They're stored so your rooms stay in My Spaces. You can delete everything from Settings in the app.
+- Is the free redesign the full thing? Yes, the full redesign, with a small watermark until you subscribe.
+- Which rooms work? Bedrooms, living rooms, kitchens, bathrooms, offices, balconies, and single corners.
+- How long does it take? A little while. The app shows the redesign developing as it happens.
+- Is it on Android? iPhone only for now.
+- How do I cancel? In your iPhone's Settings, under Subscriptions. Cancel any time.
