@@ -30,6 +30,11 @@ const PRICING = "::pricing\n";
 const LOOK_JAPANDI = '![AI redesign of the bedroom in Japandi style, with low pale wood furniture](/images/styles/japandi.jpg "Japandi")';
 const LOOK_BOHEMIAN = '![AI redesign of the bedroom in Bohemian style, with layered textiles](/images/styles/bohemian.jpg "Bohemian")';
 
+const SLIDER = (...images) =>
+  ':::style-slider{before="/images/hero-before.jpg" beforeAlt="A cluttered bedroom before any changes" caption="One bedroom, two styles."}\n' +
+  images.join("\n") +
+  "\n:::\n";
+
 const swap = (src, from, to) => {
   assert.ok(src.includes(from), `fixture no longer contains: ${from.slice(0, 60)}`);
   return src.replace(from, to);
@@ -212,6 +217,60 @@ const variants = {
     edit: (s) => swap(s, 'before="/images/hero-before.jpg" beforeAlt="A cluttered bedroom before any changes" caption=', 'before="/images/nope.jpg" beforeAlt="A cluttered bedroom before any changes" caption='),
     rule: "image",
     re: /::looks before image not found/,
+  },
+  // :::style-slider
+  "ss-valid": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN)),
+  },
+  "ss-four": {
+    edit: (s) =>
+      swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN, LOOK_JAPANDI.replace('"Japandi"', '"Japandi 2"'), LOOK_BOHEMIAN.replace('"Bohemian"', '"Bohemian 2"'))),
+  },
+  "ss-one-image": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI)),
+    rule: "directive",
+    re: /:::style-slider needs 2 to 4 images, found 1/,
+  },
+  "ss-five-images": {
+    edit: (s) =>
+      swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN, ...["A", "B", "C"].map((n) => LOOK_JAPANDI.replace('"Japandi"', `"Japandi ${n}"`)))),
+    rule: "directive",
+    re: /:::style-slider needs 2 to 4 images, found 5/,
+  },
+  "ss-no-title": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI.replace(' "Japandi"', ""), LOOK_BOHEMIAN)),
+    rule: "directive",
+    re: /:::style-slider image 1 needs a title with the style name/,
+  },
+  "ss-duplicate-title": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN.replace('"Bohemian"', '"japandi"'))),
+    rule: "directive",
+    re: /repeats the style name/,
+  },
+  "ss-long-title": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI.replace('"Japandi"', '"A style name that is far too long"'), LOOK_BOHEMIAN)),
+    rule: "directive",
+    re: /style name is over 24 characters/,
+  },
+  "ss-no-before": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN).replace('before="/images/hero-before.jpg" ', "")),
+    rule: "directive",
+    re: /::style-slider needs "before"/,
+  },
+  "ss-no-before-alt": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN).replace(' beforeAlt="A cluttered bedroom before any changes"', "")),
+    rule: "directive",
+    re: /::style-slider needs "beforeAlt"/,
+  },
+  "ss-text-inside": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN).replace("\n:::\n", "\nSome stray text.\n:::\n")),
+    rule: "directive",
+    re: /images only/,
+  },
+  "ss-missing-before-file": {
+    edit: (s) => swap(s, LOOKS, SLIDER(LOOK_JAPANDI, LOOK_BOHEMIAN).replace("/images/hero-before.jpg", "/images/nope.jpg")),
+    rule: "image",
+    re: /::style-slider before image not found/,
   },
   // :::tip and :::note
   "co-tip-title": { edit: (s) => swap(s, ":::tip\n", ':::tip{title="Try this"}\n') },

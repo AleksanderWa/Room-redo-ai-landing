@@ -110,6 +110,21 @@ function looks(node: Element): Element {
   ]);
 }
 
+function styleSlider(node: Element): Element {
+  const looks = findImages(node).map((img) => ({
+    src: attr(img, "src") ?? "",
+    alt: attr(img, "alt") ?? "",
+    title: attr(img, "title") ?? "",
+  }));
+  // Props are strings in hast, so the looks travel as JSON; render.tsx parses them.
+  return el("rr-style-slider", null, [], {
+    before: attr(node, "before") ?? "",
+    beforeAlt: attr(node, "beforeAlt") ?? "",
+    caption: attr(node, "caption") ?? "",
+    looks: JSON.stringify(looks),
+  });
+}
+
 function callout(node: Element, variant: "tip" | "note"): Element {
   const title = attr(node, "title")?.trim() || (variant === "tip" ? "Tip" : "Note");
   return el(
@@ -173,6 +188,11 @@ export function rehypeArticleBlocks() {
           break;
         case "rr-looks":
           replacement = looks(node);
+          break;
+        case "rr-style-slider":
+          // The directive node is rewritten once; its replacement already has `looks`.
+          if (node.properties.looks !== undefined) return;
+          replacement = styleSlider(node);
           break;
         case "rr-tip":
           replacement = callout(node, "tip");

@@ -20,6 +20,21 @@ const cases = {
     ':::looks{before="/images/hero-before.jpg" beforeAlt="A bedroom before"}\n' +
     '![AI redesign in Japandi style](/images/styles/japandi.jpg "Japandi")\n' +
     '![AI redesign in Bohemian style](/images/styles/bohemian.jpg "Bohemian")\n:::\n',
+  styleSlider:
+    ':::style-slider{before="/images/hero-before.jpg" beforeAlt="A bedroom before" caption="One bedroom, two styles."}\n' +
+    '![AI redesign in Japandi style](/images/styles/japandi.jpg "Japandi")\n' +
+    '![AI redesign in Bohemian style](/images/styles/bohemian.jpg "Bohemian")\n:::\n',
+  styleSliderOneImage:
+    ':::style-slider{before="/images/hero-before.jpg" beforeAlt="A bedroom before"}\n' +
+    '![AI redesign in Japandi style](/images/styles/japandi.jpg "Japandi")\n:::\n',
+  styleSliderNoTitle:
+    ':::style-slider{before="/images/hero-before.jpg" beforeAlt="A bedroom before"}\n' +
+    '![AI redesign in Japandi style](/images/styles/japandi.jpg)\n' +
+    '![AI redesign in Bohemian style](/images/styles/bohemian.jpg "Bohemian")\n:::\n',
+  styleSliderNoBefore:
+    ':::style-slider{beforeAlt="A bedroom before"}\n' +
+    '![AI redesign in Japandi style](/images/styles/japandi.jpg "Japandi")\n' +
+    '![AI redesign in Bohemian style](/images/styles/bohemian.jpg "Bohemian")\n:::\n',
 };
 // Not valid (the build rejects it), but the transform must still never keep the image in the line.
 const stepsNoBlank = `:::steps\n1. **One.** First line.\n   ${STEP_IMG}\n2. **Two.** Second line.\n:::\n`;
@@ -33,7 +48,12 @@ const script = `
   const cases = JSON.parse(process.env.CASES);
   const out = {};
   for (const [k, md] of Object.entries(cases)) {
-    out[k] = renderToStaticMarkup(renderArticleBody(md, k, { slug: "x", type: "guides", campaign: "t" }));
+    // An invalid block throws (that fails the build); keep the message to assert on.
+    try {
+      out[k] = renderToStaticMarkup(renderArticleBody(md, k, { slug: "x", type: "guides", campaign: "t" }));
+    } catch (e) {
+      out[k] = "ERROR: " + e.message;
+    }
   }
   // The renderer alone, without the directive validator.
   const { unified } = await import("unified");
@@ -108,6 +128,28 @@ test("looks: an AI pill on each look, none on the Before tile", () => {
   const beforeTile = h.split("rr-article-look--before")[1].split("rr-article-look-name")[0];
   assert.doesNotMatch(beforeTile, /rr-article-pill/);
   assert.match(h, /rr-article-look-name">Before</);
+});
+
+test("style-slider: stacked looks, one chip each, only the first look exposed, one AI pill", () => {
+  const h = html.styleSlider;
+  assert.match(h, /role="radiogroup"[^>]*aria-label="Pick a style"|aria-label="Pick a style"[^>]*role="radiogroup"/);
+  assert.equal(count(h, /role="radio"/g), 2);
+  assert.match(h, /aria-checked="true"[^>]*>Japandi</);
+  assert.match(h, /aria-checked="false"[^>]*>Bohemian</);
+  assert.equal(count(h, /tabindex="0"[^>]*role="radio"|role="radio"[^>]*tabindex="0"/g), 1);
+  assert.equal(count(h, /tabindex="-1"/g), 1);
+  assert.equal(count(h, /class="rr-ba-after[ "]/g), 2);
+  assert.equal(count(h, /rr-ba-after rr-ba-after--active/g), 1);
+  assert.equal(count(h, /<div class="rr-ba-after" aria-hidden="true"/g), 1);
+  assert.equal(count(h, /AI redesign<\/span>/g), 1);
+  assert.match(h, /aria-label="Before and after: Japandi"/);
+  assert.match(h, /One bedroom, two styles\. Redesigned in the Room Redo app\./);
+});
+
+test("style-slider: too few images, a missing title and a missing before fail the build", () => {
+  assert.match(html.styleSliderOneImage, /^ERROR: .*needs 2 to 4 images, found 1/);
+  assert.match(html.styleSliderNoTitle, /^ERROR: .*image 1 needs a title/);
+  assert.match(html.styleSliderNoBefore, /^ERROR: .*needs "before"/);
 });
 
 test("FAQ answers: raw HTML is dropped, unsafe link protocols are neutralized", () => {

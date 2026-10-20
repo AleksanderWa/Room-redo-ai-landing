@@ -13,6 +13,8 @@
 //   :::at-a-glance{title="..."}        container: 3 to 5 `- Label: value` bullets
 //   :::steps                           container: an ordered list of `**Title.** One line.` items
 //   :::looks{before="..." beforeAlt="..." caption="..."}   container: one image per look, title = style name
+//   :::style-slider{before="..." beforeAlt="..." caption="..."}   container: a before/after slider with a style chip
+//                                      per look (2 to 4 images, title = chip label); before and beforeAlt required
 //   :::tip{title="..."} / :::note{title="..."}             container: a short callout
 //
 // Leaf directives are `::name{...}` on their own line; container directives wrap
@@ -36,6 +38,7 @@ export const DIRECTIVES: Record<string, DirectiveSpec> = {
   "at-a-glance": { kind: "container", required: [], optional: ["title"] },
   steps: { kind: "container", required: [], optional: [] },
   looks: { kind: "container", required: [], optional: ["before", "beforeAlt", "caption"] },
+  "style-slider": { kind: "container", required: ["before", "beforeAlt"], optional: ["caption"] },
   tip: { kind: "container", required: [], optional: ["title"] },
   note: { kind: "container", required: [], optional: ["title"] },
 };

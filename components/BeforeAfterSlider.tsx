@@ -13,9 +13,14 @@ import Image from "next/image";
 
 type Props = {
   beforeSrc: string;
-  afterSrc: string;
+  /** A single after image (hero, `::before-after`). Ignored when `afters` is given. */
+  afterSrc?: string;
   beforeAlt: string;
-  afterAlt: string;
+  afterAlt?: string;
+  /** Several after images stacked in one frame (`:::style-slider`); only
+   *  `activeIndex` is visible and exposed to assistive tech. */
+  afters?: { src: string; alt: string }[];
+  activeIndex?: number;
   /** hero: inside the mockup's flat phone frame (bezel, dynamic island).
    *  storage: plain 3/4 rounded box, no frame; the parent sets its width. */
   heightVariant: "hero" | "storage";
@@ -43,6 +48,9 @@ const SURFACE: CSSProperties = {
 
 /** Touch travel (px) before a gesture is judged horizontal (drag) or vertical (scroll). */
 const AXIS_LOCK_PX = 6;
+
+/** Divider position (percent) at or beyond which a look change re-centres it. */
+const RESET_AT_PCT = 95;
 
 /** Arrow-key step for keyboard users, in percent. */
 const KEY_STEP = 5;
@@ -78,12 +86,22 @@ export default function BeforeAfterSlider({
   afterSrc,
   beforeAlt,
   afterAlt,
+  afters,
+  activeIndex = 0,
   heightVariant,
   eager = false,
   sizes,
   label = "Before and after comparison",
 }: Props) {
   const [pct, setPct] = useState(50);
+  // A reader parked on "all before" who picks another look would see nothing
+  // change, so the divider goes back to the middle. Adjusted during render
+  // (the React-sanctioned way to react to a prop change), not in an effect.
+  const [seenIndex, setSeenIndex] = useState(activeIndex);
+  if (seenIndex !== activeIndex) {
+    setSeenIndex(activeIndex);
+    if (pct >= RESET_AT_PCT) setPct(50);
+  }
   // Drag state lives in a ref, not state: the move/up handlers below are native
   // listeners registered once per drag, so they must not read stale closures.
   const drag = useRef<{
@@ -219,6 +237,7 @@ export default function BeforeAfterSlider({
   const imageSizes = isHero ? HERO_IMAGE_SIZES : (sizes ?? STORAGE_IMAGE_SIZES);
   const loading = eager ? "eager" : "lazy";
   const fetchPriority = eager ? "high" : undefined;
+  const afterList = afters ?? [{ src: afterSrc ?? "", alt: afterAlt ?? "" }];
 
   const slider = (
     // The surface is a labelled group, so both images keep their alt text
@@ -230,21 +249,34 @@ export default function BeforeAfterSlider({
       aria-label={label}
       style={SURFACE}
     >
-      <Image
-        src={afterSrc}
-        alt={afterAlt}
-        fill
-        loading={loading}
-        fetchPriority={fetchPriority}
-        sizes={imageSizes}
-        style={{ objectFit: "cover" }}
-        draggable={false}
-      />
+      {/* The after images are stacked and crossfaded (see .rr-ba-after in
+          globals.css); the before clip below sits above them all. */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        {afterList.map((a, i) => (
+          <div
+            key={a.src}
+            className={`rr-ba-after${i === activeIndex ? " rr-ba-after--active" : ""}`}
+            aria-hidden={i === activeIndex ? undefined : true}
+          >
+            <Image
+              src={a.src}
+              alt={a.alt}
+              fill
+              loading={loading}
+              fetchPriority={fetchPriority}
+              sizes={imageSizes}
+              style={{ objectFit: "cover" }}
+              draggable={false}
+            />
+          </div>
+        ))}
+      </div>
       <div
         style={{
           position: "absolute",
           inset: 0,
           clipPath: `inset(0 ${100 - pct}% 0 0)`,
+          zIndex: 1,
         }}
       >
         <Image
@@ -276,6 +308,7 @@ export default function BeforeAfterSlider({
           marginLeft: -1,
           background: "var(--rr-cream)",
           pointerEvents: "none",
+          zIndex: 2,
         }}
       >
         <div
