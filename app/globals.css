@@ -2763,3 +2763,122 @@ button.rr-cta-badge {
     left: 10px;
   }
 }
+
+/* =========================================================================
+   Homepage links to the guides (footer, FAQ link, "From the guides" strip)
+   Kept separate on purpose. Added after the article styles.
+   ========================================================================= */
+
+@media (max-width: 699px) {
+  .rr-footer-nav a {
+    padding: 10px 0;
+  }
+}
+
+.rr-faq-more {
+  margin: -12px 0 0;
+  padding: 0 24px 8px 0;
+  font-size: 15px;
+}
+
+.rr-faq-more a {
+  display: inline-block;
+  padding: 10px 0;
+  font-weight: 500;
+  color: var(--rr-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.rr-faq-more a:hover {
+  color: var(--rr-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+.rr-home-guides {
+  padding: 56px 0;
+}
+
+.rr-home-guides-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.rr-home-guides-title {
+  margin: 0;
+  font-family: var(--rr-serif);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--rr-ink);
+}
+
+.rr-home-guides-all {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--rr-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.rr-home-guides-all:hover {
+  color: var(--rr-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+.rr-home-guides-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 700px) {
+  .rr-faq-more {
+    font-size: 16px;
+    padding-right: 40px;
+  }
+
+  .rr-home-guides {
+    padding: 72px 0;
+  }
+
+  .rr-home-guides-head {
+    margin-bottom: 32px;
+  }
+
+  .rr-home-guides-title {
+    font-size: 36px;
+  }
+
+  .rr-home-guides-list--1 {
+    max-width: 720px;
+  }
+
+  .rr-home-guides-list--2,
+  .rr-home-guides-list--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .rr-home-guides {
+    padding: 96px 0;
+  }
+
+  .rr-home-guides-list--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

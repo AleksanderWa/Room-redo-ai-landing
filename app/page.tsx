@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ArticleCard from "@/components/article/ArticleCard";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import CornerShowcase from "@/components/CornerShowcase";
 import Brand from "@/components/Brand";
@@ -15,6 +16,7 @@ import {
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
 import { styleAlt, styleById, styles } from "@/data/styles";
+import { getArticles } from "@/lib/content/load";
 import { homeJsonLd } from "@/lib/seo";
 import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 
@@ -54,11 +56,20 @@ function FaqItem({ faq, open }: { faq: Faq; open?: boolean }) {
         </svg>
       </summary>
       <p className="rr-faq-a">{faq.a}</p>
+      {faq.more && (
+        <p className="rr-faq-more">
+          <Link href={faq.more.href}>
+            {faq.more.label} <span aria-hidden="true">→</span>
+          </Link>
+        </p>
+      )}
     </details>
   );
 }
 
 export default function Home() {
+  // Newest first. Renders nothing while there are no published guides.
+  const latestGuides = getArticles("guides").slice(0, 3);
   return (
     <>
       {/* Structured data, per the Next 16 JSON-LD guide: a plain script tag
@@ -271,6 +282,29 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 9b. From the guides */}
+        {latestGuides.length > 0 && (
+          <section className="rr-rule-top rr-home-guides" aria-labelledby="home-guides-title">
+            <div className="rr-wrap rr-reveal">
+              <div className="rr-home-guides-head">
+                <h2 id="home-guides-title" className="rr-home-guides-title">
+                  From the guides
+                </h2>
+                <Link href="/guides" className="rr-home-guides-all">
+                  All guides <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              <ul className={`rr-home-guides-list rr-home-guides-list--${latestGuides.length}`}>
+                {latestGuides.map((a) => (
+                  <li key={a.slug}>
+                    <ArticleCard article={a} compact={latestGuides.length > 1} headingLevel="h3" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
         {/* 10. Closing CTA */}
         <section className="rr-rule-top">
           <div className="rr-wrap rr-close rr-reveal">
@@ -297,6 +331,7 @@ export default function Home() {
           <div className="rr-footer-top">
             <Brand />
             <nav aria-label="Footer" className="rr-footer-nav">
+              <Link href="/guides">Guides</Link>
               <Link href="/privacy">Privacy</Link>
               <Link href="/terms">Terms</Link>
               <a href={`mailto:${SUPPORT_EMAIL}`}>Support · {SUPPORT_EMAIL}</a>

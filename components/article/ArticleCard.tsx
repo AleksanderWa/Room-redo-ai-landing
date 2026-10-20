@@ -8,9 +8,11 @@ import { articlePath, formatDate, type Article } from "@/lib/content/load";
 export default function ArticleCard({
   article,
   compact = false,
+  headingLevel: Heading = "h2",
 }: {
   article: Article;
   compact?: boolean;
+  headingLevel?: "h2" | "h3";
 }) {
   const meta = compact
     ? `${article.readMinutes} min read`
@@ -28,9 +30,9 @@ export default function ArticleCard({
         {article.hero.isAiRedesign && <AiPill className="rr-article-pill--card" />}
       </div>
       <div className="rr-article-card-text">
-        <h2 className="rr-article-card-title">
+        <Heading className="rr-article-card-title">
           <Link href={articlePath(article)}>{article.title}</Link>
-        </h2>
+        </Heading>
         {!compact && <p className="rr-article-card-desc">{article.description}</p>}
         <p className="rr-article-card-meta">{meta}</p>
       </div>
