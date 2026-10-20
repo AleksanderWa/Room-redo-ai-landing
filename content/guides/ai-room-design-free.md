@@ -61,9 +61,9 @@ Below is one real photo of a spare room, redesigned three ways by the app, then 
 
 ## Same room, three looks
 
-The starting point is a long, thin spare room: scuffed white walls, a bare bulb, one window at the far end with a radiator under it, and an ironing board leaning on the left wall. Here it is next to three of the app's styles.
+The starting point is a long, thin spare room: scuffed white walls, a bare bulb, one window at the far end with a radiator under it, and an ironing board leaning on the left wall. Tap a style, then drag the slider to compare.
 
-:::looks{before="/images/articles/ai-room-design-free/boxroom-before.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" caption="One spare room, three styles, all from the same photo."}
+:::style-slider{before="/images/articles/ai-room-design-free/boxroom-before.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" caption="One spare room, three styles, all from the same photo."}
 ![AI redesign of the spare room in Scandinavian style, with a pale wood single bed, a sage knit throw, an oak dresser and a jute runner](/images/articles/ai-room-design-free/boxroom-scandinavian.webp "Scandinavian")
 ![AI redesign of the same spare room in Mid-Century Modern style, with sage green walls, a walnut bed with a rust cushion, a walnut dresser and an olive pendant light](/images/articles/ai-room-design-free/boxroom-mid-century-modern.webp "Mid-Century Modern")
 ![AI redesign of the same spare room as a Cozy Lounge Nook, with a brick accent wall around the window, an olive velvet chaise, a brass floor lamp and a round jute rug](/images/articles/ai-room-design-free/boxroom-cozy-lounge-nook.webp "Cozy Lounge Nook")
@@ -97,10 +97,6 @@ The photo is the step that matters most.
 :::tip{title="Get the best photo"}
 Stand in the doorway or a corner so the shot takes in as much of the room as you can. Leave people out of the frame; photos with people in them are turned away.
 :::
-
-Here's step four on the spare room, this time in Mid-Century Modern. Drag the slider.
-
-::before-after{before="/images/articles/ai-room-design-free/boxroom-before.webp" after="/images/articles/ai-room-design-free/boxroom-mid-century-modern.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" afterAlt="AI redesign of the same room in Mid-Century Modern style, with sage green walls, a walnut single bed with a rust cushion and an olive throw, a walnut dresser with a dome lamp, an olive pendant light and a jute runner" caption="The spare room in Mid-Century Modern style"}
 
 Every room you redesign is kept in "My spaces", so you can come back and try another look later. Room Redo starts from your photo, not a stock room, so what you see is your room, not a picture of somebody else's.
 
