@@ -24,3 +24,4 @@ Snap one photo. Pick a style. Watch your own room change.
 ## Guides
 
 - [Guides](https://www.airoomredo.com/guides): plain advice on redesigning a room from a photo, written by the person who built the app
+- [AI room design, free](https://www.airoomredo.com/guides/ai-room-design-free): what a free AI room redesign includes, how to try one from a photo on iPhone, and what costs money

@@ -118,7 +118,7 @@ After the free redesign, you can buy a plan or a one-time pack. Prices are US Ap
 | Pack of 10 | $4.99, one time | 10 |
 | Pack of 20 | $9.99, one time | 20 |
 
-Every plan and pack works on rooms and corners, in all styles. The plans renew automatically until you cancel, and you can cancel any time in iPhone Settings, under Subscriptions. The free redesign is your trial.
+Every plan and pack works on rooms and corners, in all styles. The plans renew automatically until you cancel, and you can cancel any time in iPhone Settings, under Subscriptions. The free redesign is how you try it before choosing a plan.
 
 If you only have one room in mind, a pack is the simple choice. If you're working through a whole home, a plan gives you room to try lots of styles.
 
