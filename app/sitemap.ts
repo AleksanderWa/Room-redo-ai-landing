@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { articlePath, getAllArticles } from "@/lib/content/load";
+import { articlePath, getPublishedArticles } from "@/lib/content/load";
 import { SITE_URL } from "@/lib/site";
 
 // Fixed dates, bumped by hand when a page's content changes. Not
@@ -12,7 +12,7 @@ const TERMS_LAST_MODIFIED = "2026-10-19";
 const AUTHOR_LAST_MODIFIED = "2026-10-20";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const articles = getAllArticles();
+  const articles = getPublishedArticles();
   // The hub changes when an article is added or edited. Left out while it
   // has nothing to list (it is noindex then).
   const hubLastModified = articles.reduce(

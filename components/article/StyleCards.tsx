@@ -3,7 +3,8 @@ import { styleAlt, styleById } from "@/data/styles";
 import { parseStyleTexts } from "@/lib/content/directives";
 import AiPill from "@/components/article/AiPill";
 
-const ROW_CAPTION = "Real redesigns of the same bedroom, made in the app.";
+// The shared label for a row (the spec allows a caption instead of per-thumb pills).
+const ROW_CAPTION = "AI redesigns of the same bedroom, made in the Room Redo app.";
 
 /** `::style-card`. One id: a horizontal card with the AI redesign pill. Two
  *  to four: a grid of thumbs with one shared caption. Not clickable (there

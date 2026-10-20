@@ -20,6 +20,7 @@ import {
   STYLE_IDS,
   bodyText,
   countWords,
+  ctaStructureProblems,
   findDirectives,
   listArticleFiles,
   parseMdast,
@@ -165,6 +166,10 @@ function lintFile(entry) {
         }
       }
     }
+  }
+
+  for (const p of ctaStructureProblems(tree)) {
+    add("error", "directive", p.message, p.line ? p.line + bodyOffset : undefined);
   }
 
   // Markdown images: alt text and file. Links: internal ones resolve.

@@ -149,10 +149,10 @@ export async function ogCard({
               >
                 AI redesign
               </div>
-              <div style={{ display: "flex", fontSize: 24 }}>Free iPhone app</div>
+              <div style={{ display: "flex", fontSize: 24 }}>First redesign free · iPhone</div>
             </div>
           ) : (
-            <div style={{ display: "flex", fontFamily: "DM Sans", fontSize: 24 }}>Free iPhone app</div>
+            <div style={{ display: "flex", fontFamily: "DM Sans", fontSize: 24 }}>First redesign free · iPhone</div>
           )}
         </div>
       </div>

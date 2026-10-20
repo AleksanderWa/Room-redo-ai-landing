@@ -9,7 +9,7 @@ import {
   parseMdast,
   readFrontmatter,
 } from "@/lib/content/read";
-import type { ArticleFrontmatter, ArticleType } from "@/lib/content/schema";
+import { PUBLISHED_TYPES, type ArticleFrontmatter, type ArticleType } from "@/lib/content/schema";
 
 export type Article = ArticleFrontmatter & {
   body: string;
@@ -76,6 +76,12 @@ function readAll(): Article[] {
     (a, b) =>
       b.datePublished.localeCompare(a.datePublished) || a.slug.localeCompare(b.slug),
   );
+}
+
+/** Articles of every type that has public routes. Use this, not
+ *  getAllArticles(), wherever articles become URLs. */
+export function getPublishedArticles(): Article[] {
+  return getAllArticles().filter((a) => PUBLISHED_TYPES.includes(a.type));
 }
 
 export function getArticles(type: ArticleType): Article[] {

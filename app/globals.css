@@ -2086,6 +2086,14 @@ button.rr-cta-badge {
   text-align: center;
 }
 
+.rr-article-ba-frame {
+  position: relative;
+}
+
+.rr-article-ba-frame .rr-article-pill {
+  z-index: 3;
+}
+
 .rr-article .rr-ba-handle {
   width: 44px;
   height: 44px;

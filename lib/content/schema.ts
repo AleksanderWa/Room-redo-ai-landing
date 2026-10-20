@@ -7,6 +7,10 @@ import { z } from "zod";
 export const ARTICLE_TYPES = ["guides", "ideas"] as const;
 export type ArticleType = (typeof ARTICLE_TYPES)[number];
 
+/** Types whose routes exist. Anything that turns articles into public URLs
+ *  (sitemap, feed, hub) goes through this. Add "ideas" when /ideas ships. */
+export const PUBLISHED_TYPES: readonly ArticleType[] = ["guides"];
+
 /** Allowed body length (words) per article type. */
 export const WORD_RANGE: Record<ArticleType, { min: number; max: number }> = {
   guides: { min: 900, max: 1800 },

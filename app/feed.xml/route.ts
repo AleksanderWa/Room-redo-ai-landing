@@ -1,5 +1,5 @@
-import { articlePath, getAllArticles } from "@/lib/content/load";
-import { SITE_URL } from "@/lib/site";
+import { articlePath, getPublishedArticles } from "@/lib/content/load";
+import { SITE_URL, SUPPORT_EMAIL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -10,7 +10,7 @@ const esc = (s: string) =>
 const rfc822 = (iso: string) => new Date(`${iso}T00:00:00Z`).toUTCString();
 
 export function GET() {
-  const articles = getAllArticles();
+  const articles = getPublishedArticles();
   const lastBuild = articles.reduce((m, a) => (a.dateModified > m ? a.dateModified : m), "2026-10-20");
 
   const items = articles
@@ -21,7 +21,7 @@ export function GET() {
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${rfc822(a.datePublished)}</pubDate>
-      <author>support@airoomredo.com (Aleksander)</author>
+      <author>${SUPPORT_EMAIL} (Aleksander)</author>
       <description>${esc(a.description)}</description>
     </item>`;
     })

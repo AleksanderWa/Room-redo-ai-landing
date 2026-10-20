@@ -61,7 +61,7 @@ Write like a friend who's good at rooms, talking to a homeowner or renter. Calm,
 - No `#` (H1) in the body. Body headings start at `##`. Sentence case headings.
 - Internal links: link to the homepage or an existing article where it helps the reader, with descriptive anchor text (not "click here"). Only link to pages that exist. `related` lists existing slugs only.
 - External links: 1 to 3 credible, non-competitor sources where they back a claim.
-- CTA: one `::cta` around the middle and one at the end. The end CTA follows a natural conclusion, not a summary.
+- CTA: one `::cta` around the middle. The end CTA is added automatically, so the last paragraph should lead naturally into trying the app, without summarizing the article.
 - Images: a hero, at least one `::before-after` with a real Room Redo result. Descriptive alt text on every image.
 - Length by type:
   - `guides`: 900 to 1,800 words.
@@ -72,9 +72,15 @@ Write like a friend who's good at rooms, talking to a homeowner or renter. Calm,
 
 Markdown plus these directives only (anything else fails the build):
 
-- `::before-after{before="/images/articles/<slug>/x-before.webp" after="/images/articles/<slug>/x-after.webp" alt="..." style="japandi"}`
-- `::cta` (the App Store CTA; placement is set automatically)
-- `::style-card{id="japandi"}` (one style from `data/styles.ts`)
+Each directive goes on its own line. The syntax is defined in `lib/content/directives.ts`; if this list and that file disagree, the code wins.
+
+- `::before-after{before="/images/articles/<slug>/x-before.webp" after="/images/articles/<slug>/x-after.webp" beforeAlt="..." afterAlt="..." caption="optional"}`
+- `::cta`: the mid-article App Store CTA. Write it **once**, around the middle.
+  - **Don't write an end CTA.** The layout adds the end CTA automatically after the body.
+  - Use `::cta{variant="end" title="..." text="..."}` only to replace the default end copy, and then only once, as the last line.
+- `::style-card{ids="japandi scandinavian"}`: 1 to 4 styles from `data/styles.ts`. Optional `text="japandi: one line | scandinavian: one line"`.
+
+YAML: quote any frontmatter value that contains a colon (most often `description`).
 
 Tables are fine for plans and prices. Lists are fine, but not every section.
 

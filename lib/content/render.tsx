@@ -44,7 +44,7 @@ function isImageOnlyParagraph(node: Element | undefined): boolean {
   return kids.length === 1 && kids[0].type === "element" && kids[0].tagName === "img";
 }
 
-function Anchor({ href = "", children, ...rest }: ComponentProps<"a">) {
+function Anchor({ href = "", children, node: _node, ...rest }: ComponentProps<"a"> & { node?: Element }) {
   const internal =
     href.startsWith("/") || href.startsWith("#") || href.startsWith(SITE_URL);
   if (internal) {

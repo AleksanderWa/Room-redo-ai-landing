@@ -32,6 +32,9 @@ const broken = [
   ["bad-missing-alt", "alt"],
   ["bad-banned-phrase", "banned"],
   ["bad-unknown-directive", "directive"],
+  ["bad-cta-two-mid", "directive"],
+  ["bad-cta-two-end", "directive"],
+  ["bad-cta-end-not-last", "directive"],
 ];
 
 for (const [name, rule] of broken) {

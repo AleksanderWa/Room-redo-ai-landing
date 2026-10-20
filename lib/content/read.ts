@@ -81,11 +81,38 @@ export function findDirectives(tree: Root): FoundDirective[] {
   return found;
 }
 
+/** CTA placement rules: at most one plain `::cta`, at most one end CTA, and
+ *  the end CTA must be the last block (the layout adds one when absent). */
+export function ctaStructureProblems(tree: Root): { line: number | undefined; message: string }[] {
+  const out: { line: number | undefined; message: string }[] = [];
+  const ctas = tree.children.filter(
+    (n): n is Extract<typeof n, { type: "leafDirective" }> => n.type === "leafDirective" && n.name === "cta",
+  );
+  const ends = ctas.filter((n) => n.attributes?.variant === "end");
+  const mids = ctas.filter((n) => n.attributes?.variant !== "end");
+  if (mids.length > 1) {
+    out.push({ line: mids[1].position?.start.line, message: "more than one plain ::cta; use at most one mid-article CTA" });
+  }
+  if (ends.length > 1) {
+    out.push({ line: ends[1].position?.start.line, message: 'more than one ::cta{variant="end"}' });
+  }
+  if (ends.length > 0 && tree.children[tree.children.length - 1] !== ends[ends.length - 1]) {
+    out.push({
+      line: ends[ends.length - 1].position?.start.line,
+      message: 'the ::cta{variant="end"} must be the last block of the article',
+    });
+  }
+  return out;
+}
+
 /** Throws a build-failing error describing every problem. */
 export function assertDirectivesValid(tree: Root, where: string): void {
-  const problems = findDirectives(tree).flatMap((d) =>
-    d.problems.map((p) => `${where}${d.line ? `:${d.line}` : ""}: ${p}`),
-  );
+  const problems = [
+    ...findDirectives(tree).flatMap((d) =>
+      d.problems.map((p) => `${where}${d.line ? `:${d.line}` : ""}: ${p}`),
+    ),
+    ...ctaStructureProblems(tree).map((p) => `${where}${p.line ? `:${p.line}` : ""}: ${p.message}`),
+  ];
   if (problems.length) throw new Error(problems.join("\n"));
 }
 
