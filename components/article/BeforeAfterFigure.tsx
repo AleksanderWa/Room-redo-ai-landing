@@ -32,7 +32,7 @@ export default function BeforeAfterFigure({
           sizes={SIZES}
           label={caption ? `Before and after: ${caption}` : undefined}
         />
-        {/* Bottom-left: the Before/After pills own the top corners. */}
+        {/* Bottom-right (after side, never on the real before photo); the Before/After pills own the top corners. */}
         <AiPill className="rr-article-pill--small" />
       </div>
       <figcaption>{provenance}</figcaption>

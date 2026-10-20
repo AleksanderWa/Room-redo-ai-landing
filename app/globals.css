@@ -2112,6 +2112,9 @@ button.rr-cta-badge {
 
 .rr-article-ba-frame .rr-article-pill {
   z-index: 3;
+  /* Bottom-right, on the after side: the pill must never sit on the real before photo. */
+  left: auto;
+  right: 6px;
 }
 
 .rr-article .rr-ba-handle {
