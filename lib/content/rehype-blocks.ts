@@ -117,7 +117,7 @@ function styleSlider(node: Element): Element {
     title: attr(img, "title") ?? "",
   }));
   // Props are strings in hast, so the looks travel as JSON; render.tsx parses them.
-  return el("rr-style-slider", null, [], {
+  return el("rr-style-slider-figure", null, [], {
     before: attr(node, "before") ?? "",
     beforeAlt: attr(node, "beforeAlt") ?? "",
     caption: attr(node, "caption") ?? "",
@@ -190,8 +190,6 @@ export function rehypeArticleBlocks() {
           replacement = looks(node);
           break;
         case "rr-style-slider":
-          // The directive node is rewritten once; its replacement already has `looks`.
-          if (node.properties.looks !== undefined) return;
           replacement = styleSlider(node);
           break;
         case "rr-tip":

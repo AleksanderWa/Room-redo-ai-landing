@@ -76,7 +76,7 @@ export default function StyleSliderFigure({
       <div className="rr-article-ba-chips" role="radiogroup" aria-label="Pick a style" onKeyDown={onKeyDown}>
         {looks.map((look, i) => (
           <button
-            key={look.src}
+            key={look.title}
             ref={(el) => {
               chips.current[i] = el;
             }}

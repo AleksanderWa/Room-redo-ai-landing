@@ -155,7 +155,7 @@ export function renderArticleBody(
       "rr-look-tile": (p: Record<string, string>) => (
         <LookTile kind={p.kind === "before" ? "before" : "look"} src={p.src} alt={p.alt} label={p.label} />
       ),
-      "rr-style-slider": (p: Record<string, string>) => (
+      "rr-style-slider-figure": (p: Record<string, string>) => (
         <StyleSliderFigure
           before={p.before}
           beforeAlt={p.beforeAlt}

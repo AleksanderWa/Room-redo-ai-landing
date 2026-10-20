@@ -10,6 +10,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import Image from "next/image";
+import { pctAfterLookChange } from "@/lib/beforeAfter";
 
 type Props = {
   beforeSrc: string;
@@ -44,13 +45,14 @@ const SURFACE: CSSProperties = {
   cursor: "ew-resize",
   userSelect: "none",
   WebkitTouchCallout: "none",
+  // Own stacking context: the before clip's zIndex must not leak into the page
+  // (it painted the hero's dynamic-island pill under the photo).
+  isolation: "isolate",
 };
 
 /** Touch travel (px) before a gesture is judged horizontal (drag) or vertical (scroll). */
 const AXIS_LOCK_PX = 6;
 
-/** Divider position (percent) at or beyond which a look change re-centres it. */
-const RESET_AT_PCT = 95;
 
 /** Arrow-key step for keyboard users, in percent. */
 const KEY_STEP = 5;
@@ -100,7 +102,7 @@ export default function BeforeAfterSlider({
   const [seenIndex, setSeenIndex] = useState(activeIndex);
   if (seenIndex !== activeIndex) {
     setSeenIndex(activeIndex);
-    if (pct >= RESET_AT_PCT) setPct(50);
+    setPct(pctAfterLookChange(pct));
   }
   // Drag state lives in a ref, not state: the move/up handlers below are native
   // listeners registered once per drag, so they must not read stale closures.
@@ -254,7 +256,7 @@ export default function BeforeAfterSlider({
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         {afterList.map((a, i) => (
           <div
-            key={a.src}
+            key={i}
             className={`rr-ba-after${i === activeIndex ? " rr-ba-after--active" : ""}`}
             aria-hidden={i === activeIndex ? undefined : true}
           >
