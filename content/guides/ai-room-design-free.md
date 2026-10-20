@@ -110,15 +110,9 @@ That makes it a fair test. Pick the style you're most curious about, use your re
 
 After the free redesign, you can buy a plan or a one-time pack. Prices are US App Store prices.
 
-| Option | Price | Redesigns |
-|---|---|---|
-| First redesign | Free | 1 per device, with a small watermark |
-| Weekly plan | $9.99 per week | 15 each week |
-| Monthly plan | $19.99 per month | 50 each month |
-| Pack of 10 | $4.99, one time | 10 |
-| Pack of 20 | $9.99, one time | 20 |
+::pricing
 
-Every plan and pack works on rooms and corners, in all styles. The plans renew automatically until you cancel, and you can cancel any time in iPhone Settings, under Subscriptions. The free redesign is how you try it before choosing a plan.
+Every plan and pack works on rooms and corners, in all styles. The free redesign is how you try it before choosing a plan.
 
 If you only have one room in mind, a pack is the simple choice. If you're working through a whole home, a plan gives you room to try lots of styles.
 

@@ -32,10 +32,12 @@ Last checked: 2026-10-20 against the app code (`roomredo-app/src/constants/billi
 - **The first redesign is free**, one per device. It is the full redesign, in any style, with a small Room Redo watermark. The watermark stays until the device has bought something.
 - **No account:** no sign-up, no email, no password. Your device is enough. ("No login" and "no sign up" are true.)
 - No free trial on the subscriptions.
-- Weekly plan: $9.99 per week, 15 redesigns each week.
-- Monthly plan: $19.99 per month, 50 redesigns each month.
-- One-time packs: 10 redesigns for $4.99, 20 redesigns for $9.99.
-- Every plan and pack works on rooms and corners, in all styles. Unused redesigns stay on your account.
+- **Prices live in `data/pricing.ts`.** That file is the single source for the plans, the packs and their prices. Articles show prices only through `::pricing`. When a price changes, update `data/pricing.ts` and this list together.
+- As of 2026-10-20:
+  - Weekly plan: $9.99 per week, 15 redesigns each week.
+  - Monthly plan: $19.99 per month, 50 redesigns each month.
+  - One-time packs: 10 redesigns for $4.99, 20 redesigns for $9.99.
+- Every plan and pack works on rooms and corners, in all styles. Unused redesigns stay available in the app. They are tracked by the device's private ID; there is still no account. Say "stay available", never "stay on your account".
 - Plans renew automatically until cancelled. Cancel any time in iPhone Settings, under Subscriptions.
 - Prices are US App Store prices. Don't state prices for other countries.
 
