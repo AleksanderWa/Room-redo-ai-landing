@@ -4,6 +4,10 @@
 // `prebuild`, so a failure fails the build.
 //
 //   --content-dir <dir>   content root (default: ./content). Used by the tests.
+//   --faq-file <file>     FAQ module to check (default: ./data/faq.ts). Used by the tests.
+//
+// Full runs (no file args) also check that every internal FAQ `more.href`
+// resolves to a published article.
 //
 // Errors (exit 1): invalid frontmatter, em dash, banned phrase, primary
 // keyword missing, body H1, broken internal link or related slug, missing
@@ -13,7 +17,7 @@
 // Run through tsx so it can share the TypeScript schema with the site.
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 import {
@@ -32,9 +36,11 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const args = process.argv.slice(2);
 let contentDir = path.join(repo, "content");
+let faqFile = path.join(repo, "data/faq.ts");
 const fileArgs = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--content-dir") contentDir = path.resolve(args[++i]);
+  else if (args[i] === "--faq-file") faqFile = path.resolve(args[++i]);
   else fileArgs.push(path.resolve(args[i]));
 }
 
@@ -246,6 +252,21 @@ const targets = fileArgs.length
 
 let errors = 0;
 let warnings = 0;
+
+// FAQ links live in data/faq.ts, not in an article, so check them once per
+// full run: a renamed or drafted target would otherwise ship a dead link.
+if (!fileArgs.length) {
+  const { faqs } = await import(pathToFileURL(faqFile).href);
+  for (const f of faqs) {
+    const href = f.more?.href;
+    if (href?.startsWith("/") && !internalTargetExists(href)) {
+      console.log(path.relative(process.cwd(), faqFile));
+      console.log(`  error [faq]: more.href does not resolve to a published page: ${href}`);
+      errors++;
+    }
+  }
+}
+
 for (const entry of targets) {
   let issues;
   try {

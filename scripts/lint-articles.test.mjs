@@ -54,6 +54,17 @@ for (const [name, rule] of broken) {
   });
 }
 
+test("a FAQ more.href that does not resolve fails with [faq]", () => {
+  const res = spawnSync(
+    process.execPath,
+    [tsx, path.join(here, "lint-articles.mjs"), "--faq-file", path.join(fixtures, "faq-bad.ts")],
+    { cwd: repo, encoding: "utf8" },
+  );
+  const out = res.stdout + res.stderr;
+  assert.equal(res.status, 1, out);
+  assert.match(out, /\[faq\].*\/guides\/no-such-article/, out);
+});
+
 test("body images are AI-labelled unless the title is \"photo\"", () => {
   const code = `
     const m = await import("${path.join(repo, "lib/content/image.ts")}");
