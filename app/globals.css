@@ -2040,40 +2040,67 @@ button.rr-cta-badge {
   color: var(--rr-soft);
 }
 
-/* Tables */
+/* Tables: plain at every width for 1 to 2 columns; 3+ columns turn into cards
+   on a phone (see "Visual blocks" below). */
 .rr-article-table {
   margin: 28px 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--rr-line);
   border-radius: 12px;
+  overflow-x: auto;
 }
 
 .rr-article-table table {
   border-collapse: collapse;
   width: 100%;
-  min-width: 520px;
   font-size: 15px;
   line-height: 1.5;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .rr-article-table th {
   text-align: left;
+  font-size: 14px;
+  line-height: 1.3;
   font-weight: 600;
+  color: var(--rr-ink);
   background: var(--rr-sand);
   padding: 12px 14px;
   border-bottom: 1px solid var(--rr-line);
+}
+
+.rr-article-table th,
+.rr-article-table td {
+  /* break-word, not anywhere: anywhere shrinks min-content, so the auto table
+     layout squeezes short columns and splits ordinary words. */
+  overflow-wrap: break-word;
 }
 
 .rr-article-table td {
   padding: 12px 14px;
   border-top: 1px solid var(--rr-line);
   vertical-align: top;
+  color: var(--rr-body);
+}
+
+.rr-article-table tbody tr:first-child td {
+  border-top: 0;
+}
+
+.rr-article-table:not(.rr-article-table--cards) tbody tr:nth-child(even) td {
+  background: var(--rr-dock);
 }
 
 .rr-article-table td:first-child {
   font-weight: 600;
   color: var(--rr-ink);
+}
+
+.rr-article-table [data-align="right"] {
+  text-align: right;
+}
+
+.rr-article-table [data-align="center"] {
+  text-align: center;
 }
 
 /* Before / after */
@@ -2092,6 +2119,9 @@ button.rr-cta-badge {
 
 .rr-article-ba-frame .rr-article-pill {
   z-index: 3;
+  /* Bottom-right, on the after side: the pill must never sit on the real before photo. */
+  left: auto;
+  right: 6px;
 }
 
 .rr-article .rr-ba-handle {
@@ -2761,5 +2791,650 @@ button.rr-cta-badge {
   .rr-article-pill--card {
     top: 10px;
     left: 10px;
+  }
+}
+
+/* Visual blocks ---------------------------------------------------------
+   ::pricing, the FAQ, :::at-a-glance, :::steps, :::looks, :::tip, :::note
+   and the mobile card layout for 3+ column tables. Selectors inside the
+   body carry .rr-article-body so they beat its generic p / ul / li rules. */
+
+/* Pricing (::pricing) */
+.rr-article-body .rr-article-pricing {
+  margin: 32px 0 0;
+  background: var(--rr-dock);
+  border: 1px solid var(--rr-line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.rr-article-body .rr-article-pricing ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rr-article-body .rr-article-pricing-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  padding: 10px 16px;
+  background: var(--rr-sand);
+  color: var(--rr-soft-on-sand);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rr-article-pricing-group + .rr-article-pricing-group .rr-article-pricing-head {
+  border-top: 1px solid var(--rr-line);
+}
+
+.rr-article-body .rr-article-pricing-head-note {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: right;
+}
+
+.rr-article-body .rr-article-pricing-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: center;
+  min-height: 64px;
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.rr-article-body .rr-article-pricing-row + .rr-article-pricing-row {
+  border-top: 1px solid var(--rr-line);
+}
+
+/* Decorative marker only; the word "Free" carries the meaning. */
+.rr-article-body .rr-article-pricing-row--free {
+  box-shadow: inset 3px 0 0 var(--rr-brass);
+}
+
+.rr-article-pricing-name {
+  display: block;
+  font-size: 17px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--rr-ink);
+}
+
+.rr-article-pricing-detail {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--rr-body);
+}
+
+.rr-article-pricing-cost {
+  text-align: right;
+}
+
+.rr-article-pricing-price {
+  display: block;
+  font-family: var(--rr-serif);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--rr-ink);
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+
+.rr-article-pricing-unit {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--rr-soft);
+}
+
+.rr-article-body .rr-article-pricing-note {
+  margin: 10px 0 32px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--rr-soft);
+}
+
+/* FAQ (frontmatter faq) */
+.rr-article-faq {
+  margin-top: 48px;
+}
+
+.rr-article-faq h2.rr-article-faq-title {
+  margin: 0 0 8px;
+  font-family: var(--rr-serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.15;
+  color: var(--rr-ink);
+  text-wrap: balance;
+  scroll-margin-top: 24px;
+}
+
+.rr-article-faq-list {
+  border-top: 1px solid var(--rr-line);
+}
+
+.rr-article-faq-item {
+  border-bottom: 1px solid var(--rr-line);
+}
+
+.rr-article-faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.rr-article-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.rr-article-faq-item summary:active {
+  background: var(--rr-dock);
+  border-radius: 8px;
+}
+
+.rr-article-faq-item summary:focus-visible {
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.rr-article-faq-q {
+  font-family: var(--rr-serif);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--rr-ink);
+  text-wrap: balance;
+}
+
+@media (hover: hover) {
+  .rr-article-faq-item summary:hover .rr-article-faq-q {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.rr-article-faq-chev {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.rr-article-faq-chev > span {
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin-top: -3px;
+  border-right: 2px solid var(--rr-ink);
+  border-bottom: 2px solid var(--rr-ink);
+  transform: rotate(45deg);
+  transition: transform 150ms ease;
+}
+
+.rr-article-faq-item[open] .rr-article-faq-chev > span {
+  transform: rotate(225deg);
+  margin-top: 3px;
+}
+
+.rr-article-faq .rr-article-faq-a {
+  padding: 0 40px 20px 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--rr-body);
+}
+
+.rr-article-faq .rr-article-faq-a p {
+  margin: 0 0 12px;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.rr-article-faq .rr-article-faq-a p:last-child {
+  margin-bottom: 0;
+}
+
+.rr-article-faq-a a {
+  color: var(--rr-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.rr-article-faq-a a:hover {
+  color: var(--rr-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rr-article-faq-chev > span {
+    transition: none;
+  }
+}
+
+/* At a glance (:::at-a-glance) */
+.rr-article-body .rr-article-glance {
+  margin: 28px 0;
+  padding: 4px 16px;
+  background: var(--rr-dock);
+  border: 1px solid var(--rr-line);
+  border-radius: 16px;
+}
+
+.rr-article-body .rr-article-glance-title {
+  margin: 0;
+  padding: 12px 0 8px;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rr-soft);
+}
+
+.rr-article-glance dl {
+  margin: 0;
+}
+
+.rr-article-glance-row {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 1px solid var(--rr-line);
+}
+
+.rr-article-glance dt {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--rr-soft);
+}
+
+.rr-article-glance dd {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--rr-ink);
+}
+
+/* Steps (:::steps) */
+.rr-article-body .rr-article-steps {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0;
+  display: grid;
+  gap: 12px;
+  counter-reset: step;
+}
+
+.rr-article-body .rr-article-steps > .rr-article-step {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  column-gap: 14px;
+  margin: 0;
+  padding: 16px;
+  background: var(--rr-dock);
+  border: 1px solid var(--rr-line);
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* The badge repeats the list number a screen reader already announces. */
+.rr-article-step::before {
+  content: counter(step);
+  content: counter(step) / "";
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--rr-ink);
+  color: var(--rr-cream);
+  font-family: var(--rr-serif);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+  font-variant-numeric: lining-nums;
+}
+
+.rr-article-step-text {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.rr-article-step-title {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--rr-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.2;
+  color: var(--rr-ink);
+}
+
+.rr-article-step-line {
+  display: block;
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--rr-body);
+}
+
+.rr-article-step-img {
+  grid-column: 2;
+  position: relative;
+  margin-top: 12px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--rr-line);
+}
+
+/* Looks (:::looks) */
+.rr-article-body .rr-article-looks {
+  --cols: 2;
+  margin: 32px 0;
+}
+
+.rr-article-body .rr-article-looks--3 {
+  --cols: 3;
+}
+
+.rr-article-looks-grid {
+  display: grid;
+  gap: 14px 10px;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+}
+
+.rr-article-look-media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--rr-line);
+}
+
+.rr-article-look-name {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--rr-ink);
+}
+
+.rr-article-looks--3 .rr-article-look-name {
+  font-size: 13px;
+}
+
+.rr-article-look--before .rr-article-look-name {
+  font-weight: 500;
+  color: var(--rr-soft);
+}
+
+.rr-article-body .rr-article-looks figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--rr-soft);
+}
+
+/* Callouts (:::tip, :::note) */
+.rr-article-body .rr-article-callout {
+  margin: 28px 0;
+  padding: 16px 18px;
+  border-radius: 12px;
+}
+
+.rr-article-body .rr-article-callout--tip {
+  background: var(--rr-sand);
+  box-shadow: inset 3px 0 0 var(--rr-brass);
+}
+
+.rr-article-body .rr-article-callout--note {
+  background: var(--rr-dock);
+  border: 1px solid var(--rr-line);
+}
+
+.rr-article-body .rr-article-callout-title {
+  margin: 0 0 6px;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rr-soft);
+}
+
+.rr-article-body .rr-article-callout--tip .rr-article-callout-title {
+  color: var(--rr-soft-on-sand);
+}
+
+.rr-article-body .rr-article-callout-body p,
+.rr-article-body .rr-article-callout-body li {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--rr-body);
+}
+
+.rr-article-body .rr-article-callout-body ul,
+.rr-article-body .rr-article-callout-body ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.rr-article-body .rr-article-callout-body li + li {
+  margin-top: 4px;
+}
+
+/* Tables that turn into cards on a phone (3+ columns) */
+@media (max-width: 699px) {
+  .rr-article-table--cards {
+    margin: 24px 0;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .rr-article-table--cards thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .rr-article-table--cards table,
+  .rr-article-table--cards tbody,
+  .rr-article-table--cards tr,
+  .rr-article-table--cards td {
+    display: block;
+  }
+
+  .rr-article-table--cards tbody tr {
+    margin: 0 0 10px;
+    background: var(--rr-cream);
+    border: 1px solid var(--rr-line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .rr-article-table--cards tbody tr td,
+  .rr-article-table--cards tbody tr td[data-align] {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--rr-line);
+    background: transparent;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--rr-body);
+    text-align: left;
+  }
+
+  .rr-article-table--cards tbody tr td::before {
+    content: attr(data-label);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rr-soft);
+  }
+
+  .rr-article-table--cards tbody tr td:first-child {
+    display: block;
+    padding: 12px 14px;
+    border-top: 0;
+    background: var(--rr-sand);
+    font-family: var(--rr-serif);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--rr-ink);
+  }
+
+  .rr-article-table--cards tbody tr td:first-child::before {
+    content: none;
+  }
+
+  .rr-article-table--cards tbody tr td:empty {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .rr-article-table {
+    overflow-x: auto;
+  }
+
+  .rr-article-table table {
+    font-size: 16px;
+  }
+
+  .rr-article-table--cards tbody tr:nth-child(even) td {
+    background: var(--rr-dock);
+  }
+
+  .rr-article-body .rr-article-pricing-head {
+    padding: 10px 24px;
+  }
+
+  .rr-article-body .rr-article-pricing-row {
+    padding: 16px 24px;
+  }
+
+  .rr-article-pricing-name {
+    font-size: 18px;
+  }
+
+  .rr-article-pricing-detail {
+    font-size: 15px;
+  }
+
+  .rr-article-pricing-price {
+    font-size: 28px;
+  }
+
+  .rr-article-faq {
+    margin-top: 56px;
+  }
+
+  .rr-article-faq h2.rr-article-faq-title {
+    font-size: 34px;
+    line-height: 1.12;
+  }
+
+  .rr-article-faq-q {
+    font-size: 22px;
+  }
+
+  .rr-article-faq .rr-article-faq-a {
+    font-size: 18px;
+  }
+
+  .rr-article-body .rr-article-glance {
+    padding: 4px 24px;
+  }
+
+  .rr-article-glance-row {
+    grid-template-columns: 140px minmax(0, 1fr);
+  }
+
+  .rr-article-glance dd {
+    font-size: 17px;
+  }
+
+  .rr-article-body .rr-article-steps > .rr-article-step {
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 20px 24px;
+  }
+
+  .rr-article-step::before {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .rr-article-step-title {
+    font-size: 24px;
+  }
+
+  .rr-article-step-line {
+    font-size: 17px;
+  }
+
+  .rr-article-step-img {
+    max-width: 360px;
+  }
+
+  .rr-article-body .rr-article-looks--4 {
+    --cols: 4;
+  }
+
+  .rr-article-looks--2 .rr-article-looks-grid {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  .rr-article-body .rr-article-looks figcaption {
+    text-align: center;
+  }
+
+  .rr-article-body .rr-article-callout {
+    padding: 18px 24px;
+  }
+
+  .rr-article-body .rr-article-callout-body p,
+  .rr-article-body .rr-article-callout-body li {
+    font-size: 17px;
   }
 }

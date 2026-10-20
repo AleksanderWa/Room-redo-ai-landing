@@ -17,11 +17,25 @@ hero:
   alt: AI redesign of a small bedroom in a calm, pale-wood style
   isAiRedesign: true
 related: []
+faq:
+  - q: "Do I need to measure the room first?"
+    a: "A rough sketch is enough. Measure the bed, the door swing and the walk path, and you have what you need."
+  - q: "Can I try a layout without moving furniture?"
+    a: "Yes. Tape it out on the floor, or see your own room redesigned in the [Room Redo](/) app."
+  - q: "Does a mirror really help a small bedroom?"
+    a: "It can, if it faces the window. Put it on the wall that gets the light."
 draft: true
 stickyCta: true
 ---
 
 Your small bedroom layout decides more than any paint colour. A room that is nine feet wide forgives almost nothing, so where the bed, the door swing and the window sit matters before you buy a single thing. This guide walks through the choices in the order that saves the most trouble.
+
+:::at-a-glance
+- Room: Nine feet wide
+- Start with: The bed
+- Keep clear: Two feet of floor
+- Cost: Free to try
+:::
 
 ## What makes a small bedroom layout work?
 
@@ -48,6 +62,10 @@ Here is how the common options compare.
 
 Go up. Shelves above the bed, a tall narrow wardrobe, and hooks behind the door all use air you were not using anyway. Keep the heavy things low and the light things high. A shelf of books above your head is fine for a reader and annoying for someone who moves in their sleep.
 
+:::tip
+Stand in the doorway and look at the walls. Whatever sits above the height of the bed is free space.
+:::
+
 Swap bedside tables for a single shelf that runs the width of the headboard. It holds a lamp, a glass of water and a phone, and it costs you no floor at all. Swap a dresser for under-bed drawers if the bed frame has the clearance.
 
 Mirrors help, but only if they face something worth doubling. A mirror that faces the door shows you a pile of coats. One that faces the window doubles the daylight. Put it on the wall that gets the light, not the wall that holds the clutter.
@@ -57,6 +75,13 @@ Mirrors help, but only if they face something worth doubling. A mirror that face
 Light, low-contrast colours let walls recede. Pale warm whites, soft greys and sand tones all work. Painting the trim and the ceiling the same tone as the walls removes the lines that chop the room into boxes. This is the quiet trick behind a lot of calm, Japandi-style rooms: few colours, natural wood, and nothing that shouts.
 
 Texture does the job colour cannot. A linen duvet, a wool rug and a wood headboard in similar tones give the room depth without adding visual noise. Skip bold patterns on the bed. A busy bed is the biggest object in the room, and a busy big object makes the whole room feel smaller.
+
+Here is the same bedroom in two quiet looks.
+
+:::looks{before="/images/hero-before.jpg" beforeAlt="A cluttered bedroom before any changes" caption="One bedroom, two quiet looks."}
+![AI redesign of the bedroom in Japandi style, with low pale wood furniture](/images/styles/japandi.jpg "Japandi")
+![AI redesign of the bedroom in Bohemian style, with layered textiles](/images/styles/bohemian.jpg "Bohemian")
+:::
 
 ## How do you try a layout before you commit?
 
@@ -78,18 +103,35 @@ Leave out big rugs that curl at the edge and trip you at night. Leave out heavy 
 
 Leave out anything you are keeping "just in case". Under-bed storage is for sheets and off-season clothes, not for a second closet of things you have forgotten.
 
+:::note{title="Good to know"}
+The first redesign carries a small Room Redo watermark.
+:::
+
 ## A simple order of work
 
-1. Measure the room, the bed and the door swing.
-2. Mark the walk path and keep it clear.
-3. Place the bed first, then the wardrobe, then the lighting.
-4. Add storage that goes up, not out.
-5. Pick two or three tones and stay inside them.
-6. Tape out the plan and live with it for two days.
+Five steps, in this order.
+
+:::steps
+1. **Measure the room.** Note the bed, the door swing and the walk path.
+2. **Keep the path clear.** Leave two feet along one long side of the bed.
+
+   ![AI redesign of a bedroom with a clear walk path in a calm style](/images/hero-after.jpg)
+3. **Place the bed first.** Then the wardrobe, then the lighting.
+4. **Add storage that goes up.** Shelves and hooks use air you were not using.
+5. **Pick two or three tones.** Stay inside them and tape out the plan.
+:::
 
 Do these in this order and most of the mistakes never happen. Moving a bed after you have hung shelves is the expensive way to learn the lesson.
 
 ::style-card{ids="japandi" text="Pale wood, low furniture and very few colours: a good fit for a small bedroom."}
+
+## What does it cost to try a layout?
+
+Taping out a layout costs a roll of tape. Seeing your own room redesigned in the app costs nothing for the first go.
+
+::pricing
+
+The free redesign is the easy way to test a colour direction before you buy anything.
 
 ## What if the room is also an office?
 

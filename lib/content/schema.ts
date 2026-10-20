@@ -17,6 +17,12 @@ export const WORD_RANGE: Record<ArticleType, { min: number; max: number }> = {
   ideas: { min: 1200, max: 2500 },
 };
 
+/** FAQ accordion limits. Fewer than FAQ_MIN renders nothing (the linter warns). */
+export const FAQ_MIN = 3;
+export const FAQ_MAX = 8;
+export const FAQ_Q_MAX = 90;
+export const FAQ_A_WORDS = 70;
+
 export const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /** App Store Connect caps a campaign token (`ct`) at 40 chars; we stay at 30. */
@@ -27,6 +33,19 @@ const isoDate = z.preprocess(
   (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v),
   z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "must be a YYYY-MM-DD date"),
 );
+
+const faqItem = z
+  .object({
+    // Plain text; the linter checks the question mark and that it is not an H2 too.
+    q: z.string().trim().min(1, "faq q is required").max(FAQ_Q_MAX, `faq q is over ${FAQ_Q_MAX} characters`),
+    // Inline markdown only (checked by the linter).
+    a: z
+      .string()
+      .trim()
+      .min(1, "faq a is required")
+      .refine((a) => a.split(/\s+/).length <= FAQ_A_WORDS, `faq a is over ${FAQ_A_WORDS} words`),
+  })
+  .strict();
 
 export const articleSchema = z
   .object({
@@ -61,6 +80,9 @@ export const articleSchema = z
     // Mobile sticky App Store bar. On for promotional guides, opt out for
     // purely informational pages.
     stickyCta: z.boolean().default(false),
+    // Collapsed accordion after the body, before the end CTA. Short secondary
+    // questions only; the primary-intent question stays an H2 in the body.
+    faq: z.array(faqItem).max(FAQ_MAX, `at most ${FAQ_MAX} FAQ items; split the article`).default([]),
     // App Store campaign token for install attribution (`ct`).
     campaign: z.object({ ct: z.string().min(1).max(CAMPAIGN_MAX) }).optional(),
   })

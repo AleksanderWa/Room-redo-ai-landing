@@ -7,8 +7,13 @@
 //
 // Errors (exit 1): invalid frontmatter, em dash, banned phrase, primary
 // keyword missing, body H1, broken internal link or related slug, missing
-// image or alt text, bad directive, word count out of range.
-// Warnings: Flesch Reading Ease below 60, paragraph over 4 sentences.
+// image or alt text, bad directive, word count out of range, typed price,
+// bad faq, rhythm rules 1 to 6 and 8 (rule 1 only above 350 words).
+// Visual blocks: the container directives' contents, tables, the FAQ, typed
+// prices (prices come from ::pricing only) and the rhythm rules from STYLE.md.
+// Warnings: Flesch Reading Ease below 60, paragraph over 4 sentences, a run
+// of 250 to 350 words without a visual block, rhythm rule 7, a long callout,
+// a table over 5 columns, a faq under 3 items.
 //
 // Run through tsx so it can share the TypeScript schema with the site.
 import fs from "node:fs";
@@ -21,11 +26,14 @@ import {
   bodyText,
   countWords,
   ctaStructureProblems,
+  faqIssues,
   findDirectives,
   listArticleFiles,
   parseMdast,
   readFrontmatter,
 } from "../lib/content/read.ts";
+import { tableIssues } from "../lib/content/blocks.ts";
+import { priceMentions, rhythmIssues } from "../lib/content/rhythm.ts";
 import { PUBLISHED_TYPES, WORD_RANGE, articleSchema } from "../lib/content/schema.ts";
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -164,11 +172,12 @@ function lintFile(entry) {
   // Directives, and the files they point at.
   for (const d of findDirectives(tree)) {
     for (const p of d.problems) add("error", "directive", p, d.line ? d.line + bodyOffset : undefined);
-    if (d.name === "before-after") {
-      for (const key of ["before", "after"]) {
+    for (const w of d.warnings) add("warn", "directive", w, d.line ? d.line + bodyOffset : undefined);
+    if (d.name === "before-after" || (d.name === "looks" && d.attrs.before)) {
+      for (const key of d.name === "looks" ? ["before"] : ["before", "after"]) {
         const src = d.attrs[key];
         if (src && !publicFileExists(src)) {
-          add("error", "image", `::before-after ${key} image not found: public${src}`, d.line + bodyOffset);
+          add("error", "image", `::${d.name} ${key} image not found: public${src}`, d.line + bodyOffset);
         }
       }
     }
@@ -204,6 +213,16 @@ function lintFile(entry) {
   const text = bodyText(tree);
   const words = countWords(text);
 
+  visit(tree, "table", (node) => {
+    for (const i of tableIssues(node)) add(i.level, "table", i.message, bodyLine(node));
+  });
+  for (const line of priceMentions(body)) {
+    add("error", "price", "typed price in the body; prices come only from ::pricing", line + bodyOffset);
+  }
+  for (const i of rhythmIssues(tree, { type: entry.type, words })) {
+    add(i.level, i.rule, i.message, i.line ? i.line + bodyOffset : undefined);
+  }
+
   if (fm) {
     // Primary keyword: seoTitle, first 100 words, at least one H2.
     const kw = norm(fm.primaryKeyword);
@@ -215,6 +234,15 @@ function lintFile(entry) {
       if (node.depth === 2 && norm(toString(node)).includes(kw)) inH2 = true;
     });
     if (!inH2) add("error", "keyword", `primary keyword "${fm.primaryKeyword}" is not in any H2`);
+
+    const h2s = [];
+    visit(tree, "heading", (node) => {
+      if (node.depth === 2) h2s.push(toString(node));
+    });
+    for (const i of faqIssues(fm.faq, h2s)) add(i.level, "faq", i.message);
+    if (priceMentions(fm.faq.map((f) => `${f.q}\n${f.a}`).join("\n")).length > 0) {
+      add("error", "price", "typed price in the faq; prices come only from ::pricing");
+    }
 
     const range = WORD_RANGE[fm.type];
     if (words < range.min || words > range.max) {
