@@ -99,6 +99,8 @@ export default function BeforeAfterSlider({
   // A reader parked on "all before" who picks another look would see nothing
   // change, so the divider goes back to the middle. Adjusted during render
   // (the React-sanctioned way to react to a prop change), not in an effect.
+  // Tests cover pctAfterLookChange only; this call site is covered by the
+  // manual/tester check (no jsdom here, and SSR cannot change state).
   const [seenIndex, setSeenIndex] = useState(activeIndex);
   if (seenIndex !== activeIndex) {
     setSeenIndex(activeIndex);

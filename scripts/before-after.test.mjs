@@ -12,9 +12,10 @@ const tsx = path.join(repo, "node_modules/tsx/dist/cli.mjs");
 const script = `
   import { createElement } from "react";
   import { renderToStaticMarkup } from "react-dom/server";
-  const { pctAfterLookChange } = await import(${JSON.stringify(path.join(repo, "lib/beforeAfter.ts"))}).then((m) => m.default ?? m);
-  const Slider = await import(${JSON.stringify(path.join(repo, "components/BeforeAfterSlider.tsx"))}).then((m) => m.default ?? m.BeforeAfterSlider ?? m);
-  const C = Slider.default ?? Slider.BeforeAfterSlider ?? Slider;
+  // tsx -e loads .ts/.tsx as CommonJS, so the namespace's default is the
+  // module's exports object (and the component's is its .default).
+  const { pctAfterLookChange } = (await import(${JSON.stringify(path.join(repo, "lib/beforeAfter.ts"))})).default;
+  const C = (await import(${JSON.stringify(path.join(repo, "components/BeforeAfterSlider.tsx"))})).default.default;
   const afters = [{ src: "/a.jpg", alt: "A" }, { src: "/b.jpg", alt: "B" }, { src: "/c.jpg", alt: "C" }];
   const html = [0, 1, 2].map((i) => renderToStaticMarkup(createElement(C, { beforeSrc: "/x.jpg", beforeAlt: "X", afters, activeIndex: i, heightVariant: "storage" })));
   console.log(JSON.stringify({ pcts: [0, 50, 94, 95, 100].map(pctAfterLookChange), html }));
