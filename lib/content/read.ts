@@ -85,9 +85,12 @@ export function findDirectives(tree: Root): FoundDirective[] {
  *  the end CTA must be the last block (the layout adds one when absent). */
 export function ctaStructureProblems(tree: Root): { line: number | undefined; message: string }[] {
   const out: { line: number | undefined; message: string }[] = [];
-  const ctas = tree.children.filter(
-    (n): n is Extract<typeof n, { type: "leafDirective" }> => n.type === "leafDirective" && n.name === "cta",
-  );
+  // Walk the whole tree so a CTA nested in a quote or list still counts.
+  type Cta = { name: string; attributes?: Record<string, string | null | undefined> | null; position?: { start: { line: number } } };
+  const ctas: Cta[] = [];
+  visit(tree, "leafDirective", (node) => {
+    if (node.name === "cta") ctas.push(node);
+  });
   const ends = ctas.filter((n) => n.attributes?.variant === "end");
   const mids = ctas.filter((n) => n.attributes?.variant !== "end");
   if (mids.length > 1) {
@@ -96,7 +99,7 @@ export function ctaStructureProblems(tree: Root): { line: number | undefined; me
   if (ends.length > 1) {
     out.push({ line: ends[1].position?.start.line, message: 'more than one ::cta{variant="end"}' });
   }
-  if (ends.length > 0 && tree.children[tree.children.length - 1] !== ends[ends.length - 1]) {
+  if (ends.length > 0 && tree.children[tree.children.length - 1] !== (ends[ends.length - 1] as unknown)) {
     out.push({
       line: ends[ends.length - 1].position?.start.line,
       message: 'the ::cta{variant="end"} must be the last block of the article',

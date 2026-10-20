@@ -79,6 +79,7 @@ Each directive goes on its own line. The syntax is defined in `lib/content/direc
   - **Don't write an end CTA.** The layout adds the end CTA automatically after the body.
   - Use `::cta{variant="end" title="..." text="..."}` only to replace the default end copy, and then only once, as the last line.
 - `::style-card{ids="japandi scandinavian"}`: 1 to 4 styles from `data/styles.ts`. Optional `text="japandi: one line | scandinavian: one line"`.
+- Body images: `![alt](/images/articles/<slug>/x.webp)`. Every body image gets the AI redesign label by default; for a real, non-AI photo add the title `"photo"`: `![alt](/images/x.webp "photo")`. Alt text is required.
 
 YAML: quote any frontmatter value that contains a colon (most often `description`).
 

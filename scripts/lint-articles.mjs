@@ -26,7 +26,7 @@ import {
   parseMdast,
   readFrontmatter,
 } from "../lib/content/read.ts";
-import { WORD_RANGE, articleSchema } from "../lib/content/schema.ts";
+import { PUBLISHED_TYPES, WORD_RANGE, articleSchema } from "../lib/content/schema.ts";
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -86,7 +86,7 @@ function internalTargetExists(urlPath) {
   const clean = urlPath.split("#")[0].split("?")[0].replace(/\/$/, "") || "/";
   if (STATIC_PAGES.has(clean)) return true;
   const m = clean.match(/^\/(guides|ideas)\/([^/]+)$/);
-  if (m && knownSlugs.has(`${m[1]}/${m[2]}`)) return true;
+  if (m) return PUBLISHED_TYPES.includes(m[1]) && knownSlugs.has(`${m[1]}/${m[2]}`);
   return fs.existsSync(path.join(repo, "public", clean));
 }
 

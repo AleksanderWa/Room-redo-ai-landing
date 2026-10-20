@@ -26,6 +26,11 @@ test("good fixture passes (warnings do not fail)", () => {
   assert.match(out, /0 errors/);
 });
 
+test("a real photo opted out with the title \"photo\" passes", () => {
+  const { code, out } = lint("good-photo-optout");
+  assert.equal(code, 0, out);
+});
+
 const broken = [
   ["bad-em-dash", "em-dash"],
   ["bad-slug", "slug"],
@@ -35,6 +40,8 @@ const broken = [
   ["bad-cta-two-mid", "directive"],
   ["bad-cta-two-end", "directive"],
   ["bad-cta-end-not-last", "directive"],
+  ["bad-cta-nested", "directive"],
+  ["bad-link-ideas", "link"],
 ];
 
 for (const [name, rule] of broken) {
@@ -45,3 +52,19 @@ for (const [name, rule] of broken) {
     assert.match(out, /1 error,/, `only the ${rule} check should fail:\n${out}`);
   });
 }
+
+test("body images are AI-labelled unless the title is \"photo\"", () => {
+  const code = `
+    const m = await import("${path.join(repo, "lib/content/image.ts")}");
+    const f = (m.default ?? m).splitImageTitle;
+    console.log(JSON.stringify([f(undefined), f("A caption"), f("photo"), f(" Photo ")]));
+  `;
+  const res = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", code], { cwd: repo, encoding: "utf8" });
+  assert.equal(res.status, 0, res.stderr);
+  assert.deepEqual(JSON.parse(res.stdout), [
+    { isPhoto: false },
+    { isPhoto: false, caption: "A caption" },
+    { isPhoto: true },
+    { isPhoto: true },
+  ]);
+});
