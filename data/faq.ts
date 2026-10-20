@@ -4,7 +4,13 @@
 // "How long does it take?": the approved mockup left this as a placeholder.
 // The app has no user-facing duration claim to cite, so this is the
 // non-committal answer until someone confirms a real typical time.
-export type Faq = { q: string; a: string };
+// `more` is an optional link line shown under the answer. It stays out of `a`
+// so the FAQPage JSON-LD text is plain. The component appends the arrow.
+export type Faq = {
+  q: string;
+  a: string;
+  more?: { label: string; href: string };
+};
 
 export const faqs: Faq[] = [
   { q: "Do I need an account?", a: "No. Your device is enough." },
@@ -14,7 +20,8 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is the free redesign the full thing?",
-    a: "Yes, the full redesign, with a small watermark until you subscribe.",
+    a: "Yes, the full redesign, with a small watermark until your first purchase.",
+    more: { label: "More on what's free", href: "/guides/ai-room-design-free" },
   },
   {
     q: "Which rooms work?",
@@ -22,7 +29,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "How long does it take?",
-    a: "A little while — the app shows the redesign developing as it happens.",
+    a: "A little while. The app shows the redesign developing as it happens.",
   },
   { q: "Is it on Android?", a: "iPhone only for now." },
   {
