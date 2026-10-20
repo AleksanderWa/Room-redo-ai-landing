@@ -8,6 +8,7 @@ Last checked: 2026-10-20 against the app code (`roomredo-app/src/constants/billi
 
 - Room Redo is an **iPhone app**. It is not on Android and there is no web version.
 - App Store: https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415
+- Free to download from the App Store (verified 2026-10-20). The first redesign is free; more redesigns need a plan or pack.
 - You take one photo of your own room (camera or photo library), pick a style, and get that same room redesigned in the new look.
 - It starts from your photo, not a stock room.
 - A redesign is an idea to look at. It is not a building plan, and details can differ from your photo.

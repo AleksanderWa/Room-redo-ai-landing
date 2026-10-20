@@ -32,11 +32,11 @@ faq:
   - q: "Do I need to sign up or log in?"
     a: "No. There's no sign-up, no email and no password. Your device is enough: the app creates a private ID on it to keep track of your redesigns and purchases."
   - q: "Can I use a photo of my own room?"
-    a: "Yes, that's the whole idea. Take a photo with your camera or pick one from your library, and Room Redo redesigns that same room. Photograph the space without people in it; photos with people are turned away."
+    a: "Yes, that's the whole idea. Take a photo with your camera or pick one from your library, and Room Redo redesigns that same room. For the clearest result, shoot from the doorway so the photo takes in most of the room."
   - q: "Does it work on Android or in a browser?"
-    a: "Room Redo is an iPhone app. The redesigning happens in the app, and this page is where you find it."
+    a: "Room Redo is an iPhone app, free to download from the App Store. You take the photo and see your redesign right there in the app."
   - q: "Is there a watermark on the free redesign?"
-    a: "Yes, a small Room Redo watermark. It stays until the device has bought something, after which your redesigns come without it."
+    a: "Yes, a small Room Redo watermark. It stays until the device has bought something."
   - q: "Can I ask for things like plants or a rug?"
     a: "Yes. You can ask for up to three things you'd like in the room, such as plants or a rug, before the app redesigns it."
   - q: "What happens to my photos?"
@@ -98,9 +98,9 @@ The photo is the step that matters most.
 Stand in the doorway or a corner so the shot takes in as much of the room as you can. Leave people out of the frame; photos with people in them are turned away.
 :::
 
-Here's step four on the spare room. Drag the slider.
+Here's step four on the spare room, this time in Mid-Century Modern. Drag the slider.
 
-::before-after{before="/images/articles/ai-room-design-free/boxroom-before.webp" after="/images/articles/ai-room-design-free/boxroom-scandinavian.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" afterAlt="AI redesign of the same room in Scandinavian style, with a pale wood single bed, a sage knit throw, an oak dresser, a bentwood chair and a jute runner" caption="The spare room in Scandinavian style"}
+::before-after{before="/images/articles/ai-room-design-free/boxroom-before.webp" after="/images/articles/ai-room-design-free/boxroom-mid-century-modern.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" afterAlt="AI redesign of the same room in Mid-Century Modern style, with sage green walls, a walnut single bed with a rust cushion and an olive throw, a walnut dresser with a dome lamp, an olive pendant light and a jute runner" caption="The spare room in Mid-Century Modern style"}
 
 Every room you redesign is kept in "My spaces", so you can come back and try another look later. Room Redo starts from your photo, not a stock room, so what you see is your room, not a picture of somebody else's.
 
@@ -138,9 +138,9 @@ The busy floral wallpaper gives way to a calm sage wall with a framed mountain p
 
 ## Is this AI room design free, really?
 
-Yes: your first redesign is free, one per device. It's the full redesign, in any style, including the Wild ones. It carries a small Room Redo watermark, which stays until the device has bought something.
+Yes: your first redesign is free, one per device. It's the full redesign, in any style, including the Wild ones.
 
-That makes it a fair test. Pick the style you're most curious about, use your real room, and judge the result before you spend anything.
+That makes it a fair test. Pick the style you're most curious about, use your real room, and judge the result before you spend anything. If you like what you see, the plans and packs are just below.
 
 ## What's free and what's paid
 
@@ -152,4 +152,4 @@ Every plan and pack works on rooms and corners, in all styles. If you only have 
 
 ## Try it on the room you've been putting off
 
-Everyone has one. The spare room full of boxes, the bedroom that never felt finished, the corner that just holds a chair. Take a photo of it tonight and pick the style you keep saving pictures of. The first redesign is on us.
+Most homes have a room whose door stays shut when guests come over. For a lot of people it's the spare room that slowly filled up with boxes. Take a photo of it tonight and pick the style you keep saving pictures of. The first redesign is on us.
