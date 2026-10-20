@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkDirective from "remark-directive";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
-import type { Root } from "mdast";
+import type { Nodes, Root } from "mdast";
 import { styles } from "../../data/styles.ts";
 import { checkDirective } from "./directives.ts";
 import { ARTICLE_TYPES, articleSchema, type ArticleType } from "./schema.ts";
@@ -81,15 +81,22 @@ export function findDirectives(tree: Root): FoundDirective[] {
   return found;
 }
 
+/** A `::cta` leaf directive. mdast-util-directive is not a direct dependency,
+ *  so this is a narrow local type plus a guard instead of its node types. */
+type Cta = Nodes & { name: string; attributes?: Record<string, string | null | undefined> | null };
+
+function isCta(node: Nodes): node is Cta {
+  return node.type === "leafDirective" && (node as Partial<Cta>).name === "cta";
+}
+
 /** CTA placement rules: at most one plain `::cta`, at most one end CTA, and
  *  the end CTA must be the last block (the layout adds one when absent). */
 export function ctaStructureProblems(tree: Root): { line: number | undefined; message: string }[] {
   const out: { line: number | undefined; message: string }[] = [];
   // Walk the whole tree so a CTA nested in a quote or list still counts.
-  type Cta = { name: string; attributes?: Record<string, string | null | undefined> | null; position?: { start: { line: number } } };
   const ctas: Cta[] = [];
-  visit(tree, "leafDirective", (node) => {
-    if (node.name === "cta") ctas.push(node);
+  visit(tree, (node) => {
+    if (isCta(node)) ctas.push(node);
   });
   const ends = ctas.filter((n) => n.attributes?.variant === "end");
   const mids = ctas.filter((n) => n.attributes?.variant !== "end");
@@ -99,7 +106,7 @@ export function ctaStructureProblems(tree: Root): { line: number | undefined; me
   if (ends.length > 1) {
     out.push({ line: ends[1].position?.start.line, message: 'more than one ::cta{variant="end"}' });
   }
-  if (ends.length > 0 && tree.children[tree.children.length - 1] !== (ends[ends.length - 1] as unknown)) {
+  if (ends.length > 0 && tree.children[tree.children.length - 1] !== ends[ends.length - 1]) {
     out.push({
       line: ends[ends.length - 1].position?.start.line,
       message: 'the ::cta{variant="end"} must be the last block of the article',

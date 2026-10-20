@@ -79,7 +79,13 @@ function fleschReadingEase(text) {
 }
 
 const allArticles = listArticleFiles(contentDir);
-const knownSlugs = new Set(allArticles.map((a) => `${a.type}/${a.slug}`));
+// Only published articles are valid link and `related` targets: a draft is
+// not built in production, so a link to it would 404.
+const knownSlugs = new Set(
+  allArticles
+    .filter((a) => PUBLISHED_TYPES.includes(a.type) && readFrontmatter(a.file).data.draft !== true)
+    .map((a) => `${a.type}/${a.slug}`),
+);
 const bannedPhrases = loadBanned();
 
 function internalTargetExists(urlPath) {
@@ -128,7 +134,7 @@ function lintFile(entry) {
     for (const rel of fm.related) {
       if (rel === fm.slug) add("error", "related", "related lists the article itself");
       else if (!knownSlugs.has(`${fm.type}/${rel}`)) {
-        add("error", "related", `related slug "${rel}" does not exist`);
+        add("error", "related", `related slug "${rel}" does not exist or is not published`);
       }
     }
     if (!publicFileExists(fm.hero.src)) add("error", "image", `hero image not found: public${fm.hero.src}`);

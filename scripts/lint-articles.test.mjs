@@ -42,6 +42,7 @@ const broken = [
   ["bad-cta-end-not-last", "directive"],
   ["bad-cta-nested", "directive"],
   ["bad-link-ideas", "link"],
+  ["bad-link-draft", "link"],
 ];
 
 for (const [name, rule] of broken) {
