@@ -1,13 +1,11 @@
-import { PRICING_FOOTNOTE, PRICING_GROUPS, PRICING_ROWS } from "@/data/pricing";
+import { PRICING_FOOTNOTE, PRICING_ROWS, shownPricingGroups } from "@/data/pricing";
 import { parsePricingGroups } from "@/lib/content/directives";
 
 /** `::pricing`. Renders data/pricing.ts, the only place prices live. Not a
  *  table: each group is a real list, so it reads the same at every width. */
 export default function Pricing({ groups, footnote }: { groups?: string; footnote?: string }) {
   const wanted = parsePricingGroups({ groups: groups ?? "" });
-  const shown = PRICING_GROUPS.filter(
-    (g) => (wanted.length === 0 || wanted.includes(g.id)) && PRICING_ROWS.some((r) => r.group === g.id),
-  );
+  const shown = shownPricingGroups(wanted);
   if (shown.length === 0) return null;
   const showNote = footnote !== "off" && PRICING_FOOTNOTE.length > 0;
   return (

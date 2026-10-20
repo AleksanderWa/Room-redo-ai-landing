@@ -11,8 +11,7 @@ import { imageOnlyParagraph } from "./blocks.ts";
 //   3. minimum mix: a table or ::pricing, an :::at-a-glance, and for a guide of
 //      900+ words a :::steps or :::looks
 //   4. callout budget: tip/note 1 per 500 words (minimum 1 allowed) and 3 per
-//      article; one
-//      at-a-glance and one ::pricing
+//      article; at most one :::at-a-glance and one ::pricing
 //   5. no stacking: two visual blocks need a sentence between them
 //   6. an H2 section over 150 words has a list or a visual block
 //   7. no more than two list-heavy H2 sections in a row (warning)

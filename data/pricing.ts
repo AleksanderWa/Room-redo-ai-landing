@@ -29,3 +29,9 @@ export const PRICING_ROWS: PricingRow[] = [
 
 export const PRICING_FOOTNOTE =
   "US App Store prices. Plans renew automatically until you cancel. Cancel any time in iPhone Settings, under Subscriptions.";
+
+/** The groups a `::pricing` shows: the wanted ids (all when none are given),
+ *  minus any group with no rows. Shared by the block and the lint warning. */
+export function shownPricingGroups(wanted: readonly string[], rows: readonly PricingRow[] = PRICING_ROWS) {
+  return PRICING_GROUPS.filter((g) => (wanted.length === 0 || wanted.includes(g.id)) && rows.some((r) => r.group === g.id));
+}

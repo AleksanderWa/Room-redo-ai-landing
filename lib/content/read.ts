@@ -8,7 +8,7 @@ import remarkDirective from "remark-directive";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 import type { Nodes, Root } from "mdast";
-import { PRICING_GROUPS, PRICING_ROWS } from "../../data/pricing.ts";
+import { shownPricingGroups } from "../../data/pricing.ts";
 import { styles } from "../../data/styles.ts";
 import { containerBodyIssues } from "./blocks.ts";
 import { checkDirective, parsePricingGroups } from "./directives.ts";
@@ -83,9 +83,7 @@ export function findDirectives(tree: Root): FoundDirective[] {
     }
     if (node.name === "pricing") {
       const wanted = parsePricingGroups(attrs);
-      const shown = PRICING_GROUPS.filter(
-        (g) => (wanted.length === 0 || wanted.includes(g.id)) && PRICING_ROWS.some((r) => r.group === g.id),
-      );
+      const shown = shownPricingGroups(wanted);
       if (shown.length === 0) warnings.push("empty ::pricing (no price group to show); the block renders nothing");
     }
     found.push({

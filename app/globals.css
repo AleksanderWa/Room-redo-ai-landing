@@ -2070,7 +2070,9 @@ button.rr-cta-badge {
 
 .rr-article-table th,
 .rr-article-table td {
-  overflow-wrap: anywhere;
+  /* break-word, not anywhere: anywhere shrinks min-content, so the auto table
+     layout squeezes short columns and splits ordinary words. */
+  overflow-wrap: break-word;
 }
 
 .rr-article-table td {

@@ -43,7 +43,6 @@ const variants = {
   "pr-groups-comma": { edit: (s) => swap(s, PRICING, '::pricing{groups="plans, packs"}\n') },
   "pr-footnote-off": { edit: (s) => swap(s, PRICING, '::pricing{footnote="off"}\n') },
   "pr-bad-group": { edit: (s) => swap(s, PRICING, '::pricing{groups="plans yearly"}\n'), rule: "directive", re: /unknown group "yearly"/ },
-  "pr-empty": { edit: (s) => swap(s, PRICING, '::pricing{groups="yearly"}\n'), rule: "directive", re: /unknown group "yearly"/, extra: true },
   "pr-bad-footnote": { edit: (s) => swap(s, PRICING, '::pricing{footnote="short"}\n'), rule: "directive", re: /footnote can only be "off"/ },
   "pr-bad-attr": { edit: (s) => swap(s, PRICING, "::pricing{price=\"1\"}\n"), rule: "directive", re: /does not take "price"/ },
   "pr-container": { edit: (s) => swap(s, PRICING, ":::pricing\n:::\n"), rule: "directive", re: /must be a leaf directive/ },
@@ -385,8 +384,27 @@ for (const [name, v] of Object.entries(variants)) {
   }
 }
 
-test("a ::pricing that leaves no group warns 'empty ::pricing'", () => {
-  assert.ok(result("pr-empty").warns.some((w) => /empty ::pricing/.test(w.message)), JSON.stringify(result("pr-empty")));
+test("an unknown ::pricing group is an error, not just an empty block", () => {
+  assert.ok(result("pr-bad-group").errors.some((e) => /unknown group "yearly"/.test(e.message)));
+});
+
+test("a valid ::pricing group with no rows shows nothing (the 'empty ::pricing' warning)", () => {
+  const script = `
+    const pricing = await import(${JSON.stringify(path.join(repo, "data/pricing.ts"))}).then((m) => m.default ?? m);
+    const rows = pricing.PRICING_ROWS.filter((r) => r.group !== "packs");
+    console.log(JSON.stringify({
+      real: pricing.shownPricingGroups(["packs"]).map((g) => g.id),
+      noPackRows: pricing.shownPricingGroups(["packs"], rows).map((g) => g.id),
+      allNoPackRows: pricing.shownPricingGroups([], rows).map((g) => g.id),
+      unknown: pricing.shownPricingGroups(["yearly"]).map((g) => g.id),
+    }));`;
+  const res = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", script], { cwd: repo, encoding: "utf8" });
+  assert.equal(res.status, 0, res.stderr);
+  const out = JSON.parse(res.stdout.trim().split("\n").pop());
+  assert.deepEqual(out.real, ["packs"]);
+  assert.deepEqual(out.noPackRows, []);
+  assert.deepEqual(out.allNoPackRows, ["free", "plans"]);
+  assert.deepEqual(out.unknown, []);
   assert.ok(!result("fixture-good").warns.some((w) => /empty ::pricing/.test(w.message)));
 });
 
