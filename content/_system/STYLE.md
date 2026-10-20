@@ -87,7 +87,7 @@ Visual blocks (full syntax in `lib/content/directives.ts`):
 - `:::at-a-glance`: a key-facts box with 3 to 5 `- Label: value` bullets. Put it right after the intro paragraph. One per article.
 - `:::steps`: 2 to 5 numbered steps written as an ordered list. Start each step with a **bold title**, then one line. An optional image per step gets the AI label unless titled `"photo"`.
 - `:::looks{before="..." beforeAlt="..." caption="..."}`: the same room in 2 to 4 styles. Write one image per look, with the style name as the image title: `![alt](/images/...webp "Japandi")`.
-- `:::tip` and `:::note`: one short point (up to 45 words) with an optional `title`. At most one per 500 words and 3 per article.
+- `:::tip` and `:::note`: one short point (up to 45 words) with an optional `title`. At most one per 500 words (minimum 1 allowed), and 3 per article.
 - Markdown tables: use them wherever the content is a comparison or a list of facts. On mobile, tables with 3 or more columns turn into cards automatically.
 
 **FAQ:** put secondary questions in frontmatter `faq: [{q, a}]`, with 3 to 8 items and answers of up to 70 words. They render collapsed at the end, before the end CTA, and Google still reads them. Keep the **primary-intent question** as a visible H2 section in the body (e.g. "Is it really free?"). Move the smaller questions (sign-up, Android, photo tips) into `faq`.

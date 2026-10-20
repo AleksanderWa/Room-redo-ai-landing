@@ -43,6 +43,7 @@ const variants = {
   "pr-groups-comma": { edit: (s) => swap(s, PRICING, '::pricing{groups="plans, packs"}\n') },
   "pr-footnote-off": { edit: (s) => swap(s, PRICING, '::pricing{footnote="off"}\n') },
   "pr-bad-group": { edit: (s) => swap(s, PRICING, '::pricing{groups="plans yearly"}\n'), rule: "directive", re: /unknown group "yearly"/ },
+  "pr-empty": { edit: (s) => swap(s, PRICING, '::pricing{groups="yearly"}\n'), rule: "directive", re: /unknown group "yearly"/, extra: true },
   "pr-bad-footnote": { edit: (s) => swap(s, PRICING, '::pricing{footnote="short"}\n'), rule: "directive", re: /footnote can only be "off"/ },
   "pr-bad-attr": { edit: (s) => swap(s, PRICING, "::pricing{price=\"1\"}\n"), rule: "directive", re: /does not take "price"/ },
   "pr-container": { edit: (s) => swap(s, PRICING, ":::pricing\n:::\n"), rule: "directive", re: /must be a leaf directive/ },
@@ -148,6 +149,11 @@ const variants = {
   },
   "st-photo-image": {
     edit: (s) => swap(s, "(/images/hero-after.jpg)\n3.", '(/images/hero-after.jpg "photo")\n3.'),
+  },
+  "st-image-no-blank-line": {
+    edit: (s) => swap(s, "\n\n   ![AI redesign of a bedroom with a clear walk path in a calm style]", "\n   ![AI redesign of a bedroom with a clear walk path in a calm style]"),
+    rule: "directive",
+    re: /item \d has an image directly under its text; put a blank line before the image/,
   },
   "st-missing-alt": {
     edit: (s) => swap(s, "![AI redesign of a bedroom with a clear walk path in a calm style]", "![]"),
@@ -379,6 +385,11 @@ for (const [name, v] of Object.entries(variants)) {
   }
 }
 
+test("a ::pricing that leaves no group warns 'empty ::pricing'", () => {
+  assert.ok(result("pr-empty").warns.some((w) => /empty ::pricing/.test(w.message)), JSON.stringify(result("pr-empty")));
+  assert.ok(!result("fixture-good").warns.some((w) => /empty ::pricing/.test(w.message)));
+});
+
 test.after(() => fs.rmSync(tmp, { recursive: true, force: true }));
 
 // ----------------------------------------------------------------- rhythm
@@ -447,6 +458,12 @@ const rhythmCases = {
   "r8-footnote-wording": { md: base(p(40), GL, h2("Cost"), "::pricing\n\n", "Plans renew each week.\n\n", STEPSB), rule: "repeats the footnote", expect: "error" },
   "r8-cancel-wording": { md: base(p(40), GL, h2("Cost"), p(20), "::pricing\n\n", "You can cancel any time.\n\n", STEPSB), rule: "repeats the footnote", expect: "error" },
   "r8-footnote-off-ok": { md: base(p(40), GL, h2("Cost"), "::pricing{footnote=\"off\"}\n\n", "Plans renew each week.\n\n", STEPSB), rule: "repeats the footnote", expect: "none" },
+  "r8-before-wording": { md: base(p(40), GL, h2("Cost"), "Cancel any time.\n\n", "::pricing\n\n", STEPSB), rule: "repeats the footnote", expect: "error" },
+  "r8-elsewhere-in-section-ok": {
+    md: base(p(40), GL, h2("Cost"), "Cancel the old plan first.\n\n", p(20), "::pricing\n\n", "Every plan works in all styles.\n\n", "Plans renew on their own.\n\n", STEPSB),
+    rule: "repeats the footnote",
+    expect: "none",
+  },
   "r8-clean-neighbour": { md: base(p(40), GL, h2("Cost"), p(20), "::pricing\n\n", "Every plan works in all styles.\n\n", STEPSB), rule: "repeats the footnote", expect: "none" },
 };
 

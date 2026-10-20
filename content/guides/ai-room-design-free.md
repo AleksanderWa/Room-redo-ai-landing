@@ -132,7 +132,7 @@ You don't have to redesign a whole room, either. Photograph a single corner and 
 
 Here's a second real example, a messy bedroom redesigned with a sage accent wall behind the bed.
 
-::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="A cluttered bedroom, redesigned"}
+::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="The cluttered bedroom, before and after"}
 
 The busy floral wallpaper gives way to a calm sage wall with a framed mountain print, and the bed gets a pale wood frame, linen bedding, a bedside lamp and a jute rug underneath.
 

@@ -1,6 +1,7 @@
 import type { Element, ElementContent, Properties, Root } from "hast";
 import { SKIP, visit } from "unist-util-visit";
 import { toString as hastToString } from "hast-util-to-string";
+import { CARD_COLUMNS } from "./blocks.ts";
 
 // Turns the container directives (already validated by blocks.ts) and markdown
 // tables into the exact markup the CSS expects, so the page is plain HTML plus
@@ -69,7 +70,8 @@ function steps(node: Element): Element {
     const inline = inlineOf(li).filter((c, i) => i > 0 || !isBlank(c));
     const strongIndex = inline.findIndex((c) => isEl(c) && c.tagName === "strong");
     const strong = strongIndex >= 0 ? (inline[strongIndex] as Element) : undefined;
-    const line = trimStart(inline.filter((_, i) => i !== strongIndex));
+    // Never render an image inside the line; the step image is added below.
+    const line = trimStart(inline.filter((c, i) => i !== strongIndex && !(isEl(c) && c.tagName === "img")));
     const img = findImages(li)[0];
     const children: ElementContent[] = [
       el("div", "rr-article-step-text", [
@@ -118,14 +120,10 @@ function callout(node: Element, variant: "tip" | "note"): Element {
   );
 }
 
-/** Column count at which a table turns into cards on a phone. */
-export const CARD_COLUMNS = 3;
-/** Column count at which a table also gets a focusable scroll region. */
-export const WIDE_COLUMNS = 5;
-
 /** Labels every cell with its column header (for the mobile card layout) and
  *  sets explicit table roles on 3+ column tables, so Safari and VoiceOver keep
- *  the table semantics when CSS changes the display. */
+ *  the table semantics when CSS changes the display. This is the only place
+ *  that sets `role="table"`; the renderer reads it from the node. */
 function table(node: Element): void {
   const headRow = elements(elements(node, "thead")[0] ?? el("thead", null), "tr")[0];
   const headers = headRow ? elements(headRow).map((c) => hastToString(c).trim()) : [];

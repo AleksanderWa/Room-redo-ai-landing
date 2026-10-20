@@ -8,9 +8,10 @@ import remarkDirective from "remark-directive";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 import type { Nodes, Root } from "mdast";
+import { PRICING_GROUPS, PRICING_ROWS } from "../../data/pricing.ts";
 import { styles } from "../../data/styles.ts";
 import { containerBodyIssues } from "./blocks.ts";
-import { checkDirective } from "./directives.ts";
+import { checkDirective, parsePricingGroups } from "./directives.ts";
 import { ARTICLE_TYPES, FAQ_MIN, articleSchema, type ArticleType } from "./schema.ts";
 
 // Node-only helpers shared by the Next.js loader (lib/content/load.ts) and
@@ -79,6 +80,13 @@ export function findDirectives(tree: Root): FoundDirective[] {
       for (const issue of containerBodyIssues(node as never, attrs)) {
         (issue.level === "error" ? problems : warnings).push(issue.message);
       }
+    }
+    if (node.name === "pricing") {
+      const wanted = parsePricingGroups(attrs);
+      const shown = PRICING_GROUPS.filter(
+        (g) => (wanted.length === 0 || wanted.includes(g.id)) && PRICING_ROWS.some((r) => r.group === g.id),
+      );
+      if (shown.length === 0) warnings.push("empty ::pricing (no price group to show); the block renders nothing");
     }
     found.push({
       name: node.name,

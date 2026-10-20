@@ -106,6 +106,11 @@ function stepsIssues(node: Container): BlockIssue[] {
       out.push(err(`:::steps item ${n} must start with a bold title: **Title.** One line.`));
       return;
     }
+    // An image on the line right under the item (no blank line) is parsed into
+    // the first paragraph. Reject it: it would render inside the text.
+    if (p.children.some((c) => c.type === "image")) {
+      out.push(err(`:::steps item ${n} has an image directly under its text; put a blank line before the image`));
+    }
     const title = toString(strong).trim();
     const line = toString({ type: "paragraph", children: p.children.slice(1) }).trim();
     if (title.length > STEP_TITLE_MAX) out.push(err(`:::steps item ${n} title is over ${STEP_TITLE_MAX} characters`));
@@ -196,7 +201,12 @@ export function containerBodyIssues(node: Container, attrs: Record<string, strin
   }
 }
 
-export const TABLE_WARN_COLUMNS = 5;
+/** Column count at which a table turns into cards on a phone. */
+export const CARD_COLUMNS = 3;
+/** Column count at which a table also gets a focusable scroll region; a table
+ *  wider than this gets a lint warning. One source for the renderer and the linter. */
+export const WIDE_COLUMNS = 5;
+export const TABLE_WARN_COLUMNS = WIDE_COLUMNS;
 
 /** Every `td` needs a header to use as its label in the mobile card layout,
  *  and a table wider than five columns should be split. */

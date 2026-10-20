@@ -2046,7 +2046,7 @@ button.rr-cta-badge {
   margin: 28px 0;
   border: 1px solid var(--rr-line);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
 }
 
 .rr-article-table table {
@@ -2066,6 +2066,11 @@ button.rr-cta-badge {
   background: var(--rr-sand);
   padding: 12px 14px;
   border-bottom: 1px solid var(--rr-line);
+}
+
+.rr-article-table th,
+.rr-article-table td {
+  overflow-wrap: anywhere;
 }
 
 .rr-article-table td {

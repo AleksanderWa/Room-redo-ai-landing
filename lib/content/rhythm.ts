@@ -10,13 +10,15 @@ import { imageOnlyParagraph } from "./blocks.ts";
 //   2. the first visual block starts within the first 200 words
 //   3. minimum mix: a table or ::pricing, an :::at-a-glance, and for a guide of
 //      900+ words a :::steps or :::looks
-//   4. callout budget: tip/note 1 per 500 words and 3 per article; one
+//   4. callout budget: tip/note 1 per 500 words (minimum 1 allowed) and 3 per
+//      article; one
 //      at-a-glance and one ::pricing
 //   5. no stacking: two visual blocks need a sentence between them
 //   6. an H2 section over 150 words has a list or a visual block
 //   7. no more than two list-heavy H2 sections in a row (warning)
 //   8. reuse, do not retype: no hand-typed prices, and no renew or cancel
-//      wording next to ::pricing (checked in priceMentions and here)
+//      wording in the paragraph directly before or after ::pricing (checked in
+//      priceMentions and here)
 //
 // A "visual block" is ::before-after, ::style-card, :::looks, :::steps,
 // :::at-a-glance, ::pricing, :::tip, :::note, a table, a body image or a
@@ -130,6 +132,8 @@ export function rhythmIssues(tree: Root, opts: { type: string; words: number }):
   if (count("at-a-glance") > 1) add("error", "rhythm", "more than one :::at-a-glance", second("at-a-glance"));
   if (count("pricing") > 1) add("error", "rhythm", "more than one ::pricing", second("pricing"));
   const callouts = count("tip", "note");
+  // Deliberate floor of 1 (orchestrator decision, 2026-10-20): a short guide
+  // still deserves one tip, so the budget is 1 per 500 words, minimum 1, max 3.
   const allowed = Math.min(MAX_CALLOUTS, Math.max(1, Math.floor(opts.words / WORDS_PER_CALLOUT)));
   if (callouts > allowed) {
     add("error", "rhythm", `${callouts} :::tip or :::note blocks; at most ${allowed} for ${opts.words} words (1 per ${WORDS_PER_CALLOUT}, ${MAX_CALLOUTS} per article)`);
@@ -146,18 +150,18 @@ export function rhythmIssues(tree: Root, opts: { type: string; words: number }):
   }
 
   // Rules 6, 7 and the pricing wording rule: per H2 section.
-  type Section = { title: string; node?: Nodes; words: number; listWords: number; visual: boolean; pricing?: Nodes; footnoteOff: boolean; repeats?: Nodes };
+  type Section = { title: string; node?: Nodes; words: number; listWords: number; visual: boolean };
   const sections: Section[] = [];
   let cur: Section | null = null;
   for (const { node, c } of nodes) {
     if (c.kind === "heading" && c.depth === 2) {
-      cur = { title: c.text, node, words: 0, listWords: 0, visual: false, footnoteOff: false };
+      cur = { title: c.text, node, words: 0, listWords: 0, visual: false };
       sections.push(cur);
       continue;
     }
     if (!cur) {
       // The intro before the first H2 is not a section, but pricing may live there.
-      cur = { title: "", words: 0, listWords: 0, visual: false, footnoteOff: false };
+      cur = { title: "", words: 0, listWords: 0, visual: false };
       sections.push(cur);
     }
     if (c.kind === "text") {
@@ -166,13 +170,8 @@ export function rhythmIssues(tree: Root, opts: { type: string; words: number }):
         cur.listWords += c.words;
         cur.visual = true;
       }
-      if (FOOTNOTE_WORDING.test(toString(node))) cur.repeats ??= node;
     } else if (c.kind === "block") {
       cur.visual = true;
-      if (c.name === "pricing" && node.type === "leafDirective") {
-        cur.pricing = node;
-        cur.footnoteOff = node.attributes?.footnote === "off";
-      }
     }
   }
   let listRun = 0;
@@ -188,11 +187,17 @@ export function rhythmIssues(tree: Root, opts: { type: string; words: number }):
       listRun = 0;
     }
   }
-  for (const s of sections) {
-    if (s.pricing && !s.footnoteOff && s.repeats) {
-      add("error", "rhythm", "the text next to ::pricing repeats the footnote (renewal and cancel wording); drop it or use footnote=\"off\"", s.repeats);
+
+  // Rule 8: only the paragraph directly before or after ::pricing is checked
+  // (renew or cancel wording elsewhere in the section is fine).
+  nodes.forEach(({ node }, i) => {
+    if (node.type !== "leafDirective" || node.name !== "pricing" || node.attributes?.footnote === "off") return;
+    for (const neighbour of [nodes[i - 1]?.node, nodes[i + 1]?.node]) {
+      if (neighbour?.type === "paragraph" && FOOTNOTE_WORDING.test(toString(neighbour))) {
+        add("error", "rhythm", "the text next to ::pricing repeats the footnote (renewal and cancel wording); drop it or use footnote=\"off\"", neighbour);
+      }
     }
-  }
+  });
 
   return out;
 }

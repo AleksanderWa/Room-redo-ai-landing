@@ -22,7 +22,8 @@ import StyleCards from "@/components/article/StyleCards";
 import type { ArticleContext } from "@/components/DownloadCta";
 import { parseStyleIds } from "@/lib/content/directives";
 import { assertDirectivesValid } from "@/lib/content/read";
-import { CARD_COLUMNS, WIDE_COLUMNS, rehypeArticleBlocks } from "@/lib/content/rehype-blocks";
+import { CARD_COLUMNS, WIDE_COLUMNS } from "@/lib/content/blocks";
+import { rehypeArticleBlocks } from "@/lib/content/rehype-blocks";
 import { SITE_URL } from "@/lib/site";
 
 /** Turns each whitelisted directive into a custom hast element the component
@@ -48,7 +49,12 @@ function isImageOnlyParagraph(node: Element | undefined): boolean {
   return kids.length === 1 && kids[0].type === "element" && kids[0].tagName === "img";
 }
 
+/** Relative links, anchors, http(s), mailto and tel only. Anything else
+ *  (javascript:, data:, vbscript:, ...) is dropped and the text stays. */
+const SAFE_HREF = /^(?:[/#?]|https?:|mailto:|tel:)/i;
+
 function Anchor({ href = "", children, node: _node, ...rest }: ComponentProps<"a"> & { node?: Element }) {
+  if (!SAFE_HREF.test(href.trim())) return <>{children}</>;
   const internal =
     href.startsWith("/") || href.startsWith("#") || href.startsWith(SITE_URL);
   if (internal) {
@@ -118,7 +124,7 @@ export function renderArticleBody(
             className={`rr-article-table${cols >= CARD_COLUMNS ? " rr-article-table--cards" : ""}`}
             {...(wide ? { role: "region", tabIndex: 0, "aria-label": caption ? hastToString(caption) : "Table" } : {})}
           >
-            <table role={cols >= CARD_COLUMNS ? "table" : undefined}>{children}</table>
+            <table role={typeof node?.properties?.role === "string" ? node.properties.role : undefined}>{children}</table>
           </div>
         );
       },
