@@ -24,7 +24,11 @@ export default function ArticleCard({
           src={article.hero.src}
           alt=""
           fill
-          sizes="(min-width:720px) 240px, calc(100vw - 48px)"
+          sizes={
+            compact
+              ? "(min-width:700px) 50vw, calc(100vw - 48px)"
+              : "(min-width:700px) 240px, calc(100vw - 48px)"
+          }
           style={{ objectFit: "cover" }}
         />
         {article.hero.isAiRedesign && <AiPill className="rr-article-pill--card" />}
