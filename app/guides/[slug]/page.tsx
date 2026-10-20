@@ -7,6 +7,7 @@ import ArticleLayout from "@/components/article/ArticleLayout";
 import AuthorBox from "@/components/article/AuthorBox";
 import Breadcrumb from "@/components/article/Breadcrumb";
 import CtaBlock from "@/components/article/CtaBlock";
+import Faq from "@/components/article/Faq";
 import JsonLd from "@/components/article/JsonLd";
 import Related from "@/components/article/Related";
 import DownloadCta from "@/components/DownloadCta";
@@ -40,6 +41,7 @@ export default async function GuidePage({ params }: Props) {
   const ctx = { slug: article.slug, type: article.type };
   const updated = article.dateModified !== article.datePublished;
   const shownDate = updated ? article.dateModified : article.datePublished;
+  const faq = <Faq items={article.faq} />;
   const where = `content/${article.type}/${article.slug}.md`;
 
   return (
@@ -89,11 +91,16 @@ export default async function GuidePage({ params }: Props) {
         </figure>
 
         <div className="rr-article-body">
-          {renderArticleBody(article.body, where, { ...ctx, campaign })}
+          {renderArticleBody(article.body, where, { ...ctx, campaign }, faq)}
         </div>
 
+        {/* The FAQ sits after the body and before the end CTA, whether the CTA
+            is the layout's default or the body's own last block. */}
         {!article.hasEndCta && (
-          <CtaBlock variant="end" placement="article-end" campaign={campaign} article={ctx} />
+          <>
+            {faq}
+            <CtaBlock variant="end" placement="article-end" campaign={campaign} article={ctx} />
+          </>
         )}
         <AuthorBox author={author} />
         <Related articles={getRelated(article)} />

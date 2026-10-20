@@ -15,10 +15,16 @@ import type { Root } from "mdast";
 import ArticleImage from "@/components/article/ArticleImage";
 import BeforeAfterFigure from "@/components/article/BeforeAfterFigure";
 import CtaBlock from "@/components/article/CtaBlock";
+import LookTile from "@/components/article/LookTile";
+import Pricing from "@/components/article/Pricing";
+import StepImage from "@/components/article/StepImage";
+import StyleSliderFigure, { type StyleLook } from "@/components/article/StyleSliderFigure";
 import StyleCards from "@/components/article/StyleCards";
 import type { ArticleContext } from "@/components/DownloadCta";
 import { parseStyleIds } from "@/lib/content/directives";
 import { assertDirectivesValid } from "@/lib/content/read";
+import { CARD_COLUMNS, WIDE_COLUMNS } from "@/lib/content/blocks";
+import { rehypeArticleBlocks } from "@/lib/content/rehype-blocks";
 import { SITE_URL } from "@/lib/site";
 
 /** Turns each whitelisted directive into a custom hast element the component
@@ -27,7 +33,7 @@ function remarkArticleDirectives(where: string) {
   return (tree: Root) => {
     assertDirectivesValid(tree, where);
     visit(tree, (node) => {
-      if (node.type !== "leafDirective") return;
+      if (node.type !== "leafDirective" && node.type !== "containerDirective") return;
       const attrs: Record<string, string> = {};
       for (const [k, v] of Object.entries(node.attributes ?? {})) attrs[k] = v ?? "";
       node.data = {
@@ -44,7 +50,12 @@ function isImageOnlyParagraph(node: Element | undefined): boolean {
   return kids.length === 1 && kids[0].type === "element" && kids[0].tagName === "img";
 }
 
+/** Relative links, anchors, http(s), mailto and tel only. Anything else
+ *  (javascript:, data:, vbscript:, ...) is dropped and the text stays. */
+const SAFE_HREF = /^(?:[/#?]|https?:|mailto:|tel:)/i;
+
 function Anchor({ href = "", children, node: _node, ...rest }: ComponentProps<"a"> & { node?: Element }) {
+  if (!SAFE_HREF.test(href.trim())) return <>{children}</>;
   const internal =
     href.startsWith("/") || href.startsWith("#") || href.startsWith(SITE_URL);
   if (internal) {
@@ -58,17 +69,32 @@ function Anchor({ href = "", children, node: _node, ...rest }: ComponentProps<"a
   );
 }
 
+/** Inline markdown (links, bold, italic) for a FAQ answer: one or two
+ *  paragraphs, no directives. */
+export function renderInlineMarkdown(md: string): ReactNode {
+  const processor = unified().use(remarkParse).use(remarkRehype);
+  const hast = processor.runSync(processor.parse(md)) as HastRoot;
+  return toJsxRuntime(hast, { Fragment, jsx, jsxs, components: { a: Anchor } as never });
+}
+
 /**
  * Renders an article body. Markdown plus the whitelisted directives only: raw
  * HTML in the source is dropped, never rendered.
  */
-export function renderArticleBody(body: string, where: string, ctx: ArticleContext & { campaign: string }): ReactNode {
+export function renderArticleBody(
+  body: string,
+  where: string,
+  ctx: ArticleContext & { campaign: string },
+  /** Rendered just before the body's own `::cta{variant="end"}` (the FAQ goes here). */
+  beforeEndCta?: ReactNode,
+): ReactNode {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkDirective)
     .use(remarkArticleDirectives, where)
     .use(remarkRehype)
+    .use(rehypeArticleBlocks)
     .use(rehypeSlug);
   const hast = processor.runSync(processor.parse(body)) as HastRoot;
 
@@ -90,22 +116,19 @@ export function renderArticleBody(body: string, where: string, ctx: ArticleConte
         const caption = node?.children.find(
           (c): c is Element => c.type === "element" && c.tagName === "caption",
         );
+        const cols = Number(node?.properties?.dataCols ?? 0);
+        // 3+ columns become cards on a phone (CSS); 5+ also get a focusable
+        // scroll region as a safety net on wider screens.
+        const wide = cols >= WIDE_COLUMNS;
         return (
           <div
-            className="rr-article-table"
-            role="region"
-            tabIndex={0}
-            aria-label={caption ? hastToString(caption) : "Table"}
+            className={`rr-article-table${cols >= CARD_COLUMNS ? " rr-article-table--cards" : ""}`}
+            {...(wide ? { role: "region", tabIndex: 0, "aria-label": caption ? hastToString(caption) : "Table" } : {})}
           >
-            <table>{children}</table>
+            <table role={typeof node?.properties?.role === "string" ? node.properties.role : undefined}>{children}</table>
           </div>
         );
       },
-      th: ({ children, align }: ComponentProps<"th">) => (
-        <th scope="col" align={align}>
-          {children}
-        </th>
-      ),
       "rr-before-after": (p: Record<string, string>) => (
         <BeforeAfterFigure
           before={p.before}
@@ -116,11 +139,28 @@ export function renderArticleBody(body: string, where: string, ctx: ArticleConte
         />
       ),
       "rr-cta": (p: Record<string, string>) => (
-        <CtaBlock
-          variant={p.variant === "end" ? "end" : "mid"}
-          title={p.title}
-          text={p.text}
-          campaign={ctx.campaign}
+        <>
+          {p.variant === "end" && beforeEndCta}
+          <CtaBlock
+            variant={p.variant === "end" ? "end" : "mid"}
+            title={p.title}
+            text={p.text}
+            campaign={ctx.campaign}
+            article={article}
+          />
+        </>
+      ),
+      "rr-pricing": (p: Record<string, string>) => <Pricing groups={p.groups} footnote={p.footnote} />,
+      "rr-step-image": (p: Record<string, string>) => <StepImage src={p.src} alt={p.alt} title={p.title} />,
+      "rr-look-tile": (p: Record<string, string>) => (
+        <LookTile kind={p.kind === "before" ? "before" : "look"} src={p.src} alt={p.alt} label={p.label} />
+      ),
+      "rr-style-slider-figure": (p: Record<string, string>) => (
+        <StyleSliderFigure
+          before={p.before}
+          beforeAlt={p.beforeAlt}
+          caption={p.caption || undefined}
+          looks={JSON.parse(p.looks) as StyleLook[]}
           article={article}
         />
       ),

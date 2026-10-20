@@ -8,9 +8,11 @@ import remarkDirective from "remark-directive";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 import type { Nodes, Root } from "mdast";
+import { shownPricingGroups } from "../../data/pricing.ts";
 import { styles } from "../../data/styles.ts";
-import { checkDirective } from "./directives.ts";
-import { ARTICLE_TYPES, articleSchema, type ArticleType } from "./schema.ts";
+import { containerBodyIssues } from "./blocks.ts";
+import { checkDirective, parsePricingGroups } from "./directives.ts";
+import { ARTICLE_TYPES, FAQ_MIN, articleSchema, type ArticleType } from "./schema.ts";
 
 // Node-only helpers shared by the Next.js loader (lib/content/load.ts) and
 // scripts/lint-articles.mjs, which loads this file through Node's type
@@ -55,6 +57,8 @@ export type FoundDirective = {
   attrs: Record<string, string>;
   line: number | undefined;
   problems: string[];
+  /** Non-fatal findings (a callout a little long). */
+  warnings: string[];
 };
 
 /** Every directive in the tree, with the problems checkDirective finds. */
@@ -70,12 +74,25 @@ export function findDirectives(tree: Root): FoundDirective[] {
     }
     const attrs: Record<string, string> = {};
     for (const [k, v] of Object.entries(node.attributes ?? {})) attrs[k] = v ?? "";
+    const problems = checkDirective(node.name, node.type, attrs, STYLE_IDS);
+    const warnings: string[] = [];
+    if (node.type === "containerDirective") {
+      for (const issue of containerBodyIssues(node as never, attrs)) {
+        (issue.level === "error" ? problems : warnings).push(issue.message);
+      }
+    }
+    if (node.name === "pricing") {
+      const wanted = parsePricingGroups(attrs);
+      const shown = shownPricingGroups(wanted);
+      if (shown.length === 0) warnings.push("empty ::pricing (no price group to show); the block renders nothing");
+    }
     found.push({
       name: node.name,
       kind: node.type,
       attrs,
       line: node.position?.start.line,
-      problems: checkDirective(node.name, node.type, attrs, STYLE_IDS),
+      problems,
+      warnings,
     });
   });
   return found;
@@ -155,4 +172,37 @@ export function bodyText(tree: Root): string {
 
 export function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
+}
+
+const normText = (s: string) => s.replace(/[‘’]/g, "'").trim().toLowerCase();
+
+/** Findings for the frontmatter `faq`: shape of each question and answer, and a
+ *  question that repeats an H2 of the same article. */
+export function faqIssues(
+  faq: { q: string; a: string }[],
+  h2s: string[],
+): { level: "error" | "warn"; message: string }[] {
+  const out: { level: "error" | "warn"; message: string }[] = [];
+  if (faq.length > 0 && faq.length < FAQ_MIN) {
+    out.push({ level: "warn", message: `faq has ${faq.length} item(s); fewer than ${FAQ_MIN} shows no accordion` });
+  }
+  const headings = new Set(h2s.map(normText));
+  faq.forEach(({ q, a }, i) => {
+    const n = i + 1;
+    if (!q.endsWith("?")) out.push({ level: "error", message: `faq ${n}: question must end with a question mark` });
+    if (/[*_`[\]<>]/.test(q)) out.push({ level: "error", message: `faq ${n}: question is plain text, no markdown` });
+    if (headings.has(normText(q))) {
+      out.push({ level: "error", message: `faq ${n}: "${q}" repeats an H2; keep it in one place` });
+    }
+    const tree = parseMdast(a);
+    if (tree.children.length > 2 || tree.children.some((c) => c.type !== "paragraph")) {
+      out.push({ level: "error", message: `faq ${n}: answer is one or two plain paragraphs (inline markdown only, no lists, headings or directives)` });
+    }
+    let hasImage = false;
+    visit(tree, "image", () => {
+      hasImage = true;
+    });
+    if (hasImage) out.push({ level: "error", message: `faq ${n}: answers cannot contain images` });
+  });
+  return out;
 }

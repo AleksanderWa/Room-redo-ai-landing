@@ -81,9 +81,35 @@ Each directive goes on its own line. The syntax is defined in `lib/content/direc
 - `::style-card{ids="japandi scandinavian"}`: 1 to 4 styles from `data/styles.ts`. Optional `text="japandi: one line | scandinavian: one line"`.
 - Body images: `![alt](/images/articles/<slug>/x.webp)`. Every body image gets the AI redesign label by default; for a real, non-AI photo add the title `"photo"`: `![alt](/images/x.webp "photo")`. Alt text is required.
 
+Visual blocks (full syntax in `lib/content/directives.ts`):
+
+- `::pricing`: the shared plans-and-packs table, rendered from `data/pricing.ts`. **This is the only way to show prices.** Never type a price in an article; the linter rejects `$` amounts in the body. Optional attributes: `groups="plans packs"` and `footnote="off"`. Don't repeat the footnote's renewal or cancel wording in the paragraph next to it.
+- `:::at-a-glance`: a key-facts box with 3 to 5 `- Label: value` bullets. Put it right after the intro paragraph. One per article.
+- `:::steps`: 2 to 5 numbered steps written as an ordered list. Start each step with a **bold title**, then one line. An optional image per step gets the AI label unless titled `"photo"`.
+- `:::looks{before="..." beforeAlt="..." caption="..."}`: the same room in 2 to 4 styles. Write one image per look, with the style name as the image title: `![alt](/images/...webp "Japandi")`.
+- `:::style-slider{before="..." beforeAlt="..." caption="..."}`: a before/after slider with one tappable style chip per look; the reader taps a style, then drags the divider. `before` and `beforeAlt` are required. Write 2 to 4 images, each with the style name (up to 24 characters, no repeats) as its title, the look the text talks about first: `![AI redesign of ...](/images/...webp "Scandinavian")`. Use `::before-after` for a single after image, and `:::looks` for a static grid. Introduce it with a sentence that tells the reader to tap a style and drag.
+- `:::tip` and `:::note`: one short point (up to 45 words) with an optional `title`. At most one per 500 words (minimum 1 allowed), and 3 per article.
+- Markdown tables: use them wherever the content is a comparison or a list of facts. On mobile, tables with 3 or more columns turn into cards automatically.
+
+**FAQ:** put secondary questions in frontmatter `faq: [{q, a}]`, with 3 to 8 items and answers of up to 70 words. They render collapsed at the end, before the end CTA, and Google still reads them. Keep the **primary-intent question** as a visible H2 section in the body (e.g. "Is it really free?"). Move the smaller questions (sign-up, Android, photo tips) into `faq`.
+
 YAML: quote any frontmatter value that contains a colon (most often `description`).
 
-Tables are fine for plans and prices. Lists are fine, but not every section.
+Lists are fine, but not every section.
+
+## 5b. Visual rhythm (readers scan with their eyes)
+
+A visual block is any of: `::before-after`, `::style-card`, `:::looks`, `:::style-slider`, `:::steps`, `:::at-a-glance`, `::pricing`, `:::tip`, `:::note`, a markdown table, a body image, or `::cta`. The hero, the end CTA and the FAQ don't count.
+
+The linter checks these rules and the guard verifies them:
+1. No more than 250 words of body text in a row without a visual block. The linter warns at 250 and fails at 350. Headings don't reset the count.
+2. The first visual block starts within the first 200 words. Ideally it's `:::at-a-glance`.
+3. Every article has at least one table or `::pricing`, plus one `:::at-a-glance`. Guides of 900 words or more also have a `:::steps`, a `:::looks` or a `:::style-slider`.
+4. Callout budget: see `:::tip` above. One `:::at-a-glance` and one `::pricing` per article at most.
+5. Put at least one sentence between two visual blocks; don't stack them.
+6. Any H2 section longer than 150 words includes a list or a visual block.
+7. No more than two H2 sections in a row that are mostly a list.
+8. Reuse, don't retype: prices only through `::pricing`, FAQ answers only in frontmatter.
 
 ## 6. Frontmatter
 
