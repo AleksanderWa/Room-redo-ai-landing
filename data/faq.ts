@@ -20,7 +20,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Is the free redesign the full thing?",
-    a: "Yes, the full redesign, with a small watermark until you subscribe.",
+    a: "Yes, the full redesign, with a small watermark until your first purchase.",
     more: { label: "More on what's free", href: "/guides/ai-room-design-free" },
   },
   {
