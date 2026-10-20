@@ -19,6 +19,8 @@ export const STEP_LINE_MAX = 120;
 export const LOOK_NAME_MAX = 24;
 export const LOOKS_MAX = 4;
 export const LOOKS_MAX_WITH_BEFORE = 3;
+export const STYLE_SLIDER_MIN = 2;
+export const STYLE_SLIDER_MAX = 4;
 export const CALLOUT_WARN_WORDS = 45;
 export const CALLOUT_FAIL_WORDS = 70;
 export const CALLOUT_LIST_MAX = 3;
@@ -154,6 +156,33 @@ function looksIssues(node: Container, attrs: Record<string, string>): BlockIssue
   return out;
 }
 
+function styleSliderIssues(node: Container): BlockIssue[] {
+  const out: BlockIssue[] = [];
+  const stray = node.children.filter((c) => !imageOnlyParagraph(c));
+  if (stray.length > 0) out.push(err(":::style-slider may contain images only, one per style"));
+  const images = looksImages(node);
+  if (images.length < STYLE_SLIDER_MIN || images.length > STYLE_SLIDER_MAX) {
+    out.push(err(`:::style-slider needs ${STYLE_SLIDER_MIN} to ${STYLE_SLIDER_MAX} images, found ${images.length}`));
+  }
+  const seen = new Set<string>();
+  images.forEach((img, i) => {
+    const title = img.title?.trim() ?? "";
+    if (!title) {
+      out.push(err(`:::style-slider image ${i + 1} needs a title with the style name: ![alt](src "Style name")`));
+      return;
+    }
+    if (title.toLowerCase() === "photo") {
+      out.push(err(`:::style-slider image ${i + 1}: every look is an AI redesign, "photo" is not allowed here`));
+    } else if (title.length > LOOK_NAME_MAX) {
+      out.push(err(`:::style-slider image ${i + 1} style name is over ${LOOK_NAME_MAX} characters`));
+    }
+    const key = title.toLowerCase();
+    if (seen.has(key)) out.push(err(`:::style-slider image ${i + 1} repeats the style name "${title}"`));
+    seen.add(key);
+  });
+  return out;
+}
+
 function calloutIssues(node: Container): BlockIssue[] {
   const name = node.name;
   const kids = node.children;
@@ -193,6 +222,8 @@ export function containerBodyIssues(node: Container, attrs: Record<string, strin
       return stepsIssues(node);
     case "looks":
       return looksIssues(node, attrs);
+    case "style-slider":
+      return styleSliderIssues(node);
     case "tip":
     case "note":
       return calloutIssues(node);

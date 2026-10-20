@@ -18,6 +18,7 @@ import CtaBlock from "@/components/article/CtaBlock";
 import LookTile from "@/components/article/LookTile";
 import Pricing from "@/components/article/Pricing";
 import StepImage from "@/components/article/StepImage";
+import StyleSliderFigure, { type StyleLook } from "@/components/article/StyleSliderFigure";
 import StyleCards from "@/components/article/StyleCards";
 import type { ArticleContext } from "@/components/DownloadCta";
 import { parseStyleIds } from "@/lib/content/directives";
@@ -153,6 +154,15 @@ export function renderArticleBody(
       "rr-step-image": (p: Record<string, string>) => <StepImage src={p.src} alt={p.alt} title={p.title} />,
       "rr-look-tile": (p: Record<string, string>) => (
         <LookTile kind={p.kind === "before" ? "before" : "look"} src={p.src} alt={p.alt} label={p.label} />
+      ),
+      "rr-style-slider-figure": (p: Record<string, string>) => (
+        <StyleSliderFigure
+          before={p.before}
+          beforeAlt={p.beforeAlt}
+          caption={p.caption || undefined}
+          looks={JSON.parse(p.looks) as StyleLook[]}
+          article={article}
+        />
       ),
       "rr-style-card": (p: Record<string, string>) => (
         <StyleCards ids={p.ids.split(" ").filter(Boolean)} text={p.text} />

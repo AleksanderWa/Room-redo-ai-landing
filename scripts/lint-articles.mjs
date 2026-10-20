@@ -173,8 +173,8 @@ function lintFile(entry) {
   for (const d of findDirectives(tree)) {
     for (const p of d.problems) add("error", "directive", p, d.line ? d.line + bodyOffset : undefined);
     for (const w of d.warnings) add("warn", "directive", w, d.line ? d.line + bodyOffset : undefined);
-    if (d.name === "before-after" || (d.name === "looks" && d.attrs.before)) {
-      for (const key of d.name === "looks" ? ["before"] : ["before", "after"]) {
+    if (d.name === "before-after" || d.name === "style-slider" || (d.name === "looks" && d.attrs.before)) {
+      for (const key of d.name === "before-after" ? ["before", "after"] : ["before"]) {
         const src = d.attrs[key];
         if (src && !publicFileExists(src)) {
           add("error", "image", `::${d.name} ${key} image not found: public${src}`, d.line + bodyOffset);

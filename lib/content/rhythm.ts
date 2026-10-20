@@ -9,7 +9,7 @@ import { imageOnlyParagraph } from "./blocks.ts";
 //   1. no long plain run: warn above 250 words, fail above 350
 //   2. the first visual block starts within the first 200 words
 //   3. minimum mix: a table or ::pricing, an :::at-a-glance, and for a guide of
-//      900+ words a :::steps or :::looks
+//      900+ words a :::steps, :::looks or :::style-slider
 //   4. callout budget: tip/note 1 per 500 words (minimum 1 allowed) and 3 per
 //      article; at most one :::at-a-glance and one ::pricing
 //   5. no stacking: two visual blocks need a sentence between them
@@ -19,7 +19,7 @@ import { imageOnlyParagraph } from "./blocks.ts";
 //      wording in the paragraph directly before or after ::pricing (checked in
 //      priceMentions and here)
 //
-// A "visual block" is ::before-after, ::style-card, :::looks, :::steps,
+// A "visual block" is ::before-after, ::style-card, :::looks, :::style-slider, :::steps,
 // :::at-a-glance, ::pricing, :::tip, :::note, a table, a body image or a
 // mid-article ::cta. The end CTA does not count.
 
@@ -124,8 +124,8 @@ export function rhythmIssues(tree: Root, opts: { type: string; words: number }):
   const count = (...n: string[]) => names.filter((x) => n.includes(x)).length;
   if (count("table", "pricing") === 0) add("error", "rhythm", "needs at least one table or ::pricing");
   if (count("at-a-glance") === 0) add("error", "rhythm", "needs an :::at-a-glance right after the intro");
-  if (opts.type === "guides" && opts.words >= LONG_GUIDE_WORDS && count("steps", "looks") === 0) {
-    add("error", "rhythm", `a guide of ${LONG_GUIDE_WORDS} words or more needs a :::steps or :::looks`);
+  if (opts.type === "guides" && opts.words >= LONG_GUIDE_WORDS && count("steps", "looks", "style-slider") === 0) {
+    add("error", "rhythm", `a guide of ${LONG_GUIDE_WORDS} words or more needs a :::steps, :::looks or :::style-slider`);
   }
   const second = (name: string) => nodes.filter(({ c }) => c.kind === "block" && c.name === name)[1]?.node;
   if (count("at-a-glance") > 1) add("error", "rhythm", "more than one :::at-a-glance", second("at-a-glance"));
