@@ -10,7 +10,7 @@ from playwright.sync_api import sync_playwright
 
 UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 "
       "(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1")
-# Only these widths are supported (iPhone SE/13 mini and iPhone 12-15 profiles);
+# Only these widths are supported (375x812 = iPhone X / 11 Pro / 12-13 mini; 390x844 = iPhone 12 / 13 / 14);
 # open_phone rejects anything else so the viewport is always a real device size.
 HEIGHTS = {375: 812, 390: 844}
 # Expected on a local `next start`; not a real failure.
@@ -186,9 +186,16 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--capture-events", action="store_true", help="decode PostHog /ingest events (forces headed)")
     a = ap.parse_args()
+    try:
+        widths = [int(w) for w in a.widths.split(",")]
+    except ValueError:
+        ap.error(f"--widths must be comma-separated integers, got {a.widths!r}")
+    bad = [w for w in widths if w not in HEIGHTS]
+    if bad:
+        ap.error(f"unsupported width(s) {bad}; use any of {sorted(HEIGHTS)}")
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    summary = check_url(a.url, [int(w) for w in a.widths.split(",")], out, a.headed, a.capture_events)
+    summary = check_url(a.url, widths, out, a.headed, a.capture_events)
     print(json.dumps(summary, indent=2))
     sys.exit(0 if summary["ok"] else 1)
 

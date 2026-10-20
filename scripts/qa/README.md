@@ -11,7 +11,7 @@ Requires `playwright` for Python and its Chromium (`pip install playwright && pl
 npm ci && npm run build
 npx next start -p 3104 & echo $! > /tmp/qa-3104.pid
 
-# 2. Check pages (375x812 and 390x844, DPR 3, touch, iPhone UA)
+# 2. Check pages (375x812 iPhone X-class and 390x844 iPhone 12-14-class, DPR 3, touch, iPhone UA)
 python3 scripts/qa/mobile.py http://localhost:3104/ --out qa-out
 python3 scripts/qa/mobile.py http://localhost:3104/guides/ai-room-design-free --widths 375 --capture-events
 
