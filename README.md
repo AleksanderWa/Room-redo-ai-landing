@@ -45,3 +45,13 @@ After a deploy that changes content, tell Bing and other IndexNow engines: `npm 
 ## Deploy
 
 Vercel (`www.airoomredo.com` is the canonical site; both `airoomredo.com` and `roomredoai.com` serve the same project — see the plan file §7 for domain/DNS steps). Env vars needed in Vercel: `NEXT_PUBLIC_STORAGE_SUPABASE_URL` and `STORAGE_SUPABASE_ANON_KEY` (added by the Supabase integration), `NEXT_PUBLIC_APP_STORE_URL` once the app is live, and `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` (product analytics + session replay via `instrumentation-client.ts`; unset key disables it; the PostHog project must allow `airoomredo.com` and `www.airoomredo.com`).
+
+## Articles (`/guides`)
+
+Markdown articles live in `content/guides/<slug>.md` (and `content/ideas/`, whose routes are not added yet). Frontmatter is validated by `lib/content/schema.ts`; the body is plain Markdown plus three directives, `::before-after`, `::cta` and `::style-card` (see `lib/content/directives.ts`). Anything else fails the build. Writing and style rules, product facts and banned phrases are in `content/_system/`.
+
+- `npm run lint:articles [files...]` runs the deterministic checks (schema, dashes, banned phrases, keyword placement, headings, links, images and alt text, word count; warnings for reading ease and long paragraphs). It also runs in `prebuild`.
+- `npm test` runs the linter against `scripts/__fixtures__/` (one good article, five broken ones).
+- Set `draft: true` to keep an article out of production builds (it still shows in `next dev`).
+- Install tracking: article CTAs link to the App Store with `?pt=<NEXT_PUBLIC_APP_STORE_PROVIDER_TOKEN>&ct=article-<slug>&mt=8` and fire a PostHog `article_cta_click` event `{slug, type, placement}`. Without the token they use the plain `NEXT_PUBLIC_APP_STORE_URL`.
+- To preview other content locally, set `CONTENT_DIR` to a folder that has a `guides/` subfolder.

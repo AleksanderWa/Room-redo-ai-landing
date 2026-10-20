@@ -4,10 +4,27 @@ import type { MouseEvent } from "react";
 import { track } from "@vercel/analytics";
 import { captureEvent } from "@/lib/analytics";
 import WaitlistForm from "@/components/WaitlistForm";
-import { APP_STORE_URL } from "@/lib/site";
-import { focusWaitlist, waitlistInputId } from "@/lib/waitlistFocus";
+import { APP_STORE_URL, appStoreCampaignUrl } from "@/lib/site";
+import { focusWaitlist, waitlistInputId, type WaitlistInstance } from "@/lib/waitlistFocus";
 
-type Placement = "header" | "hero" | "close";
+export type Placement =
+  | "header"
+  | "hero"
+  | "close"
+  | "article-top"
+  | "article-mid"
+  | "article-end"
+  | "article-sticky"
+  | "guides-hub"
+  | "author";
+
+/** Article-page CTAs that never render a waitlist form of their own: before
+ * launch they scroll to the closing block's ("article-end"), so there is one
+ * email field per page and the first screen stays short. */
+const SCROLL_TO_END: ReadonlySet<Placement> = new Set(["article-top", "article-mid", "article-sticky"]);
+
+/** Which article a click came from, for the `article_cta_click` event. */
+export type ArticleContext = { slug: string; type: string };
 
 function AppleLogo({ width, height }: { width: number; height: number }) {
   return (
@@ -26,7 +43,11 @@ function AppleLogo({ width, height }: { width: number; height: number }) {
 // it being sent with keepalive/sendBeacon before the page unloads.
 const TRACK_DELAY_MS = 150;
 
-function onAppStoreClick(e: MouseEvent<HTMLAnchorElement>, placement: Placement) {
+function onAppStoreClick(
+  e: MouseEvent<HTMLAnchorElement>,
+  placement: Placement,
+  article?: ArticleContext,
+) {
   track("app_store_click", { placement });
   // `source` (TikTok attribution) is a PostHog super property, so it rides along.
   // Sent immediately via sendBeacon (not the batch queue) so it survives the
@@ -36,6 +57,15 @@ function onAppStoreClick(e: MouseEvent<HTMLAnchorElement>, placement: Placement)
     { placement },
     { send_instantly: true, transport: "sendBeacon" },
   );
+  if (article) {
+    // Same transport as above. The App Store campaign token (`ct`) in the
+    // link attributes the install; this attributes the click.
+    captureEvent(
+      "article_cta_click",
+      { slug: article.slug, type: article.type, placement },
+      { send_instantly: true, transport: "sendBeacon" },
+    );
+  }
   // Modified or non-primary clicks open a new tab/window: the current page
   // stays alive, so let the browser handle them untouched.
   if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -55,42 +85,80 @@ function onAppStoreClick(e: MouseEvent<HTMLAnchorElement>, placement: Placement)
  *   focuses the email field right below it, and the header pill scrolls to
  *   and focuses the hero's.
  *
+ * Article pages add placements (article-top, -mid, -end, -sticky, and
+ * guides-hub / author for the hub and author page). Their links carry the App
+ * Store campaign token (see appStoreCampaignUrl) and, given `article`, fire
+ * `article_cta_click`. Before launch only article-end, guides-hub and author
+ * render a waitlist; the other article CTAs scroll to the article-end one.
+ *
  * The hero always carries the waitlist line beneath the button (in the live
  * state it's for people who can't install yet); the closing CTA only adds it
  * before launch.
  */
-export default function DownloadCta({ placement }: { placement: Placement }) {
+export default function DownloadCta({
+  placement,
+  campaign,
+  article,
+}: {
+  placement: Placement;
+  /** App Store campaign token (`ct`) for install attribution. Article pages
+   * pass the article's; the hub and author page default to their placement. */
+  campaign?: string;
+  /** Set on article pages: clicks also fire `article_cta_click`. */
+  article?: ArticleContext;
+}) {
   const live = APP_STORE_URL !== null;
+  const isArticlePlacement =
+    placement.startsWith("article-") || placement === "guides-hub" || placement === "author";
+  const href = isArticlePlacement
+    ? appStoreCampaignUrl(campaign ?? placement)
+    : APP_STORE_URL;
+  // The form the pre-launch button leads to. Header and sticky pills are not
+  // next to one, so they scroll to it; the badges focus the one beside them.
+  const waitlistTarget: WaitlistInstance =
+    placement === "header"
+      ? "hero"
+      : SCROLL_TO_END.has(placement)
+        ? "article-end"
+        : (placement as WaitlistInstance);
   const label = live ? "Download on the App Store" : "Coming soon on the App Store";
   // Pre-launch the control's action is the waitlist, so its accessible name
   // says so (visible label first, per label-in-name).
   const preLaunchName = "Coming soon on the App Store: get the launch email";
 
-  if (placement === "header") {
+  if (placement === "header" || placement === "article-sticky") {
+    const sticky = placement === "article-sticky";
     const content = (
       <>
         <AppleLogo width={13} height={16} />
-        <span className="rr-only-wide">{label}</span>
-        <span className="rr-only-narrow">{live ? "App Store" : "Coming soon"}</span>
+        {sticky ? (
+          <span>{live ? "App Store" : "Coming soon"}</span>
+        ) : (
+          <>
+            <span className="rr-only-wide">{label}</span>
+            <span className="rr-only-narrow">{live ? "App Store" : "Coming soon"}</span>
+          </>
+        )}
       </>
     );
+    const className = sticky ? "rr-cta-compact rr-article-sticky-btn" : "rr-cta-compact";
     return live ? (
       <a
-        href={APP_STORE_URL ?? undefined}
+        href={href ?? undefined}
         aria-label={label}
-        className="rr-cta-compact"
-        onClick={(e) => onAppStoreClick(e, placement)}
+        className={className}
+        onClick={(e) => onAppStoreClick(e, placement, article)}
       >
         {content}
       </a>
     ) : (
       <a
-        href={`#${waitlistInputId("hero")}`}
+        href={`#${waitlistInputId(waitlistTarget)}`}
         aria-label={preLaunchName}
-        className="rr-cta-compact"
+        className={className}
         onClick={(e) => {
           e.preventDefault();
-          focusWaitlist("hero", { scroll: true });
+          focusWaitlist(waitlistTarget, { scroll: true });
         }}
       >
         {content}
@@ -112,10 +180,10 @@ export default function DownloadCta({ placement }: { placement: Placement }) {
 
   const badge = live ? (
     <a
-      href={APP_STORE_URL ?? undefined}
+      href={href ?? undefined}
       aria-label={label}
       className="rr-cta-badge"
-      onClick={(e) => onAppStoreClick(e, placement)}
+      onClick={(e) => onAppStoreClick(e, placement, article)}
     >
       {badgeContent}
     </a>
@@ -124,18 +192,18 @@ export default function DownloadCta({ placement }: { placement: Placement }) {
       type="button"
       aria-label={preLaunchName}
       className="rr-cta-badge"
-      onClick={() => focusWaitlist(placement)}
+      onClick={() => focusWaitlist(waitlistTarget, { scroll: waitlistTarget !== placement })}
     >
       {badgeContent}
     </button>
   );
 
-  const showWaitlist = placement === "hero" || !live;
+  const showWaitlist = placement === "hero" || (!live && !SCROLL_TO_END.has(placement));
 
   return (
     <>
       <div className="rr-cta-slot">{badge}</div>
-      {showWaitlist && <WaitlistForm instance={placement} />}
+      {showWaitlist && <WaitlistForm instance={placement as WaitlistInstance} />}
     </>
   );
 }

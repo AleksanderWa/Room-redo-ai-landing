@@ -24,6 +24,9 @@ type Props = {
   eager?: boolean;
   /** next/image `sizes` override for the storage variant. */
   sizes?: string;
+  /** Accessible name of the comparison group. Give pages with several
+   *  sliders distinct ones. */
+  label?: string;
 };
 
 // pan-y, not none: the slider covers most of a mobile viewport, so a vertical
@@ -78,6 +81,7 @@ export default function BeforeAfterSlider({
   heightVariant,
   eager = false,
   sizes,
+  label = "Before and after comparison",
 }: Props) {
   const [pct, setPct] = useState(50);
   // Drag state lives in a ref, not state: the move/up handlers below are native
@@ -223,7 +227,7 @@ export default function BeforeAfterSlider({
     <div
       onPointerDown={onPointerDown}
       role="group"
-      aria-label="Before and after comparison"
+      aria-label={label}
       style={SURFACE}
     >
       <Image

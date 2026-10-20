@@ -221,7 +221,7 @@ export default function WaitlistForm({ instance }: Props) {
     focusWaitlist(instance);
   }
 
-  const Heading = instance === "close" ? "h3" : "h2";
+  const Heading = instance === "hero" ? "h2" : "h3";
 
   return (
     <div
@@ -328,7 +328,7 @@ export default function WaitlistForm({ instance }: Props) {
               background: "var(--rr-cream)",
               borderRadius: 14,
               padding: 20,
-              textAlign: instance === "close" ? "center" : undefined,
+              textAlign: instance === "hero" ? undefined : "center",
             }}
           >
             <span className="rr-waitlist-badge" aria-hidden="true">

@@ -4,26 +4,44 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run lint:articles",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "indexnow": "node scripts/indexnow.mjs"
+    "indexnow": "node scripts/indexnow.mjs",
+    "lint:articles": "tsx scripts/lint-articles.mjs",
+    "test": "node --test \"scripts/**/*.test.mjs\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
     "@vercel/analytics": "^1.6.1",
+    "gray-matter": "4.0.3",
+    "hast-util-to-jsx-runtime": "2.3.6",
+    "hast-util-to-string": "3.0.1",
+    "mdast-util-to-string": "4.0.0",
     "next": "16.3.0",
     "posthog-js": "^1.438.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sharp": "^0.33.5"
+    "rehype-slug": "6.0.0",
+    "remark-directive": "4.0.0",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "remark-rehype": "11.1.2",
+    "sharp": "^0.33.5",
+    "unified": "11.0.5",
+    "unist-util-visit": "5.1.0",
+    "zod": "4.6.7"
   },
   "devDependencies": {
+    "@types/hast": "3.0.4",
+    "@types/mdast": "4.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "tsx": "4.23.15",
     "typescript": "^5"
   }
 }

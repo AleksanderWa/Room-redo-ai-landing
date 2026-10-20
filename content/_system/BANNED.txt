@@ -1,0 +1,66 @@
+# One phrase per line, matched case-insensitively as whole words/phrases by scripts/lint-articles.mjs.
+# Lines starting with # are comments. Any hit fails the lint.
+# Sources: WebLeads guard list (tested), room-redo-copy AI-tell list, Wikipedia "Signs of AI writing".
+delve
+delves
+tapestry
+testament to
+vibrant
+intricate
+pivotal
+crucial
+underscore
+underscores
+showcasing
+boasts
+nestled
+in the heart of
+leverage
+robust
+seamless
+seamlessly
+effortless
+effortlessly
+game-changer
+game changer
+streamline
+empower
+unlock
+unleash
+elevate
+elevate your
+transform your space
+bring your vision to life
+powered by ai
+cutting-edge
+innovative
+holistic
+actionable
+deep dive
+worth noting
+it's worth noting
+at the end of the day
+in today's
+fast-paced
+comprehensive guide
+non-negotiable
+here's the thing
+when it comes to
+it's important to
+in conclusion
+in summary
+look no further
+whether you're a
+dive into
+let's dive
+navigate the
+realm of
+ever-evolving
+revolutionize
+revolutionary
+supercharge
+magic
+stunning
+breathtaking
+i hope this helps
+great question
