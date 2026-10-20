@@ -10,6 +10,8 @@ from playwright.sync_api import sync_playwright
 
 UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 "
       "(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1")
+# Only these widths are supported (iPhone SE/13 mini and iPhone 12-15 profiles);
+# open_phone rejects anything else so the viewport is always a real device size.
 HEIGHTS = {375: 812, 390: 844}
 # Expected on a local `next start`; not a real failure.
 NOISE = ("/_vercel/insights/script.js", "/_vercel/speed-insights/script.js")
@@ -18,7 +20,8 @@ _EVENTS = []  # decoded PostHog events from the most recent open_phone(capture_e
 
 
 def _decode(buf):
-    """PostHog /ingest bodies are plain JSON; fall back to gzip / base64 / data= form."""
+    """Decode a PostHog /ingest body. Tries, in order: plain JSON, gzip, and the
+    form-encoded `data=<base64>` variant. Returns None if nothing parses."""
     if not buf:
         return None
     cands = [buf]
@@ -52,18 +55,32 @@ def open_phone(width=375, headed=False, capture_events=False):
     events is a live list of decoded PostHog events when capture_events is set.
     Call close_phone(context) when done.
     """
-    height = HEIGHTS.get(width, 844)
+    if width not in HEIGHTS:
+        raise ValueError(f"unsupported width {width}; use one of {sorted(HEIGHTS)}")
+    height = HEIGHTS[width]
     # PostHog drops events in headless mode and when navigator.webdriver is true.
     headed = headed or capture_events
     pw = sync_playwright().start()
-    browser = pw.chromium.launch(headless=not headed)
-    ctx = browser.new_context(viewport={"width": width, "height": height}, device_scale_factor=3,
-                              is_mobile=True, has_touch=True, user_agent=UA)
-    ctx._pw, ctx._browser = pw, browser
-    if capture_events:
-        ctx.add_init_script("Object.defineProperty(navigator,'webdriver',{get:()=>false})")
-    page = ctx.new_page()
+    browser = ctx = None
+    try:
+        browser = pw.chromium.launch(headless=not headed)
+        ctx = browser.new_context(viewport={"width": width, "height": height}, device_scale_factor=3,
+                                  is_mobile=True, has_touch=True, user_agent=UA)
+        ctx._pw, ctx._browser = pw, browser
+        if capture_events:
+            ctx.add_init_script("Object.defineProperty(navigator,'webdriver',{get:()=>false})")
+        page = ctx.new_page()
+    except BaseException:
+        for step in (ctx and ctx.close, browser and browser.close, pw.stop):
+            try:
+                if step:
+                    step()
+            except Exception:
+                pass
+        raise
     page.errs, page.failed = [], []
+    # "Failed to load resource" console lines are skipped here because the
+    # response / requestfailed listeners below report those failures with URL and status.
     page.on("console", lambda m: page.errs.append(m.text) if m.type == "error" and "Failed to load resource" not in m.text else None)
     page.on("pageerror", lambda e: page.errs.append(f"pageerror: {e}"))
     page.on("requestfailed", lambda r: page.failed.append({"url": r.url, "reason": r.failure}) if not _is_noise(r.url) else None)
@@ -71,21 +88,32 @@ def open_phone(width=375, headed=False, capture_events=False):
     _EVENTS.clear()
     if capture_events:
         def on_req(r):
-            if "/ingest" in r.url and r.method == "POST":
-                try:
-                    body = _decode(r.post_data_buffer)
-                except Exception:
+            try:
+                if "/ingest" not in r.url or r.method != "POST":
                     return
-                items = body.get("batch", [body]) if isinstance(body, dict) else (body or [])
+                body = _decode(r.post_data_buffer)
+                if isinstance(body, dict):
+                    items = body.get("batch", [body])
+                elif isinstance(body, list):
+                    items = body
+                else:
+                    return
+                if not isinstance(items, list):
+                    return
                 _EVENTS.extend(e for e in items if isinstance(e, dict) and "event" in e)
+            except Exception:
+                return
         page.on("request", on_req)
     return page, ctx, _EVENTS
 
 
 def close_phone(ctx):
-    ctx.close()
-    ctx._browser.close()
-    ctx._pw.stop()
+    """Close context, browser and driver; each step runs even if an earlier one raises."""
+    for step in (ctx.close, ctx._browser.close, ctx._pw.stop):
+        try:
+            step()
+        except Exception:
+            pass
 
 
 def _touch(page, kind, pts):
