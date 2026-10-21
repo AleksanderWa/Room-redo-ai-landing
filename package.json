@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run lint:articles",
+    "prebuild": "tsx scripts/lint-articles.mjs --link-graph",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

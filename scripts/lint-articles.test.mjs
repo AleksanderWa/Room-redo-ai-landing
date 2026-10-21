@@ -127,3 +127,44 @@ test("body images are AI-labelled unless the title is \"photo\"", () => {
     { isPhoto: true },
   ]);
 });
+
+// Link graph: each case is a content dir under __fixtures__/link-graph/.
+function lintGraph(name) {
+  const dir = path.join(fixtures, "link-graph", name);
+  const res = spawnSync(
+    process.execPath,
+    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, "--faq-file", path.join(fixtures, "link-graph/faq-empty.ts"), "--link-graph"],
+    { cwd: repo, encoding: "utf8" },
+  );
+  return { code: res.status, out: res.stdout + res.stderr };
+}
+
+test("link graph: an orphan article fails with [link-graph]", () => {
+  const { code, out } = lintGraph("orphan");
+  assert.equal(code, 1, out);
+  assert.match(out, /\[link-graph\].*no contextual inbound/, out);
+  assert.match(out, /1 error,/, out);
+});
+
+test("link graph: one inbound link warns but passes", () => {
+  const { code, out } = lintGraph("one-inbound");
+  assert.equal(code, 0, out);
+  assert.match(out, /\[link-graph\].*1 contextual inbound link/, out);
+  assert.match(out, /0 errors/, out);
+});
+
+test("link graph: two inbound links per article is clean", () => {
+  const { code, out } = lintGraph("clean");
+  assert.equal(code, 0, out);
+  assert.doesNotMatch(out, /\[link-graph\]/, out);
+});
+
+test("link graph: the check is off without --link-graph", () => {
+  const dir = path.join(fixtures, "link-graph/orphan");
+  const res = spawnSync(
+    process.execPath,
+    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, "--faq-file", path.join(fixtures, "link-graph/faq-empty.ts")],
+    { cwd: repo, encoding: "utf8" },
+  );
+  assert.equal(res.status, 0, res.stdout + res.stderr);
+});
