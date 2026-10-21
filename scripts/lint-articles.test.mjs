@@ -129,11 +129,11 @@ test("body images are AI-labelled unless the title is \"photo\"", () => {
 });
 
 // Link graph: each case is a content dir under __fixtures__/link-graph/.
-function lintGraph(name) {
+function lintGraph(name, faq = "faq-empty.ts") {
   const dir = path.join(fixtures, "link-graph", name);
   const res = spawnSync(
     process.execPath,
-    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, "--faq-file", path.join(fixtures, "link-graph/faq-empty.ts"), "--link-graph"],
+    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, "--faq-file", path.join(fixtures, "link-graph", faq), "--link-graph"],
     { cwd: repo, encoding: "utf8" },
   );
   return { code: res.status, out: res.stdout + res.stderr };
@@ -167,4 +167,19 @@ test("link graph: the check is off without --link-graph", () => {
     { cwd: repo, encoding: "utf8" },
   );
   assert.equal(res.status, 0, res.stdout + res.stderr);
+});
+
+// Trailing slash, hash, query, absolute www URL and an /ideas/ target all
+// count. gamma's only other inbound is an absolute FAQ href, so without the
+// FAQ it would warn about 1 inbound link.
+test("link graph: URL variants and an absolute FAQ href count as inbound", () => {
+  const { code, out } = lintGraph("normalize", "faq-absolute.ts");
+  assert.equal(code, 0, out);
+  assert.doesNotMatch(out, /contextual inbound/, out);
+});
+
+test("link graph: without the FAQ href gamma has only one inbound link", () => {
+  const { code, out } = lintGraph("normalize");
+  assert.equal(code, 0, out);
+  assert.match(out, /ideas\/gamma[\s\S]*1 contextual inbound link/, out);
 });

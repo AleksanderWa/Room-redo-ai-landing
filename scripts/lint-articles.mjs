@@ -302,8 +302,8 @@ let warnings = 0;
 
 // FAQ links live in data/faq.ts, not in an article, so check them once per
 // full run: a renamed or drafted target would otherwise ship a dead link.
+const faqs = fileArgs.length ? [] : (await import(pathToFileURL(faqFile).href)).faqs;
 if (!fileArgs.length) {
-  const { faqs } = await import(pathToFileURL(faqFile).href);
   for (const f of faqs) {
     const href = f.more?.href;
     if (href?.startsWith("/") && !internalTargetExists(href)) {
@@ -343,10 +343,10 @@ if (linkGraph && !fileArgs.length) {
       // A broken file is reported by lintFile.
     }
   }
-  const { faqs } = await import(pathToFileURL(faqFile).href);
   for (const f of faqs) {
     const href = f.more?.href;
-    if (href?.startsWith("/")) addLink("homepage FAQ", articleKey(href));
+    const internal = href && toInternal(href);
+    if (internal) addLink("homepage FAQ", articleKey(internal));
   }
   for (const a of published) {
     const key = `${a.type}/${a.slug}`;
