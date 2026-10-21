@@ -2,55 +2,53 @@
 
 import { useEffect } from "react";
 import { captureEvent } from "@/lib/analytics";
-import { bodyProgressPct, newDepths } from "@/lib/readDepth";
-
-const BODY_SELECTOR = ".rr-article-body";
-// A body that already fits on screen has every depth "reached" on load. Those
-// only count once the reader scrolls, or after this long on the page.
-const ARM_AFTER_MS = 3000;
+import { READ_DEPTHS, bodyProgressPct, newDepths, sectionAtDepth } from "@/lib/readDepth";
 
 /** Renders nothing. Fires `article_read_depth` {slug, type, depth, section} at
- *  25/50/75/100% of the article body (`.rr-article-body`, so the FAQ, CTAs and
- *  footer don't count), each at most once per pageview. `section` is the id of
- *  the last H2 whose top has passed the viewport top, null before the first. */
+ *  25/50/75/100% of the article's own prose, each at most once per pageview.
+ *  The measured range runs from `[data-rr-read-start]` to `[data-rr-read-end]`
+ *  (see ReadMarker): the prose only, never the FAQ, the end CTA or the footer,
+ *  on every article. `section` is the id of the H2 the reader was in when that
+ *  depth was reached (per depth, so a jump to the bottom doesn't credit 25 and
+ *  50 to the last section), null before the first H2.
+ *
+ *  Fires only on scroll. A body that fits on screen without scrolling fires
+ *  nothing: no scroll means no evidence of reading. */
 export default function ReadDepth({ slug, type }: { slug: string; type: string }) {
   useEffect(() => {
-    const body = document.querySelector<HTMLElement>(BODY_SELECTOR);
-    if (!body) return;
+    const start = document.querySelector<HTMLElement>("[data-rr-read-start]");
+    const end = document.querySelector<HTMLElement>("[data-rr-read-end]");
+    if (!start || !end) return;
+    const body = document.querySelector<HTMLElement>(".rr-article-body");
     const fired = new Set<number>();
     let frame = 0;
 
     function check() {
       frame = 0;
-      if (!body) return;
-      const rect = body.getBoundingClientRect();
-      const pct = bodyProgressPct(rect.top, rect.height, window.innerHeight);
-      const depths = newDepths(pct, fired);
+      if (!start || !end) return;
+      const top = start.getBoundingClientRect().top;
+      const height = end.getBoundingClientRect().top - top;
+      const depths = newDepths(bodyProgressPct(top, height, window.innerHeight), fired);
       if (!depths.length) return;
-      let section: string | null = null;
-      for (const h of body.querySelectorAll<HTMLElement>("h2")) {
-        if (h.getBoundingClientRect().top > 0) break;
-        section = h.id || h.textContent?.trim() || null;
-      }
+      const h2s = Array.from(body?.querySelectorAll<HTMLElement>("h2") ?? [], (h) => ({
+        id: h.id || h.textContent?.trim() || "",
+        top: h.getBoundingClientRect().top,
+      }));
       for (const depth of depths) {
         fired.add(depth);
+        const section = sectionAtDepth(h2s, depth, top, height, window.innerHeight) || null;
         captureEvent("article_read_depth", { slug, type, depth, section });
       }
+      if (fired.size === READ_DEPTHS.length) window.removeEventListener("scroll", schedule);
     }
 
     function schedule() {
       if (!frame) frame = requestAnimationFrame(check);
     }
-    const timer = window.setTimeout(() => {
-      schedule();
-    }, ARM_AFTER_MS);
 
-    // Checks run only from a scroll or the timer, never on mount, so a short
-    // body doesn't fire everything instantly.
     window.addEventListener("scroll", schedule, { passive: true });
     return () => {
       window.removeEventListener("scroll", schedule);
-      window.clearTimeout(timer);
       if (frame) cancelAnimationFrame(frame);
     };
   }, [slug, type]);

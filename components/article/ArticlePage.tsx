@@ -8,6 +8,7 @@ import CtaBlock from "@/components/article/CtaBlock";
 import Faq from "@/components/article/Faq";
 import JsonLd from "@/components/article/JsonLd";
 import ReadDepth from "@/components/article/ReadDepth";
+import ReadMarker from "@/components/article/ReadMarker";
 import Related from "@/components/article/Related";
 import DownloadCta from "@/components/DownloadCta";
 import { getAuthor } from "@/lib/content/authors";
@@ -73,9 +74,11 @@ export default function ArticlePage({ article }: { article: Article }) {
           )}
         </figure>
 
+        <ReadMarker edge="start" />
         <div className="rr-article-body">
           {renderArticleBody(article.body, where, { ...ctx, campaign }, faq)}
         </div>
+        {!article.hasEndCta && <ReadMarker edge="end" />}
 
         {/* The FAQ sits after the body and before the end CTA, whether the CTA
             is the layout's default or the body's own last block. */}
