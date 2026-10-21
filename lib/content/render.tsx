@@ -1,3 +1,4 @@
+import ReadMarker from "@/components/article/ReadMarker";
 import type { ComponentProps, ReactNode } from "react";
 import Link from "next/link";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
@@ -140,7 +141,12 @@ export function renderArticleBody(
       ),
       "rr-cta": (p: Record<string, string>) => (
         <>
-          {p.variant === "end" && beforeEndCta}
+          {p.variant === "end" && (
+            <>
+              <ReadMarker edge="end" />
+              {beforeEndCta}
+            </>
+          )}
           <CtaBlock
             variant={p.variant === "end" ? "end" : "mid"}
             title={p.title}
