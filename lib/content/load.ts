@@ -88,6 +88,12 @@ export function getArticles(type: ArticleType): Article[] {
   return getAllArticles().filter((a) => a.type === type);
 }
 
+/** True when the type has at least one article that will be built. Hubs, nav
+ *  links, the sitemap and the feed use this so an empty section never ships. */
+export function hasPublished(type: ArticleType): boolean {
+  return PUBLISHED_TYPES.includes(type) && getArticles(type).length > 0;
+}
+
 export function getArticle(type: ArticleType, slug: string): Article | undefined {
   return getAllArticles().find((a) => a.type === type && a.slug === slug);
 }

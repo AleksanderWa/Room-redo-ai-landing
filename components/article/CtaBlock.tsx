@@ -1,5 +1,6 @@
 import Image from "next/image";
 import DownloadCta, { type ArticleContext, type Placement } from "@/components/DownloadCta";
+import type { HubPlacement } from "@/lib/content/sections";
 
 /** In-flow App Store block. `mid` is compact and left aligned; `end` is the
  *  closing block (centered, with the app icon). Marked data-rr-cta so the
@@ -15,7 +16,7 @@ export default function CtaBlock({
   variant?: "mid" | "end";
   title?: string;
   text?: string;
-  placement?: Extract<Placement, "article-mid" | "article-end" | "guides-hub" | "author">;
+  placement?: Extract<Placement, "article-mid" | "article-end" | "author"> | HubPlacement;
   campaign?: string;
   article?: ArticleContext;
 }) {

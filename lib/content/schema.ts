@@ -8,8 +8,9 @@ export const ARTICLE_TYPES = ["guides", "ideas"] as const;
 export type ArticleType = (typeof ARTICLE_TYPES)[number];
 
 /** Types whose routes exist. Anything that turns articles into public URLs
- *  (sitemap, feed, hub) goes through this. Add "ideas" when /ideas ships. */
-export const PUBLISHED_TYPES: readonly ArticleType[] = ["guides"];
+ *  (sitemap, feed, hub) goes through this. A hub only goes live once its type
+ *  has a non-draft article (see hasPublished in load.ts). */
+export const PUBLISHED_TYPES: readonly ArticleType[] = ["guides", "ideas"];
 
 /** Allowed body length (words) per article type. */
 export const WORD_RANGE: Record<ArticleType, { min: number; max: number }> = {

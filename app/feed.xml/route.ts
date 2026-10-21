@@ -30,9 +30,9 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Room Redo AI guides</title>
-    <link>${SITE_URL}/guides</link>
-    <description>Plain advice on redesigning a room from a photo, written by the person who built the app.</description>
+    <title>Room Redo AI</title>
+    <link>${SITE_URL}</link>
+    <description>Guides and ideas for redesigning a room from a photo, from the person who built the app.</description>
     <language>en-us</language>
     <lastBuildDate>${rfc822(lastBuild)}</lastBuildDate>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />

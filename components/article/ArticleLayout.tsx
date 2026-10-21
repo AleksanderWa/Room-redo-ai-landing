@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import Brand from "@/components/Brand";
 import StickyCta from "@/components/article/StickyCta";
 import type { ArticleContext } from "@/components/DownloadCta";
+import { hasPublished } from "@/lib/content/load";
 
-/** Shell for /guides, /guides/<slug> and /about/aleksander: the legal pages'
+/** Shell for the guides and ideas pages and /about/aleksander: the legal pages'
  *  reading column (a sibling of LegalLayout, which stays as it is), plus a
  *  skip link, a footer, and an optional mobile sticky App Store bar. */
 export default function ArticleLayout({
@@ -28,6 +29,7 @@ export default function ArticleLayout({
           <footer className="rr-article-footer">
             <Link href="/">Room Redo AI</Link>
             <Link href="/guides">Guides</Link>
+            {hasPublished("ideas") && <Link href="/ideas">Ideas</Link>}
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
           </footer>

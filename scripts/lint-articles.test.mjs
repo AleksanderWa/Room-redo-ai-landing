@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,10 +12,10 @@ const repo = path.join(here, "..");
 const fixtures = path.join(here, "__fixtures__");
 const tsx = path.join(repo, "node_modules/tsx/dist/cli.mjs");
 
-function lint(name) {
+function lint(name, dir = fixtures) {
   const res = spawnSync(
     process.execPath,
-    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", fixtures, path.join(fixtures, "guides", `${name}.md`)],
+    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, path.join(dir, "guides", `${name}.md`)],
     { cwd: repo, encoding: "utf8" },
   );
   return { code: res.status, out: res.stdout + res.stderr };
@@ -31,6 +32,51 @@ test("a real photo opted out with the title \"photo\" passes", () => {
   assert.equal(code, 0, out);
 });
 
+test("a link to a published ideas article passes now that ideas is published", () => {
+  const { code, out } = lint("good-link-ideas");
+  assert.equal(code, 0, out);
+  assert.match(out, /0 errors/);
+});
+
+test("a link to the /ideas hub passes when a published ideas article exists", () => {
+  const { code, out } = lint("good-link-ideas-hub");
+  assert.equal(code, 0, out);
+  assert.match(out, /0 errors/);
+});
+
+// The hub 404s until ideas has a published article, so linking to it must fail.
+for (const dir of ["__fixtures_no-ideas", "__fixtures_draft-only-ideas"]) {
+  test(`a link to /ideas fails with [link] when ideas has no published article (${dir})`, () => {
+    const { code, out } = lint("bad-link-ideas-hub", path.join(here, dir));
+    assert.equal(code, 1, out);
+    assert.match(out, /\[link\].*\/ideas/, out);
+    assert.match(out, /1 error,/, out);
+  });
+}
+
+// Uses fixture content dirs (read.ts honours CONTENT_DIR), never the real
+// content/, so the result does not depend on which articles exist today.
+function hasPublishedIn(dir) {
+  const code = `
+    const m = await import("${path.join(repo, "lib/content/load.ts")}");
+    const f = m.hasPublished ?? m.default.hasPublished;
+    console.log(JSON.stringify([f("guides"), f("ideas")]));
+  `;
+  const res = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", code], {
+    cwd: repo,
+    encoding: "utf8",
+    env: { ...process.env, NODE_ENV: "production", CONTENT_DIR: dir },
+  });
+  assert.equal(res.status, 0, res.stderr);
+  return JSON.parse(res.stdout);
+}
+
+test("hasPublished: ideas is true with a published article, false when absent or draft-only", () => {
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_published-ideas"))[1], true, "published ideas");
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_draft-only-ideas"))[1], false, "draft-only");
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_no-ideas"))[1], false, "no ideas dir");
+});
+
 const broken = [
   ["bad-em-dash", "em-dash"],
   ["bad-slug", "slug"],
@@ -43,6 +89,7 @@ const broken = [
   ["bad-cta-nested", "directive"],
   ["bad-link-ideas", "link"],
   ["bad-link-draft", "link"],
+  ["bad-link-ideas-draft", "link"],
 ];
 
 for (const [name, rule] of broken) {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/site";
 import type { Author } from "@/lib/content/authors";
 import { articlePath, type Article } from "@/lib/content/load";
+import { SECTIONS } from "@/lib/content/sections";
 
 export const RSS_ALTERNATE = { "application/rss+xml": `${SITE_URL}/feed.xml` };
 
@@ -54,7 +55,7 @@ export function articleJsonLd(a: Article, author: Author) {
     },
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
-      { name: "Guides", path: "/guides" },
+      { name: SECTIONS[a.type].label, path: SECTIONS[a.type].path },
       { name: a.title, path: articlePath(a) },
     ]),
   ];
