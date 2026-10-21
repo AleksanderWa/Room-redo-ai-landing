@@ -54,7 +54,9 @@ for (const dir of ["__fixtures_no-ideas", "__fixtures_draft-only-ideas"]) {
   });
 }
 
-test("hasPublished is true only for a published type with at least one article", () => {
+// Uses fixture content dirs (read.ts honours CONTENT_DIR), never the real
+// content/, so the result does not depend on which articles exist today.
+function hasPublishedIn(dir) {
   const code = `
     const m = await import("${path.join(repo, "lib/content/load.ts")}");
     const f = m.hasPublished ?? m.default.hasPublished;
@@ -63,13 +65,16 @@ test("hasPublished is true only for a published type with at least one article",
   const res = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", code], {
     cwd: repo,
     encoding: "utf8",
-    env: { ...process.env, NODE_ENV: "production" },
+    env: { ...process.env, NODE_ENV: "production", CONTENT_DIR: dir },
   });
   assert.equal(res.status, 0, res.stderr);
-  const [guides, ideas] = JSON.parse(res.stdout);
-  const hasMd = (t) => fs.readdirSync(path.join(repo, "content", t)).some((f) => f.endsWith(".md"));
-  assert.equal(guides, hasMd("guides"));
-  assert.equal(ideas, hasMd("ideas"));
+  return JSON.parse(res.stdout);
+}
+
+test("hasPublished: ideas is true with a published article, false when absent or draft-only", () => {
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_published-ideas"))[1], true, "published ideas");
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_draft-only-ideas"))[1], false, "draft-only");
+  assert.equal(hasPublishedIn(path.join(here, "__fixtures_no-ideas"))[1], false, "no ideas dir");
 });
 
 const broken = [
