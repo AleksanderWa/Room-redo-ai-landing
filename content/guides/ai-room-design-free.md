@@ -158,4 +158,4 @@ That makes it a fair test. Use the room you actually want to change, shoot it th
 
 Every plan and pack works on rooms and corners, in all styles. A pack suits one room you've already decided on. A plan suits working through a whole home.
 
-Most homes have one room whose door stays shut when guests come over. Stand in that doorway tomorrow morning, phone upright and level, and see what it could be.
+Most homes have one room whose door stays shut when guests come over. Stand in that doorway tomorrow morning, phone level at chest height, and see what it could be.
