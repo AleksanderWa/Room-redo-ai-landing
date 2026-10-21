@@ -25,8 +25,7 @@ hero:
   alt: AI redesign of an attic bedroom in Japandi style, with a warm beige wall, an oak platform bed with white linen bedding and an oatmeal knit throw, a long oak dresser and a jute rug
   isAiRedesign: true
 heroCaption: A cluttered attic bedroom, redesigned in Japandi style by Room Redo.
-related:
-  - ai-room-design-free
+related: []
 faq:
   - q: "Is the first Japandi redesign free?"
     a: "Yes. Your first redesign in Room Redo is free, one per device, in any style, Japandi included. It's the full redesign with a small Room Redo watermark. More redesigns need a plan or a one-time pack."
@@ -49,14 +48,12 @@ campaign:
 A Japandi style bedroom is low, quiet and warm: a light wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, each one shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
 
 :::at-a-glance
-- Palette: Warm white, sand, clay, sage, charcoal
-- Wood: Light oak or ash, a few dark accents
+- Palette: Warm white, sand, clay, sage
+- Wood: Light oak, a few dark accents
 - Furniture: Low, few and solid
 - Light: Warm bulbs, paper shades
 - First step: Clear the floor and every surface
 :::
-
-Start with what the style actually is, because the rules make more sense once you know where they come from.
 
 ## What is Japandi style?
 
@@ -66,7 +63,7 @@ The link is much older than the name. [Scandinavian designers and artists began 
 
 In a real room, it comes down to seven rules:
 
-- Warm minimalism: fewer things, but the ones you keep feel soft and used. A Japandi room is spare, never a white box.
+- Warm minimalism: fewer things, but soft and used. Spare, never a white box.
 - Natural materials: light oak or ash for most of the wood, plus one or two darker wood or black accents. Linen, cotton and wool for fabrics. Paper, ceramic and stone for the small things.
 - Low furniture: beds, sofas and tables sit close to the floor, which makes the ceiling feel higher.
 - An open floor: leave walking space around every piece. Bare floor is part of the look.
@@ -143,9 +140,9 @@ The pine floor stayed, and that's a useful trick. If your floor is a strong oran
 
 ## Is Japandi the same as Scandinavian?
 
-No. Japandi is lower, darker in its accents and quieter, while Scandinavian is brighter, cozier and a little fuller.
+No. Japandi is lower and quieter, with darker accents. Scandinavian is brighter and a little fuller.
 
-| | Japandi | Scandinavian |
+| Feature | Japandi | Scandinavian |
 |---|---|---|
 | Palette | Warm white, sand, clay, sage, charcoal accents | Bright white, light grey, soft pastels |
 | Wood | Light oak plus darker wood or black accents | Pale wood throughout |
