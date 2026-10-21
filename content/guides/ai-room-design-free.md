@@ -1,11 +1,11 @@
 ---
-title: "AI room design, free: see your own room in a new style on your iPhone"
-seoTitle: "AI room design free on iPhone, no sign-up"
-description: "Try AI room design free on your iPhone: photograph your own room, pick a style, see it redesigned. No account. One small room shown three ways."
+title: "AI room design, free: redesign your own room on your iPhone, then make it real"
+seoTitle: "AI room design free: better photos, styles, real changes"
+description: "Try AI room design free on your iPhone, then get more from it: how to photograph your room, pick a style that fits, and turn the result into real changes."
 type: guides
 slug: ai-room-design-free
 datePublished: 2026-10-20
-dateModified: 2026-10-20
+dateModified: 2026-10-21
 author: aleksander
 primaryKeyword: ai room design free
 secondaryKeywords:
@@ -20,8 +20,6 @@ appStyles:
   - mid_century_modern
   - cozy_lounge_nook
   - japandi
-  - cozy_cat_lounge
-  - coffee_matcha_bar
 hero:
   src: /images/articles/ai-room-design-free/boxroom-scandinavian.webp
   alt: AI redesign of a narrow spare room in Scandinavian style, with a pale wood single bed, a sage knit throw, an oak dresser and a paper lantern
@@ -31,8 +29,8 @@ related: []
 faq:
   - q: "Do I need to sign up or log in?"
     a: "No. There's no sign-up, no email and no password. Your device is enough: the app creates a private ID on it to keep track of your redesigns and purchases."
-  - q: "Can I use a photo of my own room?"
-    a: "Yes, that's the whole idea. Take a photo with your camera or pick one from your library, and Room Redo redesigns that same room. For the clearest result, shoot from the doorway so the photo takes in most of the room."
+  - q: "Which rooms can I redesign?"
+    a: "Bedrooms, living rooms, kitchens, bathrooms, offices and balconies. You can also photograph a single corner and say what it should do: storage, a place to sit, work or study, laundry, a space for kids, or a space for your pet."
   - q: "Does it work on Android or in a browser?"
     a: "Room Redo is an iPhone app, free to download from the App Store. You take the photo and see your redesign right there in the app."
   - q: "Is there a watermark on the free redesign?"
@@ -47,21 +45,56 @@ campaign:
   ct: article-ai-room-design-free
 ---
 
-You can try AI room design free on your iPhone with Room Redo. Take one photo of your own room, pick a style, and the app redesigns that same room in the new look. Your first redesign is free: the full redesign, in any style you like, with a small Room Redo watermark. There's no account to make, no email, no password.
+You can try AI room design free on your iPhone with Room Redo. Take one photo of your own room, pick a style, and the app redesigns that same room in the new look. Your first redesign is free: the full redesign, in any style, with a small Room Redo watermark, and no account to make.
 
 :::at-a-glance
 - Price: First redesign free
 - Device: iPhone
 - Account: None needed
-- Styles: More than 45
-- Rooms: Rooms and corners
+- Best photo: Daylight, from the doorway
+- Next step: Copy the palette, not the layout
 :::
 
-Below is one real photo of a spare room, redesigned three ways by the app, then what's free and what's paid.
+The free redesign is the easy part. What makes it useful is the photo you start from and what you do with the picture afterwards. Below is how to get both right, shown in two real rooms.
 
-## Same room, three looks
+## How to photograph a room for an AI redesign
 
-The starting point is a long, thin spare room: scuffed white walls, a bare bulb, one window at the far end with a radiator under it, and an ironing board leaning on the left wall. Tap a style, then drag the slider to compare.
+Shoot in daylight, from the doorway or a corner, with the phone held level at chest height. Clear away the mess, but leave the furniture. That covers most rooms. Here's the detail.
+
+| What | Do this | Why |
+|---|---|---|
+| Light | Shoot by day with the curtains open | Daylight shows the real color of your walls and floor. One bulb at night turns everything yellow and hides the corners |
+| Where to stand | In the doorway, or the corner farthest from the window | You get two walls, the floor and the window in one frame |
+| Phone height | Chest height, screen straight up, no tilt | Tilting makes the walls lean, so the room looks smaller and odder than it is |
+| Upright or sideways | Upright for a long, narrow room. Sideways for a wide one | Match the shape of the room so nothing important gets cropped |
+| Clutter | Pick up laundry, boxes and bags | The picture should show the room, not this week's mess |
+| People | Keep them out of the frame | An empty room reads clearly. Room Redo turns away photos with people in them |
+
+Take three shots from slightly different spots, then keep the one where you can see the floor all the way to the far wall. Floor is what tells the eye how big a room is, so a photo that cuts it off makes any room look cramped.
+
+Don't bother staging. You're not selling the house. A bare, scuffed room is a perfectly good starting point, as the spare room in the next section shows.
+
+If you'd like to try it on your own room now, the app is free to download.
+
+::cta
+
+## How do you choose a style for your room?
+
+Start from the room you have, not the photo you saved. Its size, its light and the furniture you're keeping narrow the choice fast.
+
+| If your room is | Lean toward | Because |
+|---|---|---|
+| Small or narrow | Scandinavian or Japandi | Pale wood, light walls and furniture on legs keep the floor in view |
+| Dim, with one small window | Light walls with warm wood (Scandinavian, Organic Modern) | Pale surfaces bounce what light there is |
+| Bright and a decent size | Mid-Century Modern, Art Deco, darker walls | A deep color feels cozy, not closed in, when the light is good |
+| Full of dark wood you're keeping | Mid-Century Modern or English Country | Walnut and warm tones are already part of those looks |
+| Full of white flat-pack you're keeping | Scandinavian or Modern Minimalist | Your pieces already match the palette |
+
+The small-room rule is the one people break most. Chunky furniture that sits flat on the floor blocks the eye. Designer Tim Clarke likes open pieces for exactly this reason: "You can see beyond them so it doesn't stop your eye," he told [Sunset](https://sunset.com/home/architecture-design/small-living-room-ideas).
+
+Then decide what you're after. A real interior style (Room Redo calls these Serious styles) is for when you're about to buy paint or a bed. A big what-if (the app's Wild ideas) is for when you're not sure what the room should even be. Wild ideas rebuild the room around the idea, so expect bigger changes.
+
+Here's that advice in a real room: a long, thin spare room with scuffed white walls, a bare bulb, and one window at the far end over a radiator. Tap a style, then drag the divider to compare.
 
 :::style-slider{before="/images/articles/ai-room-design-free/boxroom-before.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" caption="One spare room, three styles, all from the same photo."}
 ![AI redesign of the spare room in Scandinavian style, with a pale wood single bed, a sage knit throw, an oak dresser and a jute runner](/images/articles/ai-room-design-free/boxroom-scandinavian.webp "Scandinavian")
@@ -69,83 +102,62 @@ The starting point is a long, thin spare room: scuffed white walls, a bare bulb,
 ![AI redesign of the same spare room as a Cozy Lounge Nook, with a brick accent wall around the window, an olive velvet chaise, a brass floor lamp and a round jute rug](/images/articles/ai-room-design-free/boxroom-cozy-lounge-nook.webp "Cozy Lounge Nook")
 :::
 
-Three rooms you might never have pictured, from one photo. Here's what changed in each.
+The Scandinavian version follows the small-room rule to the letter. The walls stay pale, the bed and dresser stand on slim legs, and a jute runner leads your eye down to the window. It reads as a guest room, not a hallway.
 
-| Look | Kind | What you see |
+Mid-Century Modern goes darker with sage walls and walnut, and it still works because the window gives the eye somewhere to land. The Cozy Lounge Nook drops the bed for a velvet chaise and turns the room into a place to read. Same photo, three different answers to "what is this room for?". You can browse every style on the [Room Redo style wall](/).
+
+## How to turn an AI redesign into real changes
+
+Treat the redesign as a mood board made from your own room. Take the colors, the materials and the one big move. Leave the exact pieces and their positions.
+
+**Pull the palette.** Name three colors from the picture: one for the walls and other big surfaces, one for the larger furniture and the rug, and one small accent. That's the decorators' 60-30-10 split, which [Livingetc](https://livingetc.com/ideas/60-30-10-rule) describes as 60 percent one color, 30 percent a second on pieces like chairs, rugs and sofas, and 10 percent a third in art and accessories.
+
+**Find the one big move.** Most redesigns hinge on a single change. Do that first and the room already looks different with your old things in it.
+
+**Choose the rug early.** Designer Jenny Komenda starts there because "it's so easy to tweak the other choices in the room to fit the rug," she told [House & Garden](https://www.houseandgarden.co.za/interiors/do-this-first-when-youre-decorating-a-room-2292ca64-2a57-4055-936e-165d32b284dd). Choosing it first doesn't mean laying it first, though.
+
+Here's a cluttered bedroom with a loud tropical wallpaper wall, redesigned with Room Redo.
+
+::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="The cluttered bedroom, before and after"}
+
+The palette is easy to read: warm white and oat linen for most of the room, pale oak and jute for the bed and the floor, and sage for the accent wall, the throw and one cushion. The big move is the wall. Swap the wallpaper for flat sage paint and half the job is done.
+
+Do the work in this order, so nothing gets painted around or splashed:
+
+| Order | What | In this bedroom |
 |---|---|---|
-| Scandinavian | Serious | A guest room: pale wood single bed, oak dresser with a mushroom lamp, jute runner, paper lantern |
-| Mid-Century Modern | Serious | Warmer and darker: sage green walls, walnut bed and dresser, brass dome lamp, rust cushion, olive pendant |
-| Cozy Lounge Nook | Wild | A reading room: the bed is gone, replaced by a tufted olive chaise, a brick wall around the window and landscape prints |
+| 1 | Walls | Strip the wallpaper, paint the wall sage |
+| 2 | Big furniture | A low bed in pale wood |
+| 3 | Rug | A chunky jute rug under the bed |
+| 4 | Textiles | Oat linen bedding, a sage throw, sheer curtains |
+| 5 | Lighting | A small lamp on the nightstand |
+| 6 | Decor | One large framed landscape print |
 
-In a room this narrow, low and pale furniture is what stops it from feeling like a hallway. That's why the Scandinavian version works as a guest room.
+**Copy the material, not the object.** The pieces in a redesign are ideas, not products, so shop for "pale oak bed frame" or "chunky jute rug" instead of hunting for that exact one. Then measure your room before you buy, because a picture isn't to scale.
 
-Cozy Lounge Nook is one of the Wild styles, and those rebuild the room around an idea, so expect bigger changes than with a Serious style. That's the case for trying more than one. The guest room and the reading room came from the same photo.
+**Take the layout from your tape measure.** Furniture can move between looks. In the spare room above, the bed sits on the left in Scandinavian and on the right in Mid-Century Modern. Put things where your doors, sockets and radiator allow.
 
 ## How AI room design works in Room Redo
 
-Four steps, all on your iPhone.
+The whole thing happens on your iPhone, in four steps.
 
 :::steps
-1. **Take a photo of your room.** Use the camera or pick one from your photo library.
-2. **Pick a style.** Choose one of the Serious styles or a Wild idea.
+1. **Take a photo of your room.** Use the camera or pick one from your library. A single corner works too.
+2. **Pick a style.** Choose from more than 45: 20 Serious styles and over 25 Wild ideas. You can ask for up to three things you'd like, such as plants or a rug.
 3. **Watch it come together.** The app shows the redesign developing as it happens.
 4. **Compare and try more.** Drag between before and after, then try another style on the same room.
 :::
 
-The photo is the step that matters most.
-
-:::tip{title="Get the best photo"}
-Stand in the doorway or a corner so the shot takes in as much of the room as you can. Leave people out of the frame; photos with people in them are turned away.
-:::
-
-Every room you redesign is kept in "My spaces", so you can come back and try another look later. Room Redo starts from your photo, not a stock room, so what you see is your room, not a picture of somebody else's.
-
-::cta
-
-## Pick from more than 45 styles
-
-The styles come in two kinds, and they suit different moods.
-
-| Kind | Serious styles | Wild ideas |
-|---|---|---|
-| What they are | Real interior styles you could furnish a room in | Fun ideas the room is rebuilt around |
-| How many | 20 | Over 25 |
-| Use them when | You're planning paint, a rug or a new bed | You want a big what-if |
-| How much changes | A new look in that style | Bigger changes, built around the idea |
-| Examples | Japandi, Scandinavian, Soft Parisian, Mid-Century Modern, Art Deco | A spa bath, a cat lounge, a library nook, a coffee and matcha bar, a starry sky ceiling |
-
-A few favorites to start with:
-
-::style-card{ids="japandi scandinavian cozy_cat_lounge coffee_matcha_bar" text="japandi: Low pale wood and very few colors, for a calm room. | scandinavian: Light wood, soft textiles and plenty of white. | cozy_cat_lounge: A room built around your cat's comfort. | coffee_matcha_bar: A coffee and matcha bar, right in your own room."}
-
-You can see every style, with an example, on the [Room Redo style wall](/).
-
-## Rooms and corners that work
-
-Room Redo works on bedrooms, living rooms, kitchens, bathrooms, offices and balconies.
-
-You don't have to redesign a whole room, either. Photograph a single corner and say what it should do: storage, a place to sit, work or study, laundry, a space for kids, or a space for your pet. You get an idea for that exact spot, which is handy for the awkward corner by the stairs or the dead space next to a closet.
-
-Here's a second real example, a messy bedroom redesigned with a sage accent wall behind the bed.
-
-::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="The cluttered bedroom, before and after"}
-
-The busy floral wallpaper gives way to a calm sage wall with a framed mountain print, and the bed gets a pale wood frame, linen bedding, a bedside lamp and a jute rug underneath.
+Every room you redesign is kept in "My spaces", so you can come back to the spare room next week and try Japandi on it.
 
 ## Is this AI room design free, really?
 
-Yes: your first redesign is free, one per device. It's the full redesign, in any style, including the Wild ones.
+Yes. Your first redesign is free, one per device, and it's the full redesign in any style, Wild ideas included.
 
-That makes it a fair test. Pick the style you're most curious about, use your real room, and judge the result before you spend anything. If you like what you see, the plans and packs are just below.
-
-## What's free and what's paid
-
-After the free redesign, you can buy a plan or a one-time pack.
+That makes it a fair test. Use the room you actually want to change, shoot it the way the table above describes, and pick the style the second table points you to. After that free redesign, you can buy a plan or a one-time pack.
 
 ::pricing
 
-Every plan and pack works on rooms and corners, in all styles. If you only have one room in mind, a pack is the simple choice. If you're working through a whole home, a plan gives you room to try lots of styles.
+Every plan and pack works on rooms and corners, in all styles. A pack suits one room you've already decided on. A plan suits working through a whole home.
 
-## Try it on the room you've been putting off
-
-Most homes have a room whose door stays shut when guests come over. For a lot of people it's the spare room that slowly filled up with boxes. Take a photo of it tonight and pick the style you keep saving pictures of. The first redesign is on us.
+Most homes have one room whose door stays shut when guests come over. Stand in that doorway tomorrow morning, phone upright and level, and see what it could be.
