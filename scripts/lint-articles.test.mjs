@@ -31,6 +31,12 @@ test("a real photo opted out with the title \"photo\" passes", () => {
   assert.equal(code, 0, out);
 });
 
+test("a link to a published ideas article passes now that ideas is published", () => {
+  const { code, out } = lint("good-link-ideas");
+  assert.equal(code, 0, out);
+  assert.match(out, /0 errors/);
+});
+
 const broken = [
   ["bad-em-dash", "em-dash"],
   ["bad-slug", "slug"],
@@ -43,6 +49,7 @@ const broken = [
   ["bad-cta-nested", "directive"],
   ["bad-link-ideas", "link"],
   ["bad-link-draft", "link"],
+  ["bad-link-ideas-draft", "link"],
 ];
 
 for (const [name, rule] of broken) {

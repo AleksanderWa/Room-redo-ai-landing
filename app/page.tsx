@@ -16,7 +16,7 @@ import {
 import { faqs, FAQ_SPLIT, type Faq } from "@/data/faq";
 import { steps } from "@/data/steps";
 import { styleAlt, styleById, styles } from "@/data/styles";
-import { getArticles } from "@/lib/content/load";
+import { getArticles, hasPublished } from "@/lib/content/load";
 import { homeJsonLd } from "@/lib/seo";
 import { SUPPORT_EMAIL, TIKTOK_URL } from "@/lib/site";
 
@@ -332,6 +332,7 @@ export default function Home() {
             <Brand />
             <nav aria-label="Footer" className="rr-footer-nav">
               <Link href="/guides">Guides</Link>
+              {hasPublished("ideas") && <Link href="/ideas">Ideas</Link>}
               <Link href="/privacy">Privacy</Link>
               <Link href="/terms">Terms</Link>
               <a href={`mailto:${SUPPORT_EMAIL}`}>Support · {SUPPORT_EMAIL}</a>

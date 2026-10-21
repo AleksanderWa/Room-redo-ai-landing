@@ -105,6 +105,8 @@ const bannedPhrases = loadBanned();
 function internalTargetExists(urlPath) {
   const clean = urlPath.split("#")[0].split("?")[0].replace(/\/$/, "") || "/";
   if (STATIC_PAGES.has(clean)) return true;
+  // A hub exists only once its type has a published article.
+  if (clean === "/ideas") return [...knownSlugs].some((k) => k.startsWith("ideas/"));
   const m = clean.match(/^\/(guides|ideas)\/([^/]+)$/);
   if (m) return PUBLISHED_TYPES.includes(m[1]) && knownSlugs.has(`${m[1]}/${m[2]}`);
   return fs.existsSync(path.join(repo, "public", clean));
