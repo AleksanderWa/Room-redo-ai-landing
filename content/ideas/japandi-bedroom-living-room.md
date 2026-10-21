@@ -45,7 +45,7 @@ campaign:
   ct: article-japandi
 ---
 
-A Japandi style bedroom is low, quiet and warm: a light wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, each one shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
+A Japandi style bedroom is low, quiet and warm: a light wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, with the main rules shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
 
 :::at-a-glance
 - Palette: Warm white, sand, clay, sage
@@ -57,9 +57,9 @@ A Japandi style bedroom is low, quiet and warm: a light wood platform bed, linen
 
 ## What is Japandi style?
 
-Japandi is a mix of Japanese and Scandinavian design: warm minimalism, natural materials, low furniture and very few things. The name [took off around 2016](https://en.wikipedia.org/wiki/Japandi), and it draws on two ideas, the Japanese wabi-sabi (beauty in imperfect, handmade things) and the Danish hygge (feeling cozy at home).
+Japandi is a mix of Japanese and Scandinavian design: warm minimalism, natural materials, low furniture and very few things. The name [emerged around 2016](https://en.wikipedia.org/wiki/Japandi), and it draws on two ideas, the Japanese wabi-sabi (beauty in imperfect, handmade things) and the Danish hygge (feeling cozy at home).
 
-The link is much older than the name. [Scandinavian designers and artists began visiting Japan in the mid-1800s](https://gessato.com/?p=325269), after the country opened its borders, and found they shared a lot with Japanese craft.
+The link is much older than the name. [Scandinavian designers and artists began visiting Japan in the mid-1800s](https://gessato.com/?p=325269), after the country opened its borders, and many came to admire Japanese craft and design.
 
 In a real room, it comes down to seven rules:
 
@@ -114,7 +114,7 @@ Each change maps to one of the rules above.
 | Mixed print bedding became white linen and a knit throw | Two or three tones, lots of texture |
 | An oak nightstand, a ceramic lamp and one snake plant arrived | One lamp, a few plants |
 
-Two things stayed the same: the patterned curtains and the black ceiling light. In your own room, those are the next two swaps. Sheer linen curtains and a paper shade over the bulb would finish the look, and both cost far less than a new bed.
+The patterned curtains, the black ceiling light and the white dresser in the foreground stayed as they were. In your own room, the curtains and the light are the next two swaps. Sheer linen curtains and a paper shade over the bulb would finish the look, and both cost far less than a new bed.
 
 ::cta
 
@@ -130,7 +130,7 @@ A Japandi living room is built around one low sofa, one solid wood table and a r
 - A rug big enough to hold the sofa and the table, so the seating reads as one zone.
 - A low sideboard with doors for everything else.
 
-This next room is a half-renovated living room in an older city apartment: bare pine floorboards, two tall windows over radiators, and a brass chandelier. Nothing else.
+This next room is a half-renovated living room in an older city apartment: bare pine floorboards, two tall windows over radiators and a brass chandelier, plus a cable reel and a few tools on the floor.
 
 ::before-after{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" after="/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators, a brass chandelier and tools on the floor" afterAlt="AI redesign of the same living room in Japandi style, with a low cream sectional on a wood base, a solid oak coffee table, two knit poufs on a cream rug, a white paper lantern pendant, sheer curtains, a round wood-framed mirror and several plants" caption="The empty living room, before and after. AI redesign by Room Redo."}
 
@@ -157,9 +157,9 @@ Here's the same living room in both styles. Tap a style, then drag the divider.
 ![AI redesign of the same living room in Scandinavian style, with a light grey sectional, a sheepskin, striped cushions, a round pale wood coffee table, a white drum pendant, a low oak media console and a dark grey armchair](/images/articles/japandi-bedroom-living-room/old-town-living-room-scandinavian.webp "Scandinavian")
 :::
 
-The layout barely moves, but the feel does. The Scandinavian version brings a grey sofa, a sheepskin, striped cushions, a round table on slim legs and an extra armchair. The Japandi version has fewer pieces, a heavier table and more bare floor.
+The layout barely moves, but the feel does. The Scandinavian version brings a grey sofa, a sheepskin, striped cushions, a round table on slim legs and an extra armchair. The Japandi version has fewer big pieces, a heavier table and more bare floor.
 
-If you're torn between the calm styles, these four sit close together. You can see an example of each on the [Room Redo style wall](/).
+These four styles share the Calm & Minimal group in Room Redo. If you're torn, the [Room Redo style wall](/) shows each one applied to the same cluttered bedroom, so you can compare them side by side.
 
 ::style-card{ids="japandi scandinavian organic_modern modern_minimalist"}
 
@@ -196,7 +196,7 @@ If you only get through the first three steps, the room will already feel calmer
 
 ## Mistakes that make Japandi look cold or themed
 
-Most Japandi rooms that miss go wrong in one of two ways: too cold, or too much.
+Japandi usually goes wrong in one of two ways: too cold, or too much.
 
 | Mistake | Why it fails | The fix |
 |---|---|---|
