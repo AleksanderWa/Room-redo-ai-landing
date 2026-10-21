@@ -7,10 +7,11 @@ Single source of rules for article writing (`writer` agent) and checking (`guard
 Every article is Room Redo's own content, published on Room Redo's site, and it still promotes the app. But we show value to the reader first. The article answers the search; Room Redo is the fastest way to apply that answer to your own room.
 
 - **The remove-the-app test.** Delete every Room Redo mention. The article must still answer the search and be worth bookmarking. If it doesn't, rewrite it.
+- **Reader value is scored.** The guard scores "reader value" with the remove-the-app test. PASS needs 4 or higher; 3 or lower is REVISE.
 - **About 70% reader help, 30% product.** Reader help means design guidance, how-tos, decisions, mistakes to avoid, measurements, palettes and layouts. Product sections show the advice applied in a real room ("here's that rule in a narrow spare room"), not a feature tour.
 - **Cut generic pitch lines.** Any line that could appear on any app's site goes.
-- **Intro answers the question directly.** It may keep one sentence saying Room Redo is an iPhone app ("Redesign your room on your iPhone"), so the right readers self-select. No negative caveats like "sorry, Android users".
-- **First H2 is pure value.** The mid `::cta` goes after the first value section, never before it.
+- **Intro answers the question directly.** It includes one sentence saying Room Redo is an iPhone app ("Redesign your room on your iPhone"), so the right readers self-select. This is required: the first screen must show "iPhone". No negative caveats like "sorry, Android users".
+- **First H2 is pure value.** The mid `::cta` goes after the first value section, never before it. A later analytics-driven move of the mid CTA (to just before the biggest drop-off) still keeps it after the first value section.
 - **Honest means true, not self-critical.** Every claim must be true and provable (see `FACTS.md`). We don't argue against ourselves, dwell on limits, or add "when another tool fits better" sections.
 - **Never send readers to competitors.** Don't link to competitor sites or recommend them. Comparison articles (later) may name competitors fairly and accurately, but are written to show where Room Redo wins.
 - State the free offer exactly as `FACTS.md` gives it. Paid plans get a short, confident "what's free, what's paid" section, not a warning. Overselling "free" is a factual error.
@@ -63,7 +64,7 @@ Write like a friend who's good at rooms, talking to a homeowner or renter. Calm,
 - **Answer first.** The first paragraph answers the query directly. Question-style H2s get a one-sentence direct answer, then detail.
 - No `#` (H1) in the body. Body headings start at `##`. Sentence case headings.
 - Internal links: link to the homepage or an existing article where it helps the reader, with descriptive anchor text (not "click here"). Only link to pages that exist. `related` lists existing slugs only.
-  - Link to at least 2 existing articles where they are relevant, with descriptive anchors.
+  - Link to at least 2 existing articles where relevant, once that many published articles exist, with descriptive anchors. Contextual links are links in the article body (and `related` frontmatter). The hub, the homepage strip and "Keep reading" don't count. The linter's link-graph warnings start at 3 or more published articles; until then the guard checks this rule.
   - A new article gets links from 1 or 2 older articles, added in the same PR (the pipeline's "Link back" step).
 - External links: 1 to 3 credible, non-competitor sources where they back a claim.
 - CTA: one `::cta` around the middle, after the first value section (never before it). The end CTA is added automatically, so the last paragraph should lead naturally into trying the app, without summarizing the article.
@@ -80,7 +81,7 @@ Markdown plus these directives only (anything else fails the build):
 Each directive goes on its own line. The syntax is defined in `lib/content/directives.ts`; if this list and that file disagree, the code wins.
 
 - `::before-after{before="/images/articles/<slug>/x-before.webp" after="/images/articles/<slug>/x-after.webp" beforeAlt="..." afterAlt="..." caption="optional"}`
-- `::cta`: the mid-article App Store CTA. Write it **once**, around the middle.
+- `::cta`: the mid-article App Store CTA. Write it **once**, after the first value section and never before it.
   - **Don't write an end CTA.** The layout adds the end CTA automatically after the body.
   - Use `::cta{variant="end" title="..." text="..."}` only to replace the default end copy, and then only once, as the last line.
 - `::style-card{ids="japandi scandinavian"}`: 1 to 4 styles from `data/styles.ts`. Optional `text="japandi: one line | scandinavian: one line"`.
