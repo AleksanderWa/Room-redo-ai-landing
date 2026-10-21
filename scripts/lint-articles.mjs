@@ -5,9 +5,17 @@
 //
 //   --content-dir <dir>   content root (default: ./content). Used by the tests.
 //   --faq-file <file>     FAQ module to check (default: ./data/faq.ts). Used by the tests.
+//   --link-graph          also check the internal link graph (full runs only; on in prebuild).
 //
 // Full runs (no file args) also check that every internal FAQ `more.href`
 // resolves to a published article.
+//
+// Link graph (--link-graph): contextual links are article body links, the
+// `related` frontmatter and the homepage FAQ `more.href`. Hubs, the homepage
+// strip and "Keep reading" don't count, nor do self-links. Per published
+// article: 0 inbound is an error, fewer than 2 inbound is a warning, and
+// fewer than 2 outbound links to other articles is a warning once 3 or more
+// articles are published. Matches content/_system/STYLE.md.
 //
 // Errors (exit 1): invalid frontmatter, em dash, banned phrase, primary
 // keyword missing, body H1, broken internal link or related slug, missing
@@ -45,10 +53,12 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 let contentDir = path.join(repo, "content");
 let faqFile = path.join(repo, "data/faq.ts");
+let linkGraph = false;
 const fileArgs = [];
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--content-dir") contentDir = path.resolve(args[++i]);
   else if (args[i] === "--faq-file") faqFile = path.resolve(args[++i]);
+  else if (args[i] === "--link-graph") linkGraph = true;
   else fileArgs.push(path.resolve(args[i]));
 }
 
@@ -110,6 +120,17 @@ function internalTargetExists(urlPath) {
   const m = clean.match(/^\/(guides|ideas)\/([^/]+)$/);
   if (m) return PUBLISHED_TYPES.includes(m[1]) && knownSlugs.has(`${m[1]}/${m[2]}`);
   return fs.existsSync(path.join(repo, "public", clean));
+}
+
+// A link URL as a site path, or null for an external link.
+function toInternal(url) {
+  return url.startsWith("/") ? url : url.startsWith(SITE) ? url.slice(SITE.length) || "/" : null;
+}
+
+// "/guides/foo#x" -> "guides/foo" when it is a published article, else null.
+function articleKey(urlPath) {
+  const m = urlPath.split("#")[0].split("?")[0].replace(/\/$/, "").match(/^\/(guides|ideas)\/([^/]+)$/);
+  return m && knownSlugs.has(`${m[1]}/${m[2]}`) ? `${m[1]}/${m[2]}` : null;
 }
 
 function publicFileExists(src) {
@@ -207,11 +228,7 @@ function lintFile(entry) {
     }
     if (node.type === "link") {
       const url = node.url;
-      const internal = url.startsWith("/")
-        ? url
-        : url.startsWith(SITE)
-          ? url.slice(SITE.length) || "/"
-          : null;
+      const internal = toInternal(url);
       if (internal && !internalTargetExists(internal)) {
         add("error", "link", `internal link does not resolve: ${url}`, bodyLine(node));
       }
@@ -285,8 +302,8 @@ let warnings = 0;
 
 // FAQ links live in data/faq.ts, not in an article, so check them once per
 // full run: a renamed or drafted target would otherwise ship a dead link.
+const faqs = fileArgs.length ? [] : (await import(pathToFileURL(faqFile).href)).faqs;
 if (!fileArgs.length) {
-  const { faqs } = await import(pathToFileURL(faqFile).href);
   for (const f of faqs) {
     const href = f.more?.href;
     if (href?.startsWith("/") && !internalTargetExists(href)) {
@@ -294,6 +311,62 @@ if (!fileArgs.length) {
       console.log(`  error [faq]: more.href does not resolve to a published page: ${href}`);
       errors++;
     }
+  }
+}
+
+// Link graph: who links to whom, from contextual links only.
+if (linkGraph && !fileArgs.length) {
+  const inbound = new Map(); // target key -> Set of source labels
+  const outbound = new Map(); // article key -> Set of other article keys
+  const published = allArticles.filter((a) => knownSlugs.has(`${a.type}/${a.slug}`));
+  for (const a of published) {
+    inbound.set(`${a.type}/${a.slug}`, new Set());
+    outbound.set(`${a.type}/${a.slug}`, new Set());
+  }
+  const addLink = (source, target) => {
+    if (!target || target === source) return;
+    inbound.get(target).add(source);
+    if (outbound.has(source)) outbound.get(source).add(target);
+  };
+  for (const a of published) {
+    const key = `${a.type}/${a.slug}`;
+    try {
+      const { data, body } = readFrontmatter(a.file);
+      for (const rel of Array.isArray(data.related) ? data.related : []) {
+        addLink(key, knownSlugs.has(`${a.type}/${rel}`) ? `${a.type}/${rel}` : null);
+      }
+      visit(parseMdast(body), "link", (node) => {
+        const internal = toInternal(node.url);
+        if (internal) addLink(key, articleKey(internal));
+      });
+    } catch {
+      // A broken file is reported by lintFile.
+    }
+  }
+  for (const f of faqs) {
+    const href = f.more?.href;
+    const internal = href && toInternal(href);
+    if (internal) addLink("homepage FAQ", articleKey(internal));
+  }
+  for (const a of published) {
+    const key = `${a.type}/${a.slug}`;
+    const issues = [];
+    const inN = inbound.get(key).size;
+    const outN = outbound.get(key).size;
+    if (inN === 0) {
+      issues.push(["error", `no contextual inbound links; link to /${key} from an older article (body or related)`]);
+    } else if (inN < 2) {
+      issues.push(["warn ", `${inN} contextual inbound link (2 or more wanted); add one from another article`]);
+    }
+    if (published.length >= 3 && outN < 2) {
+      issues.push(["warn ", `${outN} outbound links to other articles (2 or more wanted)`]);
+    }
+    if (issues.length) {
+      console.log(path.relative(process.cwd(), a.file));
+      for (const [level, msg] of issues) console.log(`  ${level} [link-graph]: ${msg}`);
+    }
+    errors += issues.filter(([l]) => l === "error").length;
+    warnings += issues.filter(([l]) => l !== "error").length;
   }
 }
 
