@@ -26,7 +26,7 @@ export function hubMetadata(type: ArticleType): Metadata {
 }
 
 export default function ArticleHub({ type }: { type: ArticleType }) {
-  const { label, path, description, empty } = SECTIONS[type];
+  const { label, path, description, empty, hubPlacement } = SECTIONS[type];
   const articles = getArticles(type);
   return (
     <ArticleLayout>
@@ -54,8 +54,7 @@ export default function ArticleHub({ type }: { type: ArticleType }) {
           </ul>
         </>
       )}
-      {/* Both hubs share one analytics placement. */}
-      <CtaBlock variant="end" placement="guides-hub" />
+      <CtaBlock variant="end" placement={hubPlacement} />
     </ArticleLayout>
   );
 }

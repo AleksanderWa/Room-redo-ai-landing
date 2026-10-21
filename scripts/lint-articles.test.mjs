@@ -3,6 +3,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,10 +12,10 @@ const repo = path.join(here, "..");
 const fixtures = path.join(here, "__fixtures__");
 const tsx = path.join(repo, "node_modules/tsx/dist/cli.mjs");
 
-function lint(name) {
+function lint(name, dir = fixtures) {
   const res = spawnSync(
     process.execPath,
-    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", fixtures, path.join(fixtures, "guides", `${name}.md`)],
+    [tsx, path.join(here, "lint-articles.mjs"), "--content-dir", dir, path.join(dir, "guides", `${name}.md`)],
     { cwd: repo, encoding: "utf8" },
   );
   return { code: res.status, out: res.stdout + res.stderr };
@@ -35,6 +36,40 @@ test("a link to a published ideas article passes now that ideas is published", (
   const { code, out } = lint("good-link-ideas");
   assert.equal(code, 0, out);
   assert.match(out, /0 errors/);
+});
+
+test("a link to the /ideas hub passes when a published ideas article exists", () => {
+  const { code, out } = lint("good-link-ideas-hub");
+  assert.equal(code, 0, out);
+  assert.match(out, /0 errors/);
+});
+
+// The hub 404s until ideas has a published article, so linking to it must fail.
+for (const dir of ["__fixtures_no-ideas", "__fixtures_draft-only-ideas"]) {
+  test(`a link to /ideas fails with [link] when ideas has no published article (${dir})`, () => {
+    const { code, out } = lint("bad-link-ideas-hub", path.join(here, dir));
+    assert.equal(code, 1, out);
+    assert.match(out, /\[link\].*\/ideas/, out);
+    assert.match(out, /1 error,/, out);
+  });
+}
+
+test("hasPublished is true only for a published type with at least one article", () => {
+  const code = `
+    const m = await import("${path.join(repo, "lib/content/load.ts")}");
+    const f = m.hasPublished ?? m.default.hasPublished;
+    console.log(JSON.stringify([f("guides"), f("ideas")]));
+  `;
+  const res = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", code], {
+    cwd: repo,
+    encoding: "utf8",
+    env: { ...process.env, NODE_ENV: "production" },
+  });
+  assert.equal(res.status, 0, res.stderr);
+  const [guides, ideas] = JSON.parse(res.stdout);
+  const hasMd = (t) => fs.readdirSync(path.join(repo, "content", t)).some((f) => f.endsWith(".md"));
+  assert.equal(guides, hasMd("guides"));
+  assert.equal(ideas, hasMd("ideas"));
 });
 
 const broken = [

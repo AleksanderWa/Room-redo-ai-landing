@@ -16,6 +16,7 @@ export type Placement =
   | "article-end"
   | "article-sticky"
   | "guides-hub"
+  | "ideas-hub"
   | "author";
 
 /** Article-page CTAs that never render a waitlist form of their own: before
@@ -86,9 +87,9 @@ function onAppStoreClick(
  *   and focuses the hero's.
  *
  * Article pages add placements (article-top, -mid, -end, -sticky, and
- * guides-hub / author for the hub and author page). Their links carry the App
+ * guides-hub / ideas-hub / author for the hubs and author page). Their links carry the App
  * Store campaign token (see appStoreCampaignUrl) and, given `article`, fire
- * `article_cta_click`. Before launch only article-end, guides-hub and author
+ * `article_cta_click`. Before launch only article-end, the hubs and author
  * render a waitlist; the other article CTAs scroll to the article-end one.
  *
  * The hero always carries the waitlist line beneath the button (in the live
@@ -109,7 +110,10 @@ export default function DownloadCta({
 }) {
   const live = APP_STORE_URL !== null;
   const isArticlePlacement =
-    placement.startsWith("article-") || placement === "guides-hub" || placement === "author";
+    placement.startsWith("article-") ||
+    placement === "guides-hub" ||
+    placement === "ideas-hub" ||
+    placement === "author";
   const href = isArticlePlacement
     ? appStoreCampaignUrl(campaign ?? placement)
     : APP_STORE_URL;

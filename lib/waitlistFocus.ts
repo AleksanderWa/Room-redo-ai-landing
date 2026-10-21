@@ -1,7 +1,7 @@
 /** Each id is one rendered WaitlistForm. The article ones are the closing
- * blocks of articles, the guides hub and the author page; the other article
+ * blocks of articles, the hubs and the author page; the other article
  * CTAs (top, mid, sticky) scroll to "article-end" instead of rendering one. */
-export type WaitlistInstance = "hero" | "close" | "article-end" | "guides-hub" | "author";
+export type WaitlistInstance = "hero" | "close" | "article-end" | "guides-hub" | "ideas-hub" | "author";
 
 export function waitlistInputId(instance: WaitlistInstance): string {
   return `waitlist-email-${instance}`;
