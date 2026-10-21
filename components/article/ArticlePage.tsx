@@ -7,6 +7,7 @@ import Breadcrumb from "@/components/article/Breadcrumb";
 import CtaBlock from "@/components/article/CtaBlock";
 import Faq from "@/components/article/Faq";
 import JsonLd from "@/components/article/JsonLd";
+import ReadDepth from "@/components/article/ReadDepth";
 import Related from "@/components/article/Related";
 import DownloadCta from "@/components/DownloadCta";
 import { getAuthor } from "@/lib/content/authors";
@@ -35,6 +36,7 @@ export default function ArticlePage({ article }: { article: Article }) {
           { name: article.title },
         ]}
       />
+      <ReadDepth slug={article.slug} type={article.type} />
       <article>
         <h1 className="rr-article-h1">{article.title}</h1>
         <p className="rr-article-meta">
