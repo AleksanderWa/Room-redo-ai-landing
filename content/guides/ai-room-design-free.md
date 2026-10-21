@@ -110,17 +110,15 @@ Mid-Century Modern goes darker with sage walls and walnut, and it still works be
 
 Treat the redesign as a mood board made from your own room. Take the colors, the materials and the one big move. Leave the exact pieces and their positions.
 
-**Pull the palette.** Name three colors from the picture: one for the walls and other big surfaces, one for the larger furniture and the rug, and one small accent. That's the decorators' 60-30-10 split, which [Livingetc](https://livingetc.com/ideas/60-30-10-rule) describes as 60 percent one color, 30 percent a second on pieces like chairs, rugs and sofas, and 10 percent a third in art and accessories.
-
-**Find the one big move.** Most redesigns hinge on a single change. Do that first and the room already looks different with your old things in it.
-
-**Choose the rug early.** Designer Jenny Komenda starts there because "it's so easy to tweak the other choices in the room to fit the rug," she told [House & Garden](https://www.houseandgarden.co.za/interiors/do-this-first-when-youre-decorating-a-room-2292ca64-2a57-4055-936e-165d32b284dd). Choosing it first doesn't mean laying it first, though.
-
-Here's a cluttered bedroom with a loud tropical wallpaper wall, redesigned with Room Redo.
+Here's a cluttered bedroom with a loud tropical wallpaper wall, redesigned with Room Redo. Use it to practice each step below.
 
 ::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="The cluttered bedroom, before and after"}
 
-The palette is easy to read: warm white and oat linen for most of the room, pale oak and jute for the bed and the floor, and sage for the accent wall, the throw and one cushion. The big move is the wall. Swap the wallpaper for flat sage paint and half the job is done.
+**Pull the palette.** Name three colors from the picture: one for the walls and other big surfaces, one for the larger furniture and the rug, and one small accent. That's the decorators' 60-30-10 split, which [Livingetc](https://livingetc.com/ideas/60-30-10-rule) describes as 60 percent one color, 30 percent a second on pieces like chairs, rugs and sofas, and 10 percent a third in art and accessories. In the bedroom, that's warm white and oat linen, then pale oak and jute, then sage on the accent wall, the throw and one cushion.
+
+**Find the one big move.** Most redesigns hinge on a single change. Here it's the wall: swap the wallpaper for flat sage paint and the room already looks different with your old bed in it.
+
+**Choose the rug early.** Designer Jenny Komenda starts there because "it's so easy to tweak the other choices in the room to fit the rug," she told [House & Garden](https://www.houseandgarden.co.za/interiors/do-this-first-when-youre-decorating-a-room-2292ca64-2a57-4055-936e-165d32b284dd). Choosing it first doesn't mean laying it first, though.
 
 Do the work in this order, so nothing gets painted around or splashed:
 
@@ -143,7 +141,7 @@ The whole thing happens on your iPhone, in four steps.
 
 :::steps
 1. **Take a photo of your room.** Use the camera or pick one from your library. A single corner works too.
-2. **Pick a style.** Choose from more than 45: 20 Serious styles and over 25 Wild ideas. You can ask for up to three things you'd like, such as plants or a rug.
+2. **Pick a style.** Choose from more than 45: 20 Serious styles and over 25 Wild ideas.
 3. **Watch it come together.** The app shows the redesign developing as it happens.
 4. **Compare and try more.** Drag between before and after, then try another style on the same room.
 :::
