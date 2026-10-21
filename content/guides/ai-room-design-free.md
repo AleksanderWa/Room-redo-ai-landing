@@ -52,7 +52,7 @@ You can try AI room design free on your iPhone with Room Redo. Take one photo of
 - Device: iPhone
 - Account: None needed
 - Best photo: Daylight, from the doorway
-- Next step: Copy the palette, not the layout
+- Next step: Copy the palette, keep your layout
 :::
 
 The free redesign is the easy part. What makes it useful is the photo you start from and what you do with the picture afterwards. Below is how to get both right, shown in two real rooms.
@@ -67,14 +67,14 @@ Shoot in daylight, from the doorway or a corner, with the phone held level at ch
 | Where to stand | In the doorway, or the corner farthest from the window | You get two walls, the floor and the window in one frame |
 | Phone height | Chest height, screen straight up, no tilt | Tilting makes the walls lean, so the room looks smaller and odder than it is |
 | Upright or sideways | Upright for a long, narrow room. Sideways for a wide one | Match the shape of the room so nothing important gets cropped |
-| Clutter | Pick up laundry, boxes and bags | The picture should show the room, not this week's mess |
-| People | Keep them out of the frame | An empty room reads clearly. Room Redo turns away photos with people in them |
+| Clutter | Pick up laundry, boxes and bags | Mess pulls the eye away from the room itself |
+| People | Keep them out of the frame | A room with nobody in it reads clearly. Room Redo turns away photos with people in them |
 
-Take three shots from slightly different spots, then keep the one where you can see the floor all the way to the far wall. Floor is what tells the eye how big a room is, so a photo that cuts it off makes any room look cramped.
+Take three shots from slightly different spots, then keep the one where you can see the floor all the way to the far wall. Our rule of thumb: when the photo cuts the floor off, any room looks cramped in it.
 
 Don't bother staging. You're not selling the house. A bare, scuffed room is a perfectly good starting point, as the spare room in the next section shows.
 
-If you'd like to try it on your own room now, the app is free to download.
+If it's light out where you are, take that doorway shot now. The app is free to download, and your first redesign costs nothing.
 
 ::cta
 
@@ -86,7 +86,7 @@ Start from the room you have, not the photo you saved. Its size, its light and t
 |---|---|---|
 | Small or narrow | Scandinavian or Japandi | Pale wood, light walls and furniture on legs keep the floor in view |
 | Dim, with one small window | Light walls with warm wood (Scandinavian, Organic Modern) | Pale surfaces bounce what light there is |
-| Bright and a decent size | Mid-Century Modern, Art Deco, darker walls | A deep color feels cozy, not closed in, when the light is good |
+| Bright and a decent size | Mid-Century Modern, Art Deco, darker walls | With good light, a deep color feels cozy |
 | Full of dark wood you're keeping | Mid-Century Modern or English Country | Walnut and warm tones are already part of those looks |
 | Full of white flat-pack you're keeping | Scandinavian or Modern Minimalist | Your pieces already match the palette |
 
@@ -102,7 +102,7 @@ Here's that advice in a real room: a long, thin spare room with scuffed white wa
 ![AI redesign of the same spare room as a Cozy Lounge Nook, with a brick accent wall around the window, an olive velvet chaise, a brass floor lamp and a round jute rug](/images/articles/ai-room-design-free/boxroom-cozy-lounge-nook.webp "Cozy Lounge Nook")
 :::
 
-The Scandinavian version follows the small-room rule to the letter. The walls stay pale, the bed and dresser stand on slim legs, and a jute runner leads your eye down to the window. It reads as a guest room, not a hallway.
+The Scandinavian version follows the small-room rule to the letter. The walls stay pale, the bed and dresser stand on slim legs, and a jute runner leads your eye down to the window. It reads as a guest room you'd happily sleep in.
 
 Mid-Century Modern goes darker with sage walls and walnut, and it still works because the window gives the eye somewhere to land. The Cozy Lounge Nook drops the bed for a velvet chaise and turns the room into a place to read. Same photo, three different answers to "what is this room for?". You can browse every style on the [Room Redo style wall](/).
 
@@ -126,12 +126,12 @@ Do the work in this order, so nothing gets painted around or splashed:
 |---|---|---|
 | 1 | Walls | Strip the wallpaper, paint the wall sage |
 | 2 | Big furniture | A low bed in pale wood |
-| 3 | Rug | A chunky jute rug under the bed |
+| 3 | Rug (chosen first, laid third) | A chunky jute rug under the bed |
 | 4 | Textiles | Oat linen bedding, a sage throw, sheer curtains |
 | 5 | Lighting | A small lamp on the nightstand |
 | 6 | Decor | One large framed landscape print |
 
-**Copy the material, not the object.** The pieces in a redesign are ideas, not products, so shop for "pale oak bed frame" or "chunky jute rug" instead of hunting for that exact one. Then measure your room before you buy, because a picture isn't to scale.
+**Copy the material, not the object.** The pieces in a redesign are there to show the idea, so shop for "pale oak bed frame" or "chunky jute rug" instead of hunting for that exact one. Then measure your room before you buy, because a picture isn't to scale.
 
 **Take the layout from your tape measure.** Furniture can move between looks. In the spare room above, the bed sits on the left in Scandinavian and on the right in Mid-Century Modern. Put things where your doors, sockets and radiator allow.
 
