@@ -73,3 +73,9 @@ Optional: the homepage hero pair `/images/hero-before.jpg` and `/images/hero-aft
 
 - Homepage `/` (the style wall), with descriptive anchor text.
 - `related: []` for now (no other articles yet).
+
+## v3 (2026-10-21, value first)
+
+- **reader takeaway:** Without installing anything, the reader can shoot a room photo that any AI redesign can use (daylight, doorway or corner, level at chest height, upright for narrow rooms, clutter and people out), pick a style that fits their room's size, light and the furniture they're keeping, and turn a redesign into real changes: a three-color palette (60-30-10), the one big move, the rug chosen early, a work order (walls, big furniture, rug, textiles, lighting, decor), shopping for the material rather than the object, and the layout taken from a tape measure.
+- **value sections:** "How to photograph a room for an AI redesign" (photo table); "How do you choose a style for your room?" (room-to-style decision table, open furniture in small rooms, Serious vs Wild as a decision); "How to turn an AI redesign into real changes" (palette, big move, rug early, work-order table, copy vs ignore).
+- **where the app fits:** The boxroom style-slider shows the style section's small-room rule (Scandinavian: pale walls, furniture on legs, a runner) next to Mid-Century Modern and the Wild Cozy Lounge Nook. The bedroom before/after is the worked example for the real-changes section (palette, sage wall as the big move, the work-order table). Product core after the value: intro with the iPhone sentence and free offer, mid `::cta` after the photo section, `:::steps`, "Is this AI room design free, really?" with `::pricing`, and the FAQ.
