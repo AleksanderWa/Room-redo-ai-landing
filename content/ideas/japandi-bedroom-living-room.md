@@ -5,7 +5,7 @@ description: "How to get a Japandi style bedroom and living room: the palette, t
 type: ideas
 slug: japandi-bedroom-living-room
 datePublished: 2026-10-21
-dateModified: 2026-10-21
+dateModified: 2026-10-22
 author: aleksander
 primaryKeyword: japandi style bedroom
 secondaryKeywords:
@@ -22,7 +22,7 @@ appStyles:
   - modern_minimalist
 hero:
   src: /images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp
-  alt: AI redesign of an attic bedroom in Japandi style, with a warm beige wall, an oak platform bed with white linen bedding and an oatmeal knit throw, a long oak dresser and a jute rug
+  alt: AI redesign of an attic bedroom in Japandi style, with plaster-beige walls, a low walnut platform bed with linen bedding and a dark knit throw, a walnut dresser, sheer linen curtains, a round paper lantern and a chunky jute rug
   isAiRedesign: true
 heroCaption: A cluttered attic bedroom, redesigned in Japandi style by Room Redo.
 related: []
@@ -97,24 +97,29 @@ Start with the bed, then take things away until the room goes quiet. These are t
 - Hidden storage: a dresser with drawers, closed boxes under the bed. Nothing lives on the floor.
 - Layered bedding in two or three tones, such as white linen, a sand duvet and a chunky oatmeal knit.
 - Low, warm light. A paper lantern or a ceramic lamp, with bulbs around 2,700 K. The US Department of Energy calls that [warm light that suits the wood finishes and fabrics in homes](https://www.energy.gov/cmei/femp/purchasing-energy-efficient-light-bulbs).
-- One artwork or none. The wall behind the bed is the calm part of the room.
+- One large artwork per wall, or none. Skip the gallery wall: the bare wall around the piece is part of the calm.
 
 Here's what those rules do to a real room. This attic bedroom has a sloped ceiling, a loud tropical wallpaper wall, a drying rack piled with laundry and clothes on the floor. Drag the slider to compare it with the Japandi redesign from Room Redo.
 
-::before-after{before="/images/articles/japandi-bedroom-living-room/attic-bedroom-before.webp" after="/images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, an unmade bed on a black frame, a drying rack hung with laundry and clothes on the floor" afterAlt="AI redesign of the same attic bedroom in Japandi style, with a warm beige wall, an oak platform bed with white linen bedding and an oatmeal knit throw, a long oak dresser, an oak nightstand with a ceramic lamp, a jute rug and a snake plant by the window" caption="The attic bedroom, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/japandi-bedroom-living-room/attic-bedroom-before.webp" after="/images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed on a black frame, a drying rack hung with laundry and clothes on the floor" afterAlt="AI redesign of the same attic bedroom in Japandi style, with plaster-beige walls, a round paper lantern, sheer linen curtains on a black rod, a low walnut platform bed with linen bedding, sage and striped cushions and a dark knit throw, a walnut dresser with a vase of blossom branches, one nightstand with a lamp, two ink-wash artworks and a chunky jute rug" caption="The attic bedroom, before and after. AI redesign by Room Redo."}
 
 Each change maps to one of the rules above.
 
 | What changed | The rule behind it |
 |---|---|
-| Floral wallpaper became a warm plaster-beige wall | One calm wall behind the bed |
-| The black bed frame became a low oak platform bed | Low furniture in light wood |
-| The drying rack and laundry became a long oak dresser | Closed storage |
-| Clothes on the floor gave way to a jute rug and bare boards | An open floor |
-| Mixed print bedding became white linen and a knit throw | Two or three tones, lots of texture |
-| An oak nightstand, a ceramic lamp and one snake plant arrived | One lamp, a few plants |
+| Floral wallpaper and white walls became warm plaster-beige walls | Warm neutrals, no loud pattern |
+| The black bed frame became a low walnut platform bed | Low, solid furniture |
+| The drying rack and laundry gave way to a walnut dresser with drawers | Closed storage |
+| Clothes on the floor gave way to a chunky jute rug | An open floor |
+| Mixed print bedding became linen with sage and striped cushions and a dark knit throw | Two or three tones, lots of texture |
+| The black multi-arm ceiling light became a round paper lantern | Low, warm light |
+| Patterned curtains became sheer linen on a black rod | Natural materials, one black accent |
+| One nightstand with a lamp and a small plant | One lamp, a few plants |
+| Two large ink-wash prints, one over the bed and one on the side wall | One big piece per wall, no gallery |
 
-The patterned curtains, the black ceiling light and the white dresser in the foreground stayed as they were. In your own room, the curtains and the light are the next two swaps. Sheer linen curtains and a paper shade over the bulb would finish the look, and both cost far less than a new bed.
+What stayed is the room itself: the window, the sloped ceiling, the bulkhead and the wood floor. Even the white dresser in the foreground came back as walnut. Notice that the redesign went for darker walnut rather than light oak. Both work in Japandi, as long as the walls stay warm and the fabrics stay pale enough to balance the wood.
+
+None of these changes needs a builder. In your own room, paint, a paper shade over the bulb, sheer linen curtains and a rug do most of the work, and together they cost far less than a new bed.
 
 ::cta
 
@@ -124,7 +129,7 @@ A Japandi living room is built around one low sofa, one solid wood table and a r
 
 - A low sofa in linen or boucle, in oatmeal, sand or warm white.
 - A solid wood coffee table, chunky and plain.
-- Poufs instead of extra armchairs. They're low, easy to move and keep the view across the room open.
+- One low armchair or a couple of poufs, not a matching set of armchairs. Fewer seats keep the view across the room open.
 - One large plant with a strong shape, such as a fiddle-leaf fig, plus one or two smaller ones.
 - Sheer curtains in linen or cotton, hung close to the ceiling.
 - A rug big enough to hold the sofa and the table, so the seating reads as one zone.
@@ -132,11 +137,13 @@ A Japandi living room is built around one low sofa, one solid wood table and a r
 
 This next room is a half-renovated living room in an older city apartment: bare pine floorboards, two tall windows over radiators and a brass chandelier, plus a cable reel and a few tools on the floor.
 
-::before-after{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" after="/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators, a brass chandelier and tools on the floor" afterAlt="AI redesign of the same living room in Japandi style, with a low cream sectional on a wood base, a solid oak coffee table, two knit poufs on a cream rug, a white paper lantern pendant, sheer curtains, a round wood-framed mirror and several plants" caption="The empty living room, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" after="/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators, a brass chandelier and tools on the floor" afterAlt="AI redesign of the same living room in Japandi style, with a low cream sofa, a chunky rough-edged wood coffee table on a woven rug, a wood-framed armchair, a long low walnut sideboard under a large ink-wash artwork, a white paper lantern pendant, full-height sheer curtains and vases of branches" caption="The empty living room, before and after. AI redesign by Room Redo."}
 
-The cream sectional sits low on a light wood base. The coffee table is one solid block of oak, and two knit poufs stand in for armchairs. The chandelier became a white paper lantern, the windows got sheer curtains, and a round mirror on the side wall bounces window light back into the room. Plants do the decorating: a tall fiddle-leaf fig by the window and two more on the floor.
+A long, low cream sofa runs along the left wall and faces a chunky wood coffee table with rough edges. A wood-framed armchair closes the seating on the right, and a big woven rug holds all three together as one zone. All the storage is one long, low walnut sideboard with a lamp, a vase of branches and a bowl on top, under a single large ink-wash artwork.
 
-The pine floor stayed, and that's a useful trick. If your floor is a strong orange wood, a big cream rug and pale upholstery calm it down, so you don't have to refinish it.
+The brass chandelier became a white paper lantern, the windows got full-height sheer curtains, and the sills hold a plant and a vase. The tools and the cable reel are gone, and the floor around the furniture is clear.
+
+The pine floor, the windows and the radiators stayed, and the floor is a useful trick. If your floor is a strong orange wood, a big neutral rug and pale upholstery calm it down, so you don't have to refinish it.
 
 ## Is Japandi the same as Scandinavian?
 
@@ -153,11 +160,11 @@ No. Japandi is lower and quieter, with darker accents. Scandinavian is brighter 
 Here's the same living room in both styles. Tap a style, then drag the divider.
 
 :::style-slider{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators and a brass chandelier" caption="One living room, two calm styles. AI redesigns by Room Redo."}
-![AI redesign of the living room in Japandi style, with a low cream sectional, a solid oak coffee table, two knit poufs, a paper lantern pendant and plants](/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp "Japandi")
-![AI redesign of the same living room in Scandinavian style, with a light grey sectional, a sheepskin, striped cushions, a round pale wood coffee table, a white drum pendant, a low oak media console and a dark grey armchair](/images/articles/japandi-bedroom-living-room/old-town-living-room-scandinavian.webp "Scandinavian")
+![AI redesign of the living room in Japandi style, with a low cream sofa, a chunky wood coffee table, a wood-framed armchair, a low walnut sideboard, a large ink-wash artwork and a paper lantern pendant](/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp "Japandi")
+![AI redesign of the same living room in Scandinavian style, with a light grey sofa with cushions and a cream knit throw, a round pale wood coffee table on slim legs, a pale wood armchair with a sheepskin, a paper lantern pendant, a low pale wood cabinet with a lamp, a landscape painting and plants](/images/articles/japandi-bedroom-living-room/old-town-living-room-scandinavian.webp "Scandinavian")
 :::
 
-The layout barely moves, but the feel does. The Scandinavian version brings a grey sofa, a sheepskin, striped cushions, a round table on slim legs and an extra armchair. The Japandi version has fewer big pieces, a heavier table and more bare floor.
+The floor and windows are the same, but the feel changes. The Scandinavian version has whiter walls, a light grey sofa, a round pale table on slim legs, a pale wood armchair with a sheepskin and a soft landscape painting. The Japandi version runs warmer and heavier: greige walls, a chunky rough-edged table, a dark walnut sideboard and one large ink-wash artwork. Both hang a paper lantern, which shows how much the two styles share.
 
 These four styles share the Calm & Minimal group in Room Redo. If you're torn, the [Room Redo style wall](/) shows each one applied to the same cluttered bedroom, so you can compare them side by side.
 
@@ -174,7 +181,7 @@ Yes. Japandi suits small bedrooms well, because its main move is taking things o
 - Use a wall light or a pendant instead of a floor lamp, to free up floor space.
 - Keep all the textiles in one color family.
 
-The attic bedroom above shows how much a small, awkward room can take. The dresser runs along the low wall, the bed sits in the open part, and the floor around them stays clear.
+The attic bedroom above shows how much a small, awkward room can take. The dresser stands against the side wall, the low bed sits in the middle on a jute rug, and the floor around them stays clear.
 
 :::tip{title="Got a sloped ceiling?"}
 Paint the slope the same warm white as the walls, so the angle stops looking like a break in the room. Keep tall pieces on the high side and the low bed under the slope.
