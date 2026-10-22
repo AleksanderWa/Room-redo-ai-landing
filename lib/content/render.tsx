@@ -19,6 +19,7 @@ import CtaBlock from "@/components/article/CtaBlock";
 import LookTile from "@/components/article/LookTile";
 import Pricing from "@/components/article/Pricing";
 import StepImage from "@/components/article/StepImage";
+import { readImageSize } from "@/lib/content/imageSize";
 import StyleSliderFigure, { type StyleLook } from "@/components/article/StyleSliderFigure";
 import StyleCards from "@/components/article/StyleCards";
 import type { ArticleContext } from "@/components/DownloadCta";
@@ -167,6 +168,7 @@ export function renderArticleBody(
           beforeAlt={p.beforeAlt}
           caption={p.caption || undefined}
           looks={JSON.parse(p.looks) as StyleLook[]}
+          dims={readImageSize(p.before)}
           article={article}
         />
       ),

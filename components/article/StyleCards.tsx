@@ -2,6 +2,7 @@ import Image from "next/image";
 import { styleAlt, styleById } from "@/data/styles";
 import { parseStyleTexts } from "@/lib/content/directives";
 import AiPill from "@/components/article/AiPill";
+import { styleRowSizes } from "@/lib/content/imageLayout";
 
 // The shared label for a row (the spec allows a caption instead of per-thumb pills).
 const ROW_CAPTION = "AI redesigns of the same bedroom, made in the Room Redo app.";
@@ -40,7 +41,7 @@ export default function StyleCards({ ids, text }: { ids: string[]; text?: string
                 src={style.thumb}
                 alt={styleAlt(style)}
                 fill
-                sizes="(min-width:700px) 160px, 33vw"
+                sizes={styleRowSizes(list.length as 2 | 3 | 4)}
                 style={{ objectFit: "cover" }}
               />
             </div>

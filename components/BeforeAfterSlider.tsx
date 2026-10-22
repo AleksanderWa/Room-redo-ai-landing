@@ -30,6 +30,12 @@ type Props = {
   eager?: boolean;
   /** next/image `sizes` override for the storage variant. */
   sizes?: string;
+  /** CSS aspect-ratio of the storage frame ("1600 / 1200"), so the frame has
+   *  the images' real shape and nothing is cropped. Default 3 / 4. Both halves
+   *  must share it. */
+  aspectRatio?: string;
+  /** next/image quality override (needs to be in `images.qualities`). */
+  quality?: number;
   /** Accessible name of the comparison group. Give pages with several
    *  sliders distinct ones. */
   label?: string;
@@ -93,6 +99,8 @@ export default function BeforeAfterSlider({
   heightVariant,
   eager = false,
   sizes,
+  aspectRatio,
+  quality,
   label = "Before and after comparison",
 }: Props) {
   const [pct, setPct] = useState(50);
@@ -269,6 +277,7 @@ export default function BeforeAfterSlider({
               loading={loading}
               fetchPriority={fetchPriority}
               sizes={imageSizes}
+              quality={quality}
               style={{ objectFit: "cover" }}
               draggable={false}
             />
@@ -290,6 +299,7 @@ export default function BeforeAfterSlider({
           loading={loading}
           fetchPriority={fetchPriority}
           sizes={imageSizes}
+          quality={quality}
           style={{ objectFit: "cover" }}
           draggable={false}
         />
@@ -334,7 +344,13 @@ export default function BeforeAfterSlider({
     </div>
   );
 
-  if (!isHero) return <div className="rr-plain-frame">{slider}</div>;
+  if (!isHero) {
+    return (
+      <div className="rr-plain-frame" style={aspectRatio ? { aspectRatio } : undefined}>
+        {slider}
+      </div>
+    );
+  }
 
   // Hero: the mockup's flat phone frame. Width (300px mobile, 340px from
   // tablet up) comes from .rr-phone in globals.css.
