@@ -2,7 +2,7 @@ import Image from "next/image";
 import AiPill from "@/components/article/AiPill";
 import { splitImageTitle } from "@/lib/content/image";
 import { readImageSize } from "@/lib/content/imageSize";
-import { ARTICLE_IMAGE_QUALITY, aspectRatioOf } from "@/lib/content/imageLayout";
+import { ARTICLE_IMAGE_QUALITY, aspectRatioOf, stepSizes } from "@/lib/content/imageLayout";
 
 /** The optional picture in a `:::steps` card. An app output carries the AI
  *  redesign pill; the title "photo" turns it off, as for any body image. */
@@ -14,7 +14,7 @@ export default function StepImage({ src, alt, title }: { src: string; alt: strin
         src={src}
         alt={alt}
         fill
-        sizes="(min-width:700px) 360px, 260px"
+        sizes={stepSizes}
         quality={ARTICLE_IMAGE_QUALITY}
         style={{ objectFit: "cover" }}
       />

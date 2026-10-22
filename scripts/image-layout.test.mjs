@@ -24,6 +24,7 @@ const script = `
     landHero: L.heroSizesFor(land), portHero: L.heroSizesFor(port),
     square: L.orientationOf({ width: 5, height: 5 }),
     quality: L.ARTICLE_IMAGE_QUALITY,
+    step: L.stepSizes, row2: L.styleRowSizes(2), row3: L.styleRowSizes(3), row4: L.styleRowSizes(4),
   }));
 `;
 const run = spawnSync(process.execPath, [tsx, "--input-type=module", "-e", script], { cwd: repo, encoding: "utf8" });
@@ -66,6 +67,8 @@ function resolve(sizes, vw) {
     const v = m[2].trim();
     const calc = v.match(/^calc\(100vw - (\d+)px\)$/);
     if (calc) return vw - Number(calc[1]);
+    const div = v.match(/^calc\(\(100vw - (\d+)px\) \/ (\d+)\)$/);
+    if (div) return (vw - Number(div[1])) / Number(div[2]);
     if (v === "100vw") return vw;
     return Number(v.replace("px", ""));
   }
@@ -81,6 +84,26 @@ const heroWidth = (vw, portrait) => {
   const full = vw < 700 ? vw : Math.min(vw, 720) - 64;
   return portrait && vw >= 700 ? Math.min(full, 480) : full;
 };
+
+// Step card: 48 page + 2 border + 32 card padding + 36 badge + 14 gap below 700px;
+// image max-width 360 from 700px (card column is wider than that there).
+const stepWidth = (vw) => (vw < 700 ? vw - 132 : 360);
+// Style row: 10px gap (<700) / 16px (>=700); 2 columns for 2 or 4 styles below 700px.
+const rowWidth = (vw, n) => {
+  const narrow = vw < 700;
+  const cols = narrow && n === 4 ? 2 : n;
+  const content = Math.min(vw, 720) - (narrow ? 48 : 64);
+  return (content - (narrow ? 10 : 16) * (cols - 1)) / cols;
+};
+
+test("step and style-row sizes match the CSS at every viewport", () => {
+  for (let vw = 320; vw <= 1600; vw += 1) {
+    assert.equal(resolve(r.step, vw), stepWidth(vw), `step @${vw}`);
+    assert.equal(resolve(r.row2, vw), rowWidth(vw, 2), `row2 @${vw}`);
+    assert.equal(resolve(r.row3, vw), rowWidth(vw, 3), `row3 @${vw}`);
+    assert.equal(resolve(r.row4, vw), rowWidth(vw, 4), `row4 @${vw}`);
+  }
+});
 
 test("sizes agree with the CSS breakpoints at every viewport (600px included)", () => {
   assert.equal(resolve(r.portHero, 600), 600, "portrait hero is 100vw at 600px");

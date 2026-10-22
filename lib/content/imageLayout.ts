@@ -52,3 +52,22 @@ export function heroSizesFor(dims: ImageDims): string {
     ? `(min-width:${MEASURE_PX}px) ${COLUMN_PX}px, (min-width:${BP_PX}px) ${MID}, 100vw`
     : `(min-width:${BP_PX}px) ${PORTRAIT_MAX_PX}px, 100vw`;
 }
+
+/** A `:::steps` card image. Below 700px the column is `100vw - 132px`: 24px
+ *  page padding x 2 (48) + 1px border x 2 (2) + 16px card padding x 2 (32) +
+ *  the 36px badge column (36) + the 14px column gap (14). From 700px the card
+ *  pads 24px and the badge is 44px, so the column is always wider than the
+ *  image's 360px `max-width`, which then rules. */
+export const stepSizes = `(min-width:${BP_PX}px) 360px, calc(100vw - 132px)`;
+
+/** Thumbnails in a multi-style row (`.rr-article-stylerow`, 10px gap below
+ *  700px, 16px from it). Columns: 2 for two or four styles below 700px, else
+ *  `count`. Each thumb is the grid track, so `sizes` is the track width. */
+export function styleRowSizes(count: 2 | 3 | 4): string {
+  const track = (cols: number, gutter: number, gap: number) =>
+    `calc((100vw - ${gutter + gap * (cols - 1)}px) / ${cols})`;
+  const wideGap = 16;
+  const wideTrack = (COLUMN_PX - wideGap * (count - 1)) / count;
+  const narrowCols = count === 4 ? 2 : count;
+  return `(min-width:${MEASURE_PX}px) ${wideTrack}px, (min-width:${BP_PX}px) ${track(count, 2 * GUTTER_WIDE_PX, wideGap)}, ${track(narrowCols, 2 * GUTTER_NARROW_PX, 10)}`;
+}
