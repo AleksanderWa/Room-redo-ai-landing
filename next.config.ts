@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    // 75 is the default; 90 is for article images (see ARTICLE_IMAGE_QUALITY).
+    qualities: [75, 90],
   },
   // Same-origin proxy for product analytics (fewer ad-blocker losses).
   async rewrites() {

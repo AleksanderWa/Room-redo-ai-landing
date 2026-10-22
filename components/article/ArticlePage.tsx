@@ -13,6 +13,13 @@ import Related from "@/components/article/Related";
 import DownloadCta from "@/components/DownloadCta";
 import { getAuthor } from "@/lib/content/authors";
 import { formatDate, getRelated, type Article } from "@/lib/content/load";
+import { readImageSize } from "@/lib/content/imageSize";
+import {
+  ARTICLE_IMAGE_QUALITY,
+  aspectRatioOf,
+  heroSizesFor,
+  orientationOf,
+} from "@/lib/content/imageLayout";
 import { renderArticleBody } from "@/lib/content/render";
 import { SECTIONS } from "@/lib/content/sections";
 import { articleJsonLd } from "@/lib/content/seo";
@@ -24,6 +31,7 @@ export default function ArticlePage({ article }: { article: Article }) {
   const ctx = { slug: article.slug, type: article.type };
   const updated = article.dateModified !== article.datePublished;
   const shownDate = updated ? article.dateModified : article.datePublished;
+  const heroDims = readImageSize(article.hero.src);
   const faq = <Faq items={article.faq} />;
   const where = `content/${article.type}/${article.slug}.md`;
 
@@ -54,15 +62,16 @@ export default function ArticlePage({ article }: { article: Article }) {
           <p>iPhone app. Your first redesign is free.</p>
         </div>
 
-        <figure className="rr-article-hero">
-          <div className="rr-article-hero-media">
+        <figure className={`rr-article-hero rr-article-hero--${orientationOf(heroDims)}`}>
+          <div className="rr-article-hero-media" style={{ aspectRatio: aspectRatioOf(heroDims) }}>
             <Image
               src={article.hero.src}
               alt={article.hero.alt}
               fill
               preload
               fetchPriority="high"
-              sizes="(min-width:720px) 672px, 100vw"
+              sizes={heroSizesFor(heroDims)}
+              quality={ARTICLE_IMAGE_QUALITY}
               style={{ objectFit: "cover" }}
             />
             {article.hero.isAiRedesign && <AiPill className="rr-article-pill--hero" />}

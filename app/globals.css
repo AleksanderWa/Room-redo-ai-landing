@@ -2032,6 +2032,13 @@ button.rr-cta-badge {
   height: auto;
 }
 
+/* A portrait body image is capped (see sizesFor in lib/content/imageLayout.ts). */
+.rr-article-fig--portrait {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .rr-article-fig figcaption,
 .rr-article-stylerow-wrap figcaption,
 .rr-article-ba figcaption {
@@ -2108,6 +2115,11 @@ button.rr-cta-badge {
 .rr-article-ba {
   margin: 32px auto;
   max-width: 480px;
+}
+
+/* A landscape pair is shown whole at the full column width. */
+.rr-article-ba--landscape {
+  max-width: none;
 }
 
 .rr-article-ba figcaption {
@@ -2715,8 +2727,14 @@ button.rr-cta-badge {
   }
 
   .rr-article-hero-media {
-    aspect-ratio: 3 / 2;
     border-radius: 12px;
+  }
+
+  /* A portrait hero is capped (see heroSizesFor in lib/content/imageLayout.ts). */
+  .rr-article-hero--portrait {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .rr-article-hero figcaption {

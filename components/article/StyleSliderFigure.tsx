@@ -5,8 +5,14 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import AiPill from "@/components/article/AiPill";
 import type { ArticleContext } from "@/components/DownloadCta";
 import { captureEvent } from "@/lib/analytics";
+import {
+  ARTICLE_IMAGE_QUALITY,
+  aspectRatioOf,
+  orientationOf,
+  sizesFor,
+  type ImageDims,
+} from "@/lib/content/imageLayout";
 
-const SIZES = "(min-width:700px) 480px, calc(100vw - 48px)";
 
 export type StyleLook = { src: string; alt: string; title: string };
 
@@ -18,12 +24,15 @@ export default function StyleSliderFigure({
   beforeAlt,
   caption,
   looks,
+  dims,
   article,
 }: {
   before: string;
   beforeAlt: string;
   caption?: string;
   looks: StyleLook[];
+  /** Pixel size of the before photo (read at build time); sets the frame shape. */
+  dims: ImageDims;
   article?: ArticleContext;
 }) {
   const [active, setActive] = useState(0);
@@ -59,7 +68,7 @@ export default function StyleSliderFigure({
   }
 
   return (
-    <figure className="rr-article-ba">
+    <figure className={`rr-article-ba rr-article-ba--${orientationOf(dims)}`}>
       <div className="rr-article-ba-frame">
         <BeforeAfterSlider
           beforeSrc={before}
@@ -67,7 +76,9 @@ export default function StyleSliderFigure({
           afters={looks}
           activeIndex={active}
           heightVariant="storage"
-          sizes={SIZES}
+          sizes={sizesFor(dims)}
+          aspectRatio={aspectRatioOf(dims)}
+          quality={ARTICLE_IMAGE_QUALITY}
           label={`Before and after: ${looks[active].title}`}
         />
         {/* Bottom-right (after side, never on the real before photo), the same text for every look. */}
