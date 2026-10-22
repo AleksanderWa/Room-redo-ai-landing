@@ -84,7 +84,7 @@ Start from the room you have, not the photo you saved. Its size, its light and t
 
 | If your room is | Lean toward | Because |
 |---|---|---|
-| Small or narrow | Scandinavian or Japandi | Pale wood, light walls and furniture on legs keep the floor in view |
+| Small or narrow | Scandinavian or [Japandi](/ideas/japandi-bedroom-living-room) | Pale wood, light walls and furniture on legs keep the floor in view |
 | Dim, with one small window | Light walls with warm wood (Scandinavian, Organic Modern) | Pale surfaces bounce what light there is |
 | Bright and a decent size | Mid-Century Modern, Art Deco, darker walls | With good light, a deep color feels cozy |
 | Full of dark wood you're keeping | Mid-Century Modern or English Country | Walnut and warm tones are already part of those looks |
