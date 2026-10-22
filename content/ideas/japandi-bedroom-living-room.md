@@ -45,11 +45,11 @@ campaign:
   ct: article-japandi
 ---
 
-A Japandi style bedroom is low, quiet and warm: a light wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, with the main rules shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
+A Japandi style bedroom is low, quiet and warm: a low wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, with the main rules shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
 
 :::at-a-glance
 - Palette: Warm white, sand, clay, sage
-- Wood: Light oak, a few dark accents
+- Wood: Light oak or walnut, one main tone
 - Furniture: Low, few and solid
 - Light: Warm bulbs, paper shades
 - First step: Clear the floor and every surface
@@ -64,7 +64,7 @@ The link is much older than the name. [Scandinavian designers and artists began 
 In a real room, it comes down to seven rules:
 
 - Warm minimalism: fewer things, but soft and used. Spare, never a white box.
-- Natural materials: light oak or ash for most of the wood, plus one or two darker wood or black accents. Linen, cotton and wool for fabrics. Paper, ceramic and stone for the small things.
+- Natural materials: one main wood tone, from light oak or ash to walnut, plus a contrasting wood or black accent or two. Linen, cotton and wool for fabrics. Paper, ceramic and stone for the small things.
 - Low furniture: beds, sofas and tables sit close to the floor, which makes the ceiling feel higher.
 - An open floor: leave walking space around every piece. Bare floor is part of the look.
 - Closed storage: drawers and doors, not open shelves full of stuff.
@@ -92,7 +92,7 @@ Before you paint, put a sample patch right next to your floor or bed frame. Look
 
 Start with the bed, then take things away until the room goes quiet. These are the rules for a Japandi bedroom design:
 
-- A low platform bed in light wood. Skip the tall tufted headboard.
+- A low platform bed in light to mid wood. Skip the tall tufted headboard.
 - One simple nightstand, or none. One lamp and one small object on it.
 - Hidden storage: a dresser with drawers, closed boxes under the bed. Nothing lives on the floor.
 - Layered bedding in two or three tones, such as white linen, a sand duvet and a chunky oatmeal knit.
@@ -114,10 +114,12 @@ Each change maps to one of the rules above.
 | Mixed print bedding became linen with sage and striped cushions and a dark knit throw | Two or three tones, lots of texture |
 | The black multi-arm ceiling light became a round paper lantern | Low, warm light |
 | Patterned curtains became sheer linen on a black rod | Natural materials, one black accent |
-| One nightstand with a lamp and a small plant | One lamp, a few plants |
+| The small white cabinet with clutter on top became one walnut nightstand with a lamp and a small plant | One lamp, a few plants |
 | Two large ink-wash prints, one over the bed and one on the side wall | One big piece per wall, no gallery |
 
-What stayed is the room itself: the window, the sloped ceiling, the bulkhead and the wood floor. Even the white dresser in the foreground came back as walnut. Notice that the redesign went for darker walnut rather than light oak. Both work in Japandi, as long as the walls stay warm and the fabrics stay pale enough to balance the wood.
+In this result the window, the sloped ceiling, the bulkhead and the wood floor are all still there. The white dresser in the foreground is walnut now.
+
+The redesign chose walnut, not light oak, and walnut works in Japandi too. Pick one main wood tone and keep the walls warm and the fabrics pale, so the wood has something to stand against.
 
 None of these changes needs a builder. In your own room, paint, a paper shade over the bulb, sheer linen curtains and a rug do most of the work, and together they cost far less than a new bed.
 
@@ -141,9 +143,11 @@ This next room is a half-renovated living room in an older city apartment: bare 
 
 A long, low cream sofa runs along the left wall and faces a chunky wood coffee table with rough edges. A wood-framed armchair closes the seating on the right, and a big woven rug holds all three together as one zone. All the storage is one long, low walnut sideboard with a lamp, a vase of branches and a bowl on top, under a single large ink-wash artwork.
 
+Look at the wood: the coffee table, the armchair frame and the sideboard share one warm mid-brown, close to walnut, so the room reads calm even on top of an orange pine floor. In your own living room, pick one main wood tone, from light oak to walnut, and repeat it rather than mixing four.
+
 The brass chandelier became a white paper lantern, the windows got full-height sheer curtains, and the sills hold a plant and a vase. The tools and the cable reel are gone, and the floor around the furniture is clear.
 
-The pine floor, the windows and the radiators stayed, and the floor is a useful trick. If your floor is a strong orange wood, a big neutral rug and pale upholstery calm it down, so you don't have to refinish it.
+In this result the pine floor, the windows and the radiators are still there, and the floor is a useful trick. If your floor is a strong orange wood, a big neutral rug and pale upholstery calm it down, so you don't have to refinish it.
 
 ## Is Japandi the same as Scandinavian?
 
@@ -152,7 +156,7 @@ No. Japandi is lower and quieter, with darker accents. Scandinavian is brighter 
 | Feature | Japandi | Scandinavian |
 |---|---|---|
 | Palette | Warm white, sand, clay, sage, charcoal accents | Bright white, light grey, soft pastels |
-| Wood | Light oak plus darker wood or black accents | Pale wood throughout |
+| Wood | One main tone, light oak to walnut, plus black accents | Pale wood throughout |
 | Furniture | Low, close to the floor, solid | Standard height, often on slim legs |
 | Pattern | Almost none; texture does the work | Stripes and simple prints on cushions |
 | Mood | Calm and spare | Bright and lived-in |
@@ -184,7 +188,7 @@ Yes. Japandi suits small bedrooms well, because its main move is taking things o
 The attic bedroom above shows how much a small, awkward room can take. The dresser stands against the side wall, the low bed sits in the middle on a jute rug, and the floor around them stays clear.
 
 :::tip{title="Got a sloped ceiling?"}
-Paint the slope the same warm white as the walls, so the angle stops looking like a break in the room. Keep tall pieces on the high side and the low bed under the slope.
+Paint the slope a warm white or sand, matching the walls, so the angle stops looking like a break in the room. Keep tall pieces on the high side and the low bed under the slope.
 :::
 
 ## Start this weekend: what to change first
