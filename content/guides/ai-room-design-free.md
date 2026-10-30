@@ -94,6 +94,8 @@ The small-room rule is the one people break most. Chunky furniture that sits fla
 
 Then decide what you're after. A real interior style (Room Redo calls these Serious styles) is for when you're about to buy paint or a bed. A big what-if (the app's Wild ideas) is for when you're not sure what the room should even be. Wild ideas rebuild the room around the idea, so expect bigger changes.
 
+To see what that means, our [coffee bar ideas](/ideas/coffee-bar-ideas) show one Wild idea, Coffee & Matcha Bar, applied to three ordinary spots.
+
 Here's that advice in a real room: a long, thin spare room with scuffed white walls, a bare bulb, and one window at the far end over a radiator. Tap a style, then drag the divider to compare.
 
 :::style-slider{before="/images/articles/ai-room-design-free/boxroom-before.webp" beforeAlt="An empty narrow spare room with scuffed white walls, a bare bulb, a small window above a radiator and an ironing board leaning on the left wall" caption="One spare room, three styles, all from the same photo."}
