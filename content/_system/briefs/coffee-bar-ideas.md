@@ -83,7 +83,7 @@ length: ideas, 1,500 to 2,500 words; length follows the value, don't pad.
 
 The orchestrator viewed every image against its source photo on 2026-10-30. All the before photos are real phone photos (`roomredo-backend/fixtures/qa-photos/`, "deliberately imperfect real phone photos"). All the afters are real Room Redo outputs in Coffee & Matcha Bar. Write the descriptions from the pictures. Don't promise anything was kept; say "in this result…".
 
-1. **Dead-end stair landing.** The hero and first demo, in the "landing / hall niche" idea.
+1. **Dead-end stair landing.** The first demo (the first `::before-after` near the top), in the "landing / hall niche" idea.
    - before: `roomredo-backend/fixtures/qa-photos/stair-landing.jpg` (4032×3024, EXIF-rotated to portrait). A narrow, dim stair landing: white walls, a dark wood floor, the stair opening with a wood handrail and black balusters on the left, a black wire cage pendant, and a shoe rack, flat-pack boards and shopping bags against the right wall.
    - after: `roomredo-backend/generated/article-coffee-bar-2026-10-30/stair-landing__coffee_matcha_bar__rep2.jpg` (1168×1568, pack 1.53.0, 2026-10-30).
      - Sage-green walls with sage beadboard wainscot on the left, and a vertical oak-panelled back wall.
@@ -113,5 +113,9 @@ The orchestrator viewed every image against its source photo on 2026-10-30. All 
      - Three framed prints including a matcha cup, brass cylinder sconces, sheer linen curtains on a black rod, a jute rug, and a wood table and chair at bottom right.
      - The sloped ceiling and the bulkhead are still there in this result.
      - The menu board has prices on it. Don't mention or describe the prices.
+
+Hero and OG image: `attic-coffee-bar.webp` (landscape). The OG card is cover-cropped to 1200×630 from `hero.src`, and a portrait hero would crop to a thin band. The landing before/after is the first in-body demo, within the first screen or two.
+
+Final files (coder, 83f1949): `public/images/articles/coffee-bar-ideas/{landing,box-room,attic}-{before,coffee-bar}.webp`. Each before is cropped to its after's exact size. `attic-before.webp` is rebuilt at 2048×1536; it is not the japandi copy.
 
 Resolution: the two portrait afters are 1168 px wide. The tester checks the served variant against the rendered size × DPR (retina); soft means FAIL. Keep portrait before/afters at a width where 1168 px stays sharp, or tell the orchestrator. The coder aligns each before to its after (same crop and aspect) for the slider.
