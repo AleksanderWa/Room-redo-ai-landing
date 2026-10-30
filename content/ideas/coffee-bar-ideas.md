@@ -88,7 +88,7 @@ A dead-end landing or a deep hall niche is space you already walk past every mor
 
 ::before-after{before="/images/articles/coffee-bar-ideas/landing-before.webp" after="/images/articles/coffee-bar-ideas/landing-coffee-bar.webp" beforeAlt="A narrow, dim stair landing with white walls, a dark wood floor, the stair opening with a wood handrail and black balusters on the left, a black wire cage pendant, and a shoe rack, flat-pack boards and shopping bags against the right wall" afterAlt="AI redesign of the same landing as a coffee bar, with sage-green walls and sage beadboard wainscot, an oak-panelled back wall with two floating shelves of green tea tins, glass jars, cups and plants, an espresso machine and grinder on a stainless back counter, a long white-marble counter with a brass foot rail, three dark bentwood bar stools, a glass pastry case, a brass mug rack, two brass wall sconces, botanical prints and a patterned runner rug" caption="The stair landing, before and after. AI redesign by Room Redo."}
 
-The handrail, the black balusters and the wire cage pendant stay put in this result. Here's the home-size version of each piece.
+The handrail, the black balusters and the wire cage pendant stay put in this redesign. Here's the home-size version of each piece.
 
 | In the redesign | At home size |
 |---|---|
@@ -134,7 +134,7 @@ In a cupboard, take out the shelf at counter height and leave the doors open whi
 
 ### 6. A cabinet with doors
 
-Most coffee bar cabinet ideas come down to one thing: the bar disappears when the doors close. A tall pantry cabinet, an armoire or a run of kitchen cabinets with pocket doors all work. Put the machine on a pull-out shelf so you can slide it out before you brew.
+The best coffee bar cabinet ideas let the whole bar disappear when the doors close. A tall pantry cabinet, an armoire or a run of kitchen cabinets with pocket doors all work. Put the machine on a pull-out shelf so you can slide it out before you brew.
 
 :::tip{title="Measure with lid open"}
 Many machines fill from the top. Before you buy a cabinet, measure your machine's height with the lid or tank fully open and compare it with the space under the shelf above.
@@ -163,7 +163,7 @@ If someone in your home drinks matcha, give it a small zone of its own beside th
 
 ::before-after{before="/images/articles/coffee-bar-ideas/attic-before.webp" after="/images/articles/coffee-bar-ideas/attic-coffee-bar.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed, a drying rack piled with laundry and clothes on the floor" afterAlt="AI redesign of the same attic room as a coffee and matcha bar, with sage walls over oak half-panelling, plywood-backed open shelves with jars, green cups and plants, an espresso machine and grinder on a stainless back bar, a long olive-green beadboard counter with a white top, a brass foot rail and four wooden stools, a glass pastry case, a chalkboard menu, three framed prints including a matcha cup, brass cylinder sconces, sheer linen curtains, a jute rug and a wood table and chair" caption="The attic bedroom, before and after. AI redesign by Room Redo."}
 
-This result keeps the sloped ceiling, the bulkhead and the black multi-arm ceiling light. The home-size version is the matcha side: green cups on an open shelf, a framed print of a matcha cup, brass cylinder sconces and a jute rug would suit any coffee corner. The wood table and chair by the window show the nook version: make the drink at the bar, drink it at the table.
+Here the sloped ceiling, the bulkhead and the black multi-arm ceiling light stay. The home-size version is the matcha side: green cups on an open shelf, a framed print of a matcha cup, brass cylinder sconces and a jute rug would suit any coffee corner. The wood table and chair by the window show the nook version: make the drink at the bar, drink it at the table.
 
 ## What do you need for a home coffee bar?
 
