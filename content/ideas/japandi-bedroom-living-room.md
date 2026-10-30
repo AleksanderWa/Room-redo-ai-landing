@@ -185,7 +185,7 @@ Yes. Japandi suits small bedrooms well, because its main move is taking things o
 - Use a wall light or a pendant instead of a floor lamp, to free up floor space.
 - Keep all the textiles in one color family.
 
-The attic bedroom above shows how much a small, awkward room can take. The dresser stands against the side wall, the low bed sits in the middle on a jute rug, and the floor around them stays clear.
+The attic bedroom above shows how much a small, awkward room can take. The dresser stands against the side wall, the low bed sits in the middle on a jute rug, and the floor around them stays clear. The same attic, turned into a coffee and matcha bar, is one of the rooms in our [coffee bar ideas](/ideas/coffee-bar-ideas).
 
 :::tip{title="Got a sloped ceiling?"}
 Paint the slope a warm white or sand, matching the walls, so the angle stops looking like a break in the room. Keep tall pieces on the high side and the low bed under the slope.
