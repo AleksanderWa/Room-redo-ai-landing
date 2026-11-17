@@ -7,7 +7,7 @@ Snap one photo. Pick a style. Watch your own room change.
 ## Links
 
 - [Website](https://www.airoomredo.com): what the app does, the style wall and the FAQ
-- [Nola Home on the App Store](https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415): download for iPhone
+- [Nola Home on the App Store (formerly Room Redo AI)](https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415): download for iPhone
 - [Privacy policy](https://www.airoomredo.com/privacy)
 - [Terms of use](https://www.airoomredo.com/terms)
 
