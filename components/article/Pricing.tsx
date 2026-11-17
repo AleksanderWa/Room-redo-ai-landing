@@ -10,7 +10,7 @@ export default function Pricing({ groups, footnote }: { groups?: string; footnot
   const showNote = footnote !== "off" && PRICING_FOOTNOTE.length > 0;
   return (
     <>
-      <div className="rr-article-pricing" role="group" aria-label="Room Redo prices">
+      <div className="rr-article-pricing" role="group" aria-label="Nola Home prices">
         {shown.map((g) => (
           <div key={g.id} className="rr-article-pricing-group">
             {g.label && (

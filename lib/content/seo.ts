@@ -12,7 +12,8 @@ const isoDateTime = (d: string) => `${d}T00:00:00.000Z`;
 
 const publisher = {
   "@type": "Organization",
-  name: "Room Redo",
+  name: "Nola Home",
+  alternateName: "Room Redo AI",
   url: SITE_URL,
   logo: { "@type": "ImageObject", url: abs("/images/brand-icon.png") },
 };
@@ -71,7 +72,7 @@ export function authorJsonLd(author: Author) {
     description: author.summary,
     url,
     ...(author.links.length ? { sameAs: author.links.map((l) => l.url) } : {}),
-    worksFor: { "@type": "Organization", name: "Room Redo", url: SITE_URL },
+    worksFor: { "@type": "Organization", name: "Nola Home", url: SITE_URL },
   };
   return [
     {
@@ -98,7 +99,7 @@ export function articleMetadata(a: Article, author: Author): Metadata {
     openGraph: {
       type: "article",
       url: abs(path),
-      siteName: "Room Redo AI",
+      siteName: "Nola Home",
       title: a.title,
       description: a.description,
       publishedTime: isoDateTime(a.datePublished),

@@ -1,12 +1,13 @@
-# Room Redo product facts
+# Nola Home product facts
 
-The only source for claims about Room Redo in articles. The writer may state a product fact only if it is here. The guard checks every product claim against this file. If an article needs a fact that isn't here, stop and ask; don't guess.
+The only source for claims about Nola Home in articles. The writer may state a product fact only if it is here. The guard checks every product claim against this file. If an article needs a fact that isn't here, stop and ask; don't guess.
 
 Last checked: 2026-10-20 against the app code (`roomredo-app/src/constants/billing.ts`), backend config (`app/config.py`), the style catalogue, the App Store description (vault: "2026-10-04 App Store Description Rewritten to Match the App") and the landing FAQ (`data/faq.ts`). Watermark removal after any purchase confirmed by Aleksander on 2026-10-20. Update this file whenever any of those change.
 
 ## What it is
 
-- Room Redo is an **iPhone app**. It is not on Android and there is no web version.
+- The app was renamed from Room Redo AI to Nola Home on 2026-11-17. The old name may appear only to explain the rename, never as the current brand.
+- Nola Home is an **iPhone app**. It is not on Android and there is no web version.
 - App Store: https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415
 - Free to download from the App Store (verified 2026-10-20). The first redesign is free; more redesigns need a plan or pack.
 - You take one photo of your own room (camera or photo library), pick a style, and get that same room redesigned in the new look.
@@ -30,7 +31,7 @@ Last checked: 2026-10-20 against the app code (`roomredo-app/src/constants/billi
 
 ## Free and paid
 
-- **The first redesign is free**, one per device. It is the full redesign, in any style, with a small Room Redo watermark. The watermark stays until the device has bought something.
+- **The first redesign is free**, one per device. It is the full redesign, in any style, with a small Nola Home watermark. The watermark stays until the device has bought something.
 - After any purchase (a plan or a pack), redesigns come without the watermark. (Confirmed by Aleksander, 2026-10-20.)
 - **No account:** no sign-up, no email, no password. Your device is enough. ("No login" and "no sign up" are true.)
 - No free trial on the subscriptions.

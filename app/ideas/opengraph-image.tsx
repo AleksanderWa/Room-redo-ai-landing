@@ -4,7 +4,7 @@ import { OG_CONTENT_TYPE, OG_SIZE, ogCard } from "@/lib/content/og";
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
-export const alt = "Room Redo AI ideas";
+export const alt = "Nola Home ideas";
 
 // The hub 404s until ideas has a published article; so does its card.
 export default function Image() {

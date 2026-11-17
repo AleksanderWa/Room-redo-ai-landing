@@ -24,7 +24,7 @@ hero:
   src: /images/articles/coffee-bar-ideas/attic-coffee-bar.webp
   alt: AI redesign of an attic bedroom as a coffee and matcha bar, with sage walls over oak half-panelling, open shelves of jars, green cups and plants under the sloped ceiling, an espresso machine and grinder on a stainless back bar, a long olive-green beadboard counter with a white top, four wooden stools, a glass pastry case, brass sconces, sheer linen curtains and a jute rug
   isAiRedesign: true
-heroCaption: A messy attic bedroom, redesigned as a Coffee & Matcha Bar by Room Redo.
+heroCaption: A messy attic bedroom, redesigned as a Coffee & Matcha Bar by Nola Home.
 related:
   - japandi-bedroom-living-room
 faq:
@@ -33,13 +33,13 @@ faq:
   - q: "Should a coffee bar be in the kitchen?"
     a: "It doesn't have to be. A counter end in the kitchen is easiest, because water and outlets are already there. A sideboard in the dining room, a cart or a cupboard works too, as long as there's an outlet and you're happy to fill the tank at the sink."
   - q: "Is the first coffee bar redesign free?"
-    a: "Yes. Your first redesign in Room Redo is free, one per device, in any style, Coffee & Matcha Bar included. It's the full redesign with a small Room Redo watermark. More redesigns need a plan or a one-time pack."
-  - q: "Do I need an account to try Room Redo?"
+    a: "Yes. Your first redesign in Nola Home is free, one per device, in any style, Coffee & Matcha Bar included. It's the full redesign with a small Nola Home watermark. More redesigns need a plan or a one-time pack."
+  - q: "Do I need an account to try Nola Home?"
     a: "No. There's no sign-up, no email and no password. Your iPhone is enough: the app creates a private ID on it to keep track of your redesigns and purchases."
   - q: "Which rooms can I redesign in the app?"
     a: "Bedrooms, living rooms, kitchens, bathrooms, offices and balconies. You can also photograph a single corner and say what it should do, such as storage or a place to sit. Take the photo with no people in it; photos with people are turned away."
-  - q: "Does Room Redo work on Android or in a browser?"
-    a: "Room Redo is an iPhone app, free to download from the App Store. You take the photo and see the redesign right there in the app."
+  - q: "Does Nola Home work on Android or in a browser?"
+    a: "Nola Home is an iPhone app, free to download from the App Store. You take the photo and see the redesign right there in the app."
 draft: false
 stickyCta: true
 campaign:
@@ -48,7 +48,7 @@ campaign:
 
 Good coffee bar ideas start with where the bar goes. Your coffee bar needs a free outlet, a surface deep enough for the machine, water within a few steps, and storage that keeps the counter clear. Get those right and a counter end, a sideboard, a rolling cart, a cupboard or a dead corner can all work. If you're not sure yet, start with one tray at the end of the kitchen counter and grow it from there.
 
-Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
+Nola Home is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
 
 :::at-a-glance
 - Best spots: Counter end, sideboard, cart
@@ -80,13 +80,13 @@ Here's how the usual spots compare.
 
 ## 9 coffee bar ideas for every kind of spot
 
-These ideas for a coffee bar run from a single tray to a whole room. Three come with a real before and after: an ordinary messy spot, photographed on a phone, then redesigned in Room Redo's Coffee & Matcha Bar idea. It's one of the app's Wild ideas, which rebuild the room around the idea. The results come out café-scale, so treat them as idea boards and copy the parts that fit a home.
+These ideas for a coffee bar run from a single tray to a whole room. Three come with a real before and after: an ordinary messy spot, photographed on a phone, then redesigned in Nola Home's Coffee & Matcha Bar idea. It's one of the app's Wild ideas, which rebuild the room around the idea. The results come out café-scale, so treat them as idea boards and copy the parts that fit a home.
 
 ### 1. A landing or hall niche
 
 A dead-end landing or a deep hall niche is space you already walk past every morning. If it has an outlet, it can hold a narrow console or two wall shelves and a small machine.
 
-::before-after{before="/images/articles/coffee-bar-ideas/landing-before.webp" after="/images/articles/coffee-bar-ideas/landing-coffee-bar.webp" beforeAlt="A narrow, dim stair landing with white walls, a dark wood floor, the stair opening with a wood handrail and black balusters on the left, a black wire cage pendant, and a shoe rack, flat-pack boards and shopping bags against the right wall" afterAlt="AI redesign of the same landing as a coffee bar, with sage-green walls and sage beadboard wainscot, an oak-panelled back wall with two floating shelves of green tea tins, glass jars, cups and plants, an espresso machine and grinder on a stainless back counter, a long white-marble counter with a brass foot rail, three dark bentwood bar stools, a glass pastry case, a brass mug rack, two brass wall sconces, botanical prints and a patterned runner rug" caption="The stair landing, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/coffee-bar-ideas/landing-before.webp" after="/images/articles/coffee-bar-ideas/landing-coffee-bar.webp" beforeAlt="A narrow, dim stair landing with white walls, a dark wood floor, the stair opening with a wood handrail and black balusters on the left, a black wire cage pendant, and a shoe rack, flat-pack boards and shopping bags against the right wall" afterAlt="AI redesign of the same landing as a coffee bar, with sage-green walls and sage beadboard wainscot, an oak-panelled back wall with two floating shelves of green tea tins, glass jars, cups and plants, an espresso machine and grinder on a stainless back counter, a long white-marble counter with a brass foot rail, three dark bentwood bar stools, a glass pastry case, a brass mug rack, two brass wall sconces, botanical prints and a patterned runner rug" caption="The stair landing, before and after. AI redesign by Nola Home."}
 
 The handrail, the black balusters and the wire cage pendant stay put in this redesign. Here's the home-size version of each piece.
 
@@ -119,7 +119,7 @@ If you take milk, a small fridge in one bay of the sideboard saves trips to the 
 
 A box room that has quietly turned into storage, a deep cupboard or the space under the stairs can give one wall to coffee.
 
-::before-after{before="/images/articles/coffee-bar-ideas/box-room-before.webp" after="/images/articles/coffee-bar-ideas/box-room-coffee-bar.webp" beforeAlt="A small box room with a sloped ceiling seen through an open wooden door frame, piled with suitcases, a laundry basket and clothes, with board-game boxes on a black shelf, white shelving with storage boxes, a radiator and a black four-spot track light" afterAlt="AI redesign of the same box room as a coffee bar, seen through the same door frame, with light oak-panelled walls, a floating shelf of jars and green tins, a brass rail of hanging mugs, two botanical prints, an espresso machine, grinder and matcha bowl on a stainless back counter, a pale stone counter with a brass foot rail, three walnut-topped stools, a glass pastry case, a woven tray with lemons and a herb pot, brass sconces and a jute rug" caption="The junk room, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/coffee-bar-ideas/box-room-before.webp" after="/images/articles/coffee-bar-ideas/box-room-coffee-bar.webp" beforeAlt="A small box room with a sloped ceiling seen through an open wooden door frame, piled with suitcases, a laundry basket and clothes, with board-game boxes on a black shelf, white shelving with storage boxes, a radiator and a black four-spot track light" afterAlt="AI redesign of the same box room as a coffee bar, seen through the same door frame, with light oak-panelled walls, a floating shelf of jars and green tins, a brass rail of hanging mugs, two botanical prints, an espresso machine, grinder and matcha bowl on a stainless back counter, a pale stone counter with a brass foot rail, three walnut-topped stools, a glass pastry case, a woven tray with lemons and a herb pot, brass sconces and a jute rug" caption="The junk room, before and after. AI redesign by Nola Home."}
 
 Only the black four-spot track light carries over in this result, and that's the first thing to borrow: if the light you already have can be pointed at the counter, you may not need a new one. The rest, at home size:
 
@@ -161,7 +161,7 @@ Coffee corner ideas work best when the corner holds just two things: a surface a
 
 If someone in your home drinks matcha, give it a small zone of its own beside the coffee: a bowl, a bamboo whisk, a scoop and a tin on one small tray. Matcha only needs hot water, so the kettle can sit on the matcha side.
 
-::before-after{before="/images/articles/coffee-bar-ideas/attic-before.webp" after="/images/articles/coffee-bar-ideas/attic-coffee-bar.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed, a drying rack piled with laundry and clothes on the floor" afterAlt="AI redesign of the same attic room as a coffee and matcha bar, with sage walls over oak half-panelling, plywood-backed open shelves with jars, green cups and plants, an espresso machine and grinder on a stainless back bar, a long olive-green beadboard counter with a white top, a brass foot rail and four wooden stools, a glass pastry case, a chalkboard menu, three framed prints including a matcha cup, brass cylinder sconces, sheer linen curtains, a jute rug and a wood table and chair" caption="The attic bedroom, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/coffee-bar-ideas/attic-before.webp" after="/images/articles/coffee-bar-ideas/attic-coffee-bar.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed, a drying rack piled with laundry and clothes on the floor" afterAlt="AI redesign of the same attic room as a coffee and matcha bar, with sage walls over oak half-panelling, plywood-backed open shelves with jars, green cups and plants, an espresso machine and grinder on a stainless back bar, a long olive-green beadboard counter with a white top, a brass foot rail and four wooden stools, a glass pastry case, a chalkboard menu, three framed prints including a matcha cup, brass cylinder sconces, sheer linen curtains, a jute rug and a wood table and chair" caption="The attic bedroom, before and after. AI redesign by Nola Home."}
 
 Here the sloped ceiling, the bulkhead and the black multi-arm ceiling light stay. The home-size version is the matcha side: green cups on an open shelf, a framed print of a matcha cup, brass cylinder sconces and a jute rug would suit any coffee corner. The wood table and chair by the window show the nook version: make the drink at the bar, drink it at the table.
 
@@ -221,4 +221,4 @@ Most coffee bars that don't work fail for one of these reasons.
 
 ## See a coffee bar in your own room first
 
-Pick your spot with the four checks at the top, and photograph it straight on, mess included. In Room Redo, choose Coffee & Matcha Bar and ask for a mug rack and open shelves. When the redesign comes back, check that the counter you picture would fit beside your outlet with room above the machine, then copy the shelves, mug rail and colors at home size. Your first redesign is free, and the [guide to trying a free AI room redesign](/guides/ai-room-design-free) walks through how it works.
+Pick your spot with the four checks at the top, and photograph it straight on, mess included. In Nola Home, choose Coffee & Matcha Bar and ask for a mug rack and open shelves. When the redesign comes back, check that the counter you picture would fit beside your outlet with room above the machine, then copy the shelves, mug rail and colors at home size. Your first redesign is free, and the [guide to trying a free AI room redesign](/guides/ai-room-design-free) walks through how it works.

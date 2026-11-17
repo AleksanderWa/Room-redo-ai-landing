@@ -5,7 +5,7 @@ import AiPill from "@/components/article/AiPill";
 import { styleRowSizes } from "@/lib/content/imageLayout";
 
 // The shared label for a row (the spec allows a caption instead of per-thumb pills).
-const ROW_CAPTION = "AI redesigns of the same bedroom, made in the Room Redo app.";
+const ROW_CAPTION = "AI redesigns of the same bedroom, made in the Nola Home app.";
 
 /** `::style-card`. One id: a horizontal card with the AI redesign pill. Two
  *  to four: a grid of thumbs with one shared caption. Not clickable (there

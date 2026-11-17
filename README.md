@@ -1,6 +1,6 @@
-# Room Redo AI — landing page
+# Nola Home — landing page
 
-Single-page Next.js (App Router) landing page for Room Redo AI. The current layout follows the approved redesign mockups (desktop `Main.dc.html`, mobile `Mobile.dc.html`): hero slider, style wall of all 47 styles, wild styles, corners, how it works, pricing teaser, FAQ, closing CTA.
+Single-page Next.js (App Router) landing page for Nola Home. The current layout follows the approved redesign mockups (desktop `Main.dc.html`, mobile `Mobile.dc.html`): hero slider, style wall of all 47 styles, wild styles, corners, how it works, pricing teaser, FAQ, closing CTA.
 
 ## Setup
 

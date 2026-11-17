@@ -114,7 +114,7 @@ export async function ogCard({
                 textTransform: "uppercase",
               }}
             >
-              Room Redo
+              Nola Home
             </div>
           </div>
           <div

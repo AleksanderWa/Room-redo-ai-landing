@@ -25,7 +25,7 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const TITLE = "Room Redo AI — The room you have, and the one you keep saving.";
+const TITLE = "Nola Home — The room you have, and the one you keep saving.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    siteName: "Room Redo AI",
+    siteName: "Nola Home",
     title: TITLE,
     description: DESCRIPTION,
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Room Redo AI — before and after room redesign",
+        alt: "Nola Home — before and after room redesign",
       },
     ],
   },

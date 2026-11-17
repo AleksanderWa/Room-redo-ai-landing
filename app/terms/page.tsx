@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { LegalLayout } from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Terms of Use — Room Redo AI",
-  description: "The terms that govern your use of the Room Redo AI app.",
+  title: "Terms of Use — Nola Home",
+  description: "The terms that govern your use of the Nola Home app.",
   alternates: { canonical: "/terms" },
 };
 
@@ -13,21 +13,21 @@ export default function TermsPage() {
   return (
     <LegalLayout title="Terms of Use" effectiveDate={EFFECTIVE_DATE}>
       <p>
-        These terms govern your use of the Room Redo AI iOS app (&quot;Room Redo,&quot; &quot;the app&quot;),
-        operated by Aleksander Walkowski, based in Poland (&quot;we,&quot; &quot;us&quot;). By using Room Redo,
+        These terms govern your use of the Nola Home iOS app (formerly Room Redo AI) (&quot;Nola Home,&quot; &quot;the app&quot;),
+        operated by Aleksander Walkowski, based in Poland (&quot;we,&quot; &quot;us&quot;). By using Nola Home,
         you agree to them. If you don&apos;t agree, don&apos;t use the app.
       </p>
 
-      <h2>What Room Redo does</h2>
+      <h2>What Nola Home does</h2>
       <p>
-        You photograph a room or corner of your home, and Room Redo generates AI-produced redesign images
+        You photograph a room or corner of your home, and Nola Home generates AI-produced redesign images
         in styles you choose. Results are AI-generated visualizations, not architectural, structural, or
         professional design advice — always use your own judgment (and a qualified professional, where
         appropriate) before making real changes based on them.
       </p>
 
       <h2>Eligibility</h2>
-      <p>You must be at least 16 years old to use Room Redo. By using the app, you confirm you meet that requirement.</p>
+      <p>You must be at least 16 years old to use Nola Home. By using the app, you confirm you meet that requirement.</p>
 
       <h2>Your photos and content</h2>
       <p>
@@ -57,7 +57,7 @@ export default function TermsPage() {
       <h2>Acceptable use</h2>
       <p>You agree not to:</p>
       <ul>
-        <li>Use Room Redo for anything illegal, or to generate or upload content that&apos;s abusive, infringing, or violates someone else&apos;s rights;</li>
+        <li>Use Nola Home for anything illegal, or to generate or upload content that&apos;s abusive, infringing, or violates someone else&apos;s rights;</li>
         <li>Attempt to disrupt, reverse-engineer, or abuse the app, its generation pipeline, or its backend systems;</li>
         <li>Circumvent the redesign balance or purchase system.</li>
       </ul>
@@ -65,7 +65,7 @@ export default function TermsPage() {
 
       <h2>No warranty</h2>
       <p>
-        Room Redo is provided &quot;as is.&quot; AI-generated results can be inaccurate, unrealistic, or
+        Nola Home is provided &quot;as is.&quot; AI-generated results can be inaccurate, unrealistic, or
         occasionally fail to generate — we don&apos;t guarantee any particular output, availability, or that
         the service will be uninterrupted or error-free.
       </p>
@@ -80,7 +80,7 @@ export default function TermsPage() {
 
       <h2>Changes to the app or these terms</h2>
       <p>
-        We may update Room Redo or these terms over time. If we make a material change to the terms,
+        We may update Nola Home or these terms over time. If we make a material change to the terms,
         we&apos;ll update the effective date above. Continued use after a change means you accept the updated
         terms.
       </p>
@@ -90,7 +90,7 @@ export default function TermsPage() {
 
       <h2>Contact</h2>
       <p>
-        Room Redo AI, operated by Aleksander Walkowski, Poland. Email{" "}
+        Nola Home, operated by Aleksander Walkowski, Poland. Email{" "}
         <a href="mailto:support@airoomredo.com">support@airoomredo.com</a> with any questions about these terms.
       </p>
     </LegalLayout>

@@ -24,15 +24,15 @@ hero:
   src: /images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp
   alt: AI redesign of an attic bedroom in Japandi style, with plaster-beige walls, a low walnut platform bed with linen bedding and a dark knit throw, a walnut dresser, sheer linen curtains, a round paper lantern and a chunky jute rug
   isAiRedesign: true
-heroCaption: A cluttered attic bedroom, redesigned in Japandi style by Room Redo.
+heroCaption: A cluttered attic bedroom, redesigned in Japandi style by Nola Home.
 related: []
 faq:
   - q: "Is the first Japandi redesign free?"
-    a: "Yes. Your first redesign in Room Redo is free, one per device, in any style, Japandi included. It's the full redesign with a small Room Redo watermark. More redesigns need a plan or a one-time pack."
+    a: "Yes. Your first redesign in Nola Home is free, one per device, in any style, Japandi included. It's the full redesign with a small Nola Home watermark. More redesigns need a plan or a one-time pack."
   - q: "Do I need an account to try it?"
     a: "No. There's no sign-up, no email and no password. Your iPhone is enough: the app creates a private ID on it to keep track of your redesigns and purchases."
-  - q: "Does Room Redo work on Android or in a browser?"
-    a: "Room Redo is an iPhone app, free to download from the App Store. You take the photo and see the redesign right there in the app."
+  - q: "Does Nola Home work on Android or in a browser?"
+    a: "Nola Home is an iPhone app, free to download from the App Store. You take the photo and see the redesign right there in the app."
   - q: "What wall decor works in a Japandi room?"
     a: "One larger piece beats a gallery wall. A simple ink drawing, a woven textile or a quiet landscape print in a thin wood or black frame all work. Leave plenty of bare wall around it, because the empty space is part of the look."
   - q: "Is Japandi expensive to do?"
@@ -45,7 +45,7 @@ campaign:
   ct: article-japandi
 ---
 
-A Japandi style bedroom is low, quiet and warm: a low wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, with the main rules shown in two ordinary rooms. Room Redo is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
+A Japandi style bedroom is low, quiet and warm: a low wood platform bed, linen in two or three soft tones, warm light from a lamp or paper shade, and almost nothing on the floor. A Japandi living room runs on the same rules, with a low sofa, a solid wood coffee table and closed storage. Below you'll find the palette, the furniture rules and what to remove first, with the main rules shown in two ordinary rooms. Nola Home is an iPhone app that redesigns a photo of your own room in the style you pick, and your first redesign is free.
 
 :::at-a-glance
 - Palette: Warm white, sand, clay, sage
@@ -99,9 +99,9 @@ Start with the bed, then take things away until the room goes quiet. These are t
 - Low, warm light. A paper lantern or a ceramic lamp, with bulbs around 2,700 K. The US Department of Energy calls that [warm light that suits the wood finishes and fabrics in homes](https://www.energy.gov/cmei/femp/purchasing-energy-efficient-light-bulbs).
 - One large artwork per wall, or none. Skip the gallery wall: the bare wall around the piece is part of the calm.
 
-Here's what those rules do to a real room. This attic bedroom has a sloped ceiling, a loud tropical wallpaper wall, a drying rack piled with laundry and clothes on the floor. Drag the slider to compare it with the Japandi redesign from Room Redo.
+Here's what those rules do to a real room. This attic bedroom has a sloped ceiling, a loud tropical wallpaper wall, a drying rack piled with laundry and clothes on the floor. Drag the slider to compare it with the Japandi redesign from Nola Home.
 
-::before-after{before="/images/articles/japandi-bedroom-living-room/attic-bedroom-before.webp" after="/images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed on a black frame, a drying rack hung with laundry and clothes on the floor" afterAlt="AI redesign of the same attic bedroom in Japandi style, with plaster-beige walls, a round paper lantern, sheer linen curtains on a black rod, a low walnut platform bed with linen bedding, sage and striped cushions and a dark knit throw, a walnut dresser with a vase of blossom branches, one nightstand with a lamp, two ink-wash artworks and a chunky jute rug" caption="The attic bedroom, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/japandi-bedroom-living-room/attic-bedroom-before.webp" after="/images/articles/japandi-bedroom-living-room/attic-bedroom-japandi.webp" beforeAlt="A cluttered attic bedroom with a sloped ceiling, a tropical floral wallpaper wall, patterned curtains, a black multi-arm ceiling light, an unmade bed on a black frame, a drying rack hung with laundry and clothes on the floor" afterAlt="AI redesign of the same attic bedroom in Japandi style, with plaster-beige walls, a round paper lantern, sheer linen curtains on a black rod, a low walnut platform bed with linen bedding, sage and striped cushions and a dark knit throw, a walnut dresser with a vase of blossom branches, one nightstand with a lamp, two ink-wash artworks and a chunky jute rug" caption="The attic bedroom, before and after. AI redesign by Nola Home."}
 
 Each change maps to one of the rules above.
 
@@ -139,7 +139,7 @@ A Japandi living room is built around one low sofa, one solid wood table and a r
 
 This next room is a half-renovated living room in an older city apartment: bare pine floorboards, two tall windows over radiators and a brass chandelier, plus a cable reel and a few tools on the floor.
 
-::before-after{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" after="/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators, a brass chandelier and tools on the floor" afterAlt="AI redesign of the same living room in Japandi style, with greige walls, a low cream boucle L-shaped sectional along the right wall with cream, charcoal, striped and tan cushions and a fringed throw over the chaise, a thick reclaimed-wood coffee table on block legs on a chunky woven wool rug, a low solid-wood sideboard with a mushroom table lamp by the pillar, a round paper lantern pendant, full-height linen curtains, a large abstract artwork in charcoal and sand above the sofa and a potted plant on the sill" caption="The empty living room, before and after. AI redesign by Room Redo."}
+::before-after{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" after="/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators, a brass chandelier and tools on the floor" afterAlt="AI redesign of the same living room in Japandi style, with greige walls, a low cream boucle L-shaped sectional along the right wall with cream, charcoal, striped and tan cushions and a fringed throw over the chaise, a thick reclaimed-wood coffee table on block legs on a chunky woven wool rug, a low solid-wood sideboard with a mushroom table lamp by the pillar, a round paper lantern pendant, full-height linen curtains, a large abstract artwork in charcoal and sand above the sofa and a potted plant on the sill" caption="The empty living room, before and after. AI redesign by Nola Home."}
 
 In this result a low cream boucle L-shaped sectional runs along the right wall, with cream, charcoal-brown, striped and tan cushions and a fringed throw over the chaise. In front sits a thick reclaimed-wood coffee table on block legs, holding blossom branches, a wood bowl and books. A chunky woven wool rug under both makes one zone, and a large abstract artwork in charcoal and sand hangs over the sofa. There is no armchair: the chaise is the extra seat, so the floor stays open.
 
@@ -163,14 +163,14 @@ No. Japandi is lower and quieter, with darker accents. Scandinavian is brighter 
 
 Here's the same living room in both styles. Tap a style, then drag the divider.
 
-:::style-slider{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators and a brass chandelier" caption="One living room, two calm styles. AI redesigns by Room Redo."}
+:::style-slider{before="/images/articles/japandi-bedroom-living-room/old-town-living-room-before.webp" beforeAlt="An empty, half-renovated living room with orange pine floorboards, white walls, two tall windows over radiators and a brass chandelier" caption="One living room, two calm styles. AI redesigns by Nola Home."}
 ![AI redesign of the living room in Japandi style, with greige walls, a low cream boucle L-shaped sectional, a thick reclaimed-wood coffee table on block legs, a low solid-wood sideboard with a mushroom table lamp, a large abstract artwork in charcoal and sand and a round paper lantern pendant](/images/articles/japandi-bedroom-living-room/old-town-living-room-japandi.webp "Japandi")
 ![AI redesign of the same living room in Scandinavian style, with white walls, a light grey sofa with sage, striped and knit cushions and a chunky knit throw, a bentwood birch armchair with a sheepskin, a rectangular pale oak coffee table on tapered legs, a round paper globe pendant, a white dome floor lamp, a landscape painting over the sofa, a framed botanical print and plants on the sills](/images/articles/japandi-bedroom-living-room/old-town-living-room-scandinavian.webp "Scandinavian")
 :::
 
 Same room, different feel: in both results the sofa sits on the right wall, and the floor and windows are the same. The Scandinavian version has whiter walls, a light grey sofa on slim legs, a pale oak table on tapered legs, a bentwood birch armchair with a sheepskin, a white dome floor lamp and a soft landscape painting. The Japandi version runs warmer, lower and heavier: greige walls, a cream boucle L-shaped sectional instead of a sofa and armchair, a thick reclaimed-wood table on block legs, a solid-wood sideboard with a mushroom lamp and one large abstract artwork in charcoal and sand, with fewer separate seats and more open floor. Both hang a round paper pendant and use a chunky wool rug, which shows how much the two styles share.
 
-These four styles share the Calm & Minimal group in Room Redo. If you're torn, the [Room Redo style wall](/) shows each one applied to the same cluttered bedroom, so you can compare them side by side.
+These four styles share the Calm & Minimal group in Nola Home. If you're torn, the [Nola Home style wall](/) shows each one applied to the same cluttered bedroom, so you can compare them side by side.
 
 ::style-card{ids="japandi scandinavian organic_modern modern_minimalist"}
 
@@ -220,4 +220,4 @@ Japandi usually goes wrong in one of two ways: too cold, or too much.
 
 ## See Japandi in your own room first
 
-The hard part is picturing all this in your room before you buy a bed or a tin of paint. Take a photo of your bedroom or living room as it is today, mess included, and pick Japandi in Room Redo. You can ask for things like a paper lantern or a rug, then drag between before and after. Your first redesign is free, and the [guide to trying a free AI room redesign](/guides/ai-room-design-free) walks through how it works.
+The hard part is picturing all this in your room before you buy a bed or a tin of paint. Take a photo of your bedroom or living room as it is today, mess included, and pick Japandi in Nola Home. You can ask for things like a paper lantern or a rug, then drag between before and after. Your first redesign is free, and the [guide to trying a free AI room redesign](/guides/ai-room-design-free) walks through how it works.

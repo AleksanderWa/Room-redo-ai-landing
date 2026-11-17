@@ -13,14 +13,14 @@ import { RSS_ALTERNATE, breadcrumbJsonLd } from "@/lib/content/seo";
 /** Metadata for a hub. `index: false` while the section has nothing to list. */
 export function hubMetadata(type: ArticleType): Metadata {
   const { label, path, description } = SECTIONS[type];
-  const title = `${label} | Room Redo AI`;
+  const title = `${label} | Nola Home`;
   const empty = getArticles(type).length === 0;
   return {
     title,
     description,
     alternates: { canonical: path, types: RSS_ALTERNATE },
     ...(empty ? { robots: { index: false, follow: true } } : {}),
-    openGraph: { type: "website", url: path, siteName: "Room Redo AI", title, description },
+    openGraph: { type: "website", url: path, siteName: "Nola Home", title, description },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -40,7 +40,7 @@ export default function ArticleHub({ type }: { type: ArticleType }) {
       <h1 className="rr-article-h1 rr-article-h1--hub">{label}</h1>
       {articles.length === 0 ? (
         <p className="rr-article-intro">
-          {empty} <Link href="/">Back to Room Redo AI</Link>
+          {empty} <Link href="/">Back to Nola Home</Link>
         </p>
       ) : (
         <>
