@@ -12,7 +12,7 @@ import { RSS_ALTERNATE, authorJsonLd } from "@/lib/content/seo";
 
 export function generateMetadata(): Metadata {
   const author = getAuthor("aleksander");
-  const title = `${author.name} | Room Redo AI`;
+  const title = `${author.name} | Nola Home`;
   return {
     title,
     description: author.summary,
@@ -20,7 +20,7 @@ export function generateMetadata(): Metadata {
     openGraph: {
       type: "profile",
       url: author.path,
-      siteName: "Room Redo AI",
+      siteName: "Nola Home",
       title,
       description: author.summary,
     },

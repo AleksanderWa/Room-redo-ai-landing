@@ -1,13 +1,13 @@
-# Room Redo
+# Nola Home
 
-> Room Redo redesigns your own room from a single photo, in 47 styles, from Japandi to a cat lounge. It is an iPhone app.
+> Nola Home (formerly Room Redo AI) redesigns your own room from a single photo, in 47 styles, from Japandi to a cat lounge. It is an iPhone app.
 
 Snap one photo. Pick a style. Watch your own room change.
 
 ## Links
 
 - [Website](https://www.airoomredo.com): what the app does, the style wall and the FAQ
-- [Room Redo on the App Store](https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415): download for iPhone
+- [Nola Home on the App Store (formerly Room Redo AI)](https://apps.apple.com/app/room-redo-ai-interior-design/id6812385415): download for iPhone
 - [Privacy policy](https://www.airoomredo.com/privacy)
 - [Terms of use](https://www.airoomredo.com/terms)
 

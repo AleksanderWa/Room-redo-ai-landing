@@ -21,7 +21,7 @@ faq:
   - q: "Do I need to measure the room first?"
     a: "A rough sketch is enough. Measure the bed, the door swing and the walk path, and you have what you need."
   - q: "Can I try a layout without moving furniture?"
-    a: "Yes. Tape it out on the floor, or see your own room redesigned in the [Room Redo](/) app."
+    a: "Yes. Tape it out on the floor, or see your own room redesigned in the [Nola Home](/) app."
   - q: "Does a mirror really help a small bedroom?"
     a: "It can, if it faces the window. Put it on the wall that gets the light."
 draft: false
@@ -87,7 +87,7 @@ Here is the same bedroom in two quiet looks.
 
 Tape it out. It is a game-changer. Use painter's tape to mark the bed, the wardrobe and the door swing on the floor, then live with it for two days. You will find the problems fast: the drawer that will not open, the path you keep stepping around.
 
-You can also look at your room redesigned before you move anything. Room Redo is an iPhone app. Take a photo of your own bedroom, pick a style, and see the same room in a new look. It is a way to test a colour direction or a furniture mood without buying anything.
+You can also look at your room redesigned before you move anything. Nola Home is an iPhone app. Take a photo of your own bedroom, pick a style, and see the same room in a new look. It is a way to test a colour direction or a furniture mood without buying anything.
 
 ::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A cluttered bedroom before any changes" afterAlt="AI redesign of the same bedroom in a calm, light style" caption="One bedroom, two looks"}
 
@@ -104,7 +104,7 @@ Leave out big rugs that curl at the edge and trip you at night. Leave out heavy 
 Leave out anything you are keeping "just in case". Under-bed storage is for sheets and off-season clothes, not for a second closet of things you have forgotten.
 
 :::note{title="Good to know"}
-The first redesign carries a small Room Redo watermark.
+The first redesign carries a small Nola Home watermark.
 :::
 
 ## A simple order of work

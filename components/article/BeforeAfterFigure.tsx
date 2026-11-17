@@ -26,8 +26,8 @@ export default function BeforeAfterFigure({
   const dims = readImageSize(before);
   const lead = caption ? `${caption.trim().replace(/[.!?]+$/, "")}. ` : "";
   const provenance = caption
-    ? `${lead}Redesigned in the Room Redo app.`
-    : "Before and after, redesigned in the Room Redo app.";
+    ? `${lead}Redesigned in the Nola Home app.`
+    : "Before and after, redesigned in the Nola Home app.";
   return (
     <figure className={`rr-article-ba rr-article-ba--${orientationOf(dims)}`}>
       <div className="rr-article-ba-frame">

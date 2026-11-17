@@ -27,7 +27,7 @@ export default function ArticleLayout({
         <div className="rr-article-inner">
           <main id="main">{children}</main>
           <footer className="rr-article-footer">
-            <Link href="/">Room Redo AI</Link>
+            <Link href="/">Nola Home</Link>
             <Link href="/guides">Guides</Link>
             {hasPublished("ideas") && <Link href="/ideas">Ideas</Link>}
             <Link href="/privacy">Privacy</Link>

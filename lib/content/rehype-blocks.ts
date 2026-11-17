@@ -93,7 +93,7 @@ function steps(node: Element): Element {
   return el("ol", "rr-article-steps", items);
 }
 
-const LOOKS_DEFAULT_CAPTION = "The same room, redesigned in the Room Redo app.";
+const LOOKS_DEFAULT_CAPTION = "The same room, redesigned in the Nola Home app.";
 
 function looks(node: Element): Element {
   const imgs = findImages(node);

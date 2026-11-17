@@ -143,7 +143,7 @@ test("style-slider: stacked looks, one chip each, only the first look exposed, o
   assert.equal(count(h, /<div class="rr-ba-after" aria-hidden="true"/g), 1);
   assert.equal(count(h, /AI redesign<\/span>/g), 1);
   assert.match(h, /aria-label="Before and after: Japandi"/);
-  assert.match(h, /One bedroom, two styles\. Redesigned in the Room Redo app\./);
+  assert.match(h, /One bedroom, two styles\. Redesigned in the Nola Home app\./);
 });
 
 test("style-slider: too few images, a missing title and a missing before fail the build", () => {

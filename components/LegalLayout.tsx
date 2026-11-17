@@ -54,7 +54,7 @@ export function LegalLayout({
 
           <div style={{ marginTop: 48, paddingTop: 20, borderTop: "1px solid var(--rr-line)" }}>
             <Link href="/" style={{ fontSize: 13, color: "var(--rr-soft)", letterSpacing: "0.02em" }}>
-              ← Back to Room Redo AI
+              ← Back to Nola Home
             </Link>
           </div>
         </div>

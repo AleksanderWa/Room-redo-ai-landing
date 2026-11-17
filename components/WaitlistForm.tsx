@@ -63,11 +63,11 @@ function doneBody(status: Status) {
   if (LIVE) {
     return status === "dup"
       ? "No need to sign up twice — your spot is saved. Follow along on TikTok for news."
-      : "We'll email you with Room Redo news. For the latest first, follow along on TikTok.";
+      : "We'll email you with Nola Home news. For the latest first, follow along on TikTok.";
   }
   return status === "dup"
     ? "No need to sign up twice — your spot is saved. Follow along on TikTok for the launch date."
-    : "We'll email you the moment Room Redo opens on iOS. For the launch date first, follow along on TikTok.";
+    : "We'll email you the moment Nola Home opens on iOS. For the launch date first, follow along on TikTok.";
 }
 
 const honeypotStyle = {

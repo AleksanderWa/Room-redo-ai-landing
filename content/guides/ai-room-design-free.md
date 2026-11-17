@@ -24,7 +24,7 @@ hero:
   src: /images/articles/ai-room-design-free/boxroom-scandinavian.webp
   alt: AI redesign of a narrow spare room in Scandinavian style, with a pale wood single bed, a sage knit throw, an oak dresser and a paper lantern
   isAiRedesign: true
-heroCaption: A narrow, empty spare room, redesigned in Scandinavian style by Room Redo.
+heroCaption: A narrow, empty spare room, redesigned in Scandinavian style by Nola Home.
 related: []
 faq:
   - q: "Do I need to sign up or log in?"
@@ -32,9 +32,9 @@ faq:
   - q: "Which rooms can I redesign?"
     a: "Bedrooms, living rooms, kitchens, bathrooms, offices and balconies. You can also photograph a single corner and say what it should do: storage, a place to sit, work or study, laundry, a space for kids, or a space for your pet."
   - q: "Does it work on Android or in a browser?"
-    a: "Room Redo is an iPhone app, free to download from the App Store. You take the photo and see your redesign right there in the app."
+    a: "Nola Home is an iPhone app, free to download from the App Store. You take the photo and see your redesign right there in the app."
   - q: "Is there a watermark on the free redesign?"
-    a: "Yes, a small Room Redo watermark. It stays until the device has bought something."
+    a: "Yes, a small Nola Home watermark. It stays until the device has bought something."
   - q: "Can I ask for things like plants or a rug?"
     a: "Yes. You can ask for up to three things you'd like in the room, such as plants or a rug, before the app redesigns it."
   - q: "What happens to my photos?"
@@ -45,7 +45,7 @@ campaign:
   ct: article-ai-room-design-free
 ---
 
-You can try AI room design free on your iPhone with Room Redo. Take one photo of your own room, pick a style, and the app redesigns that same room in the new look. Your first redesign is free: the full redesign, in any style, with a small Room Redo watermark, and no account to make.
+You can try AI room design free on your iPhone with Nola Home. Take one photo of your own room, pick a style, and the app redesigns that same room in the new look. Your first redesign is free: the full redesign, in any style, with a small Nola Home watermark, and no account to make.
 
 :::at-a-glance
 - Price: First redesign free
@@ -68,7 +68,7 @@ Shoot in daylight, from the doorway or a corner, with the phone held level at ch
 | Phone height | Chest height, screen straight up, no tilt | Tilting makes the walls lean, so the room looks smaller and odder than it is |
 | Upright or sideways | Upright for a long, narrow room. Sideways for a wide one | Match the shape of the room so nothing important gets cropped |
 | Clutter | Pick up laundry, boxes and bags | Mess pulls the eye away from the room itself |
-| People | Keep them out of the frame | A room with nobody in it reads clearly. Room Redo turns away photos with people in them |
+| People | Keep them out of the frame | A room with nobody in it reads clearly. Nola Home turns away photos with people in them |
 
 Take three shots from slightly different spots, then keep the one where you can see the floor all the way to the far wall. Our rule of thumb: when the photo cuts the floor off, any room looks cramped in it.
 
@@ -92,7 +92,7 @@ Start from the room you have, not the photo you saved. Its size, its light and t
 
 The small-room rule is the one people break most. Chunky furniture that sits flat on the floor blocks the eye. Designer Tim Clarke likes open pieces for exactly this reason: "You can see beyond them so it doesn't stop your eye," he told [Sunset](https://sunset.com/home/architecture-design/small-living-room-ideas).
 
-Then decide what you're after. A real interior style (Room Redo calls these Serious styles) is for when you're about to buy paint or a bed. A big what-if (the app's Wild ideas) is for when you're not sure what the room should even be. Wild ideas rebuild the room around the idea, so expect bigger changes.
+Then decide what you're after. A real interior style (Nola Home calls these Serious styles) is for when you're about to buy paint or a bed. A big what-if (the app's Wild ideas) is for when you're not sure what the room should even be. Wild ideas rebuild the room around the idea, so expect bigger changes.
 
 To see what that means, our [coffee bar ideas](/ideas/coffee-bar-ideas) show one Wild idea, Coffee & Matcha Bar, applied to three ordinary spots.
 
@@ -106,13 +106,13 @@ Here's that advice in a real room: a long, thin spare room with scuffed white wa
 
 The Scandinavian version follows the small-room rule to the letter. The walls stay pale, the bed and dresser stand on slim legs, and a jute runner leads your eye down to the window. It reads as a guest room you'd happily sleep in.
 
-Mid-Century Modern goes darker with sage walls and walnut, and it still works because the window gives the eye somewhere to land. The Cozy Lounge Nook drops the bed for a velvet chaise and turns the room into a place to read. Same photo, three different answers to "what is this room for?". You can browse every style on the [Room Redo style wall](/).
+Mid-Century Modern goes darker with sage walls and walnut, and it still works because the window gives the eye somewhere to land. The Cozy Lounge Nook drops the bed for a velvet chaise and turns the room into a place to read. Same photo, three different answers to "what is this room for?". You can browse every style on the [Nola Home style wall](/).
 
 ## How to turn an AI redesign into real changes
 
 Treat the redesign as a mood board made from your own room. Take the colors, the materials and the one big move. Leave the exact pieces and their positions.
 
-Here's a cluttered bedroom with a loud tropical wallpaper wall, redesigned with Room Redo. Use it to practice each step below.
+Here's a cluttered bedroom with a loud tropical wallpaper wall, redesigned with Nola Home. Use it to practice each step below.
 
 ::before-after{before="/images/hero-before.jpg" after="/images/hero-after.jpg" beforeAlt="A bedroom with a bold tropical floral wallpaper wall, an unmade bed and a blanket on the floor" afterAlt="AI redesign of the same bedroom with a sage green accent wall, a pale wood bed with linen bedding, a jute rug and sheer curtains" caption="The cluttered bedroom, before and after"}
 
@@ -137,7 +137,7 @@ Do the work in this order, so nothing gets painted around or splashed:
 
 **Take the layout from your tape measure.** Furniture can move between looks. In the spare room above, the bed sits on the left in Scandinavian and on the right in Mid-Century Modern. Put things where your doors, sockets and radiator allow.
 
-## How AI room design works in Room Redo
+## How AI room design works in Nola Home
 
 The whole thing happens on your iPhone, in four steps.
 

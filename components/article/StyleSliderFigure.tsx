@@ -40,8 +40,8 @@ export default function StyleSliderFigure({
 
   const lead = caption ? `${caption.trim().replace(/[.!?]+$/, "")}. ` : "";
   const provenance = caption
-    ? `${lead}Redesigned in the Room Redo app.`
-    : "Before and after, redesigned in the Room Redo app.";
+    ? `${lead}Redesigned in the Nola Home app.`
+    : "Before and after, redesigned in the Nola Home app.";
 
   function select(i: number) {
     if (i === active) return;

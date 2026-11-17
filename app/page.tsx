@@ -342,7 +342,7 @@ export default function Home() {
             </nav>
           </div>
           <p style={{ margin: 0, fontSize: 13, color: "var(--rr-soft-on-sand)" }}>
-            © 2026 Room Redo
+            © 2026 Nola Home
           </p>
         </div>
       </footer>

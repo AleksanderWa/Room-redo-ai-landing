@@ -1,6 +1,6 @@
 /** Markdown title that marks a body image as a real, non-AI photo
  *  (`![A real kitchen](/images/x.webp "photo")`). Every other body image is
- *  treated as a Room Redo output and carries the AI redesign label. */
+ *  treated as a Nola Home output and carries the AI redesign label. */
 export const PHOTO_OPT_OUT_TITLE = "photo";
 
 export function splitImageTitle(title?: string): { isPhoto: boolean; caption?: string } {

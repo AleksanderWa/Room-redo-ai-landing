@@ -27,13 +27,13 @@ export default function CtaBlock({
   const body =
     text ??
     (isEnd
-      ? "Room Redo is an iPhone app. Take a photo, pick a style, and see your own room redesigned."
+      ? "Nola Home is an iPhone app. Take a photo, pick a style, and see your own room redesigned."
       : "Take one photo and see it redesigned in more than 45 styles. Your first redesign is free.");
 
   return (
     <aside
       data-rr-cta=""
-      aria-label="Get Room Redo"
+      aria-label="Get Nola Home"
       className={`rr-article-cta ${isEnd ? "rr-article-cta--end" : "rr-article-cta--mid"}`}
     >
       {isEnd && (

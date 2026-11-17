@@ -55,7 +55,7 @@ export default function StickyCta({
           className="rr-article-sticky-icon"
         />
         <div className="rr-article-sticky-text">
-          <span className="rr-article-sticky-name">Room Redo AI</span>
+          <span className="rr-article-sticky-name">Nola Home</span>
           <span className="rr-article-sticky-sub">iPhone app</span>
         </div>
         <DownloadCta placement="article-sticky" campaign={campaign} article={article} />

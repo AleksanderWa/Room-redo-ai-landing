@@ -1,19 +1,19 @@
-# Room Redo article style guide
+# Nola Home article style guide
 
 Single source of rules for article writing (`writer` agent) and checking (`guard` agent). Read this file and `FACTS.md` fully at the start of every run. If a brief conflicts with this file, this file wins; flag the conflict.
 
-## 1. Value first, then Room Redo (read first)
+## 1. Value first, then Nola Home (read first)
 
-Every article is Room Redo's own content, published on Room Redo's site, and it still promotes the app. But we show value to the reader first. The article answers the search; Room Redo is the fastest way to apply that answer to your own room.
+Every article is Nola Home's own content, published on Nola Home's site, and it still promotes the app. But we show value to the reader first. The article answers the search; Nola Home is the fastest way to apply that answer to your own room.
 
-- **The remove-the-app test.** Delete every Room Redo mention. The article must still answer the search and be worth bookmarking. If it doesn't, rewrite it.
+- **The remove-the-app test.** Delete every Nola Home mention. The article must still answer the search and be worth bookmarking. If it doesn't, rewrite it.
 - **Reader value is scored.** The guard scores "reader value" with the remove-the-app test. PASS needs 4 or higher; 3 or lower is REVISE.
 - **About 70% reader help, 30% product.** Reader help means design guidance, how-tos, decisions, mistakes to avoid, measurements, palettes and layouts. Product sections show the advice applied in a real room ("here's that rule in a narrow spare room"), not a feature tour.
 - **Cut generic pitch lines.** Any line that could appear on any app's site goes.
-- **Intro answers the question directly.** It includes one sentence saying Room Redo is an iPhone app ("Redesign your room on your iPhone"), so the right readers self-select. This is required: the first screen must show "iPhone". No negative caveats like "sorry, Android users".
+- **Intro answers the question directly.** It includes one sentence saying Nola Home is an iPhone app ("Redesign your room on your iPhone"), so the right readers self-select. This is required: the first screen must show "iPhone". No negative caveats like "sorry, Android users".
 - **First H2 is pure value.** The mid `::cta` goes after the first value section, never before it. A later analytics-driven move of the mid CTA (to just before the biggest drop-off) still keeps it after the first value section.
 - **Honest means true, not self-critical.** Every claim must be true and provable (see `FACTS.md`). We don't argue against ourselves, dwell on limits, or add "when another tool fits better" sections.
-- **Never send readers to competitors.** Don't link to competitor sites or recommend them. Comparison articles (later) may name competitors fairly and accurately, but are written to show where Room Redo wins.
+- **Never send readers to competitors.** Don't link to competitor sites or recommend them. Comparison articles (later) may name competitors fairly and accurately, but are written to show where Nola Home wins.
 - State the free offer exactly as `FACTS.md` gives it. Paid plans get a short, confident "what's free, what's paid" section, not a warning. Overselling "free" is a factual error.
 
 ## 2. Voice
@@ -53,7 +53,7 @@ Write like a friend who's good at rooms, talking to a homeowner or renter. Calm,
 - **External facts** (trends, stats, design rules of thumb with numbers, prices of other things) need an inline link to a credible source the writer actually opened. No source, no claim.
 - No invented numbers, quotes, testimonials, user counts or ratings.
 - No provider names, ever.
-- Images: only real Room Redo outputs or real photos. Every Room Redo output is labelled as an AI redesign (`isAiRedesign: true` and a visible label). Alt text describes what's in the image, truthfully.
+- Images: only real Nola Home outputs or real photos. Every Nola Home output is labelled as an AI redesign (`isAiRedesign: true` and a visible label). Alt text describes what's in the image, truthfully.
 
 ## 4. SEO checklist (writer must meet; guard verifies)
 
@@ -68,7 +68,7 @@ Write like a friend who's good at rooms, talking to a homeowner or renter. Calm,
   - A new article gets links from 1 or 2 older articles, added in the same PR (the pipeline's "Link back" step).
 - External links: 1 to 3 credible, non-competitor sources where they back a claim.
 - CTA: one `::cta` around the middle, after the first value section (never before it). The end CTA is added automatically, so the last paragraph should lead naturally into trying the app, without summarizing the article.
-- Images: a hero, at least one `::before-after` with a real Room Redo result. Descriptive alt text on every image.
+- Images: a hero, at least one `::before-after` with a real Nola Home result. Descriptive alt text on every image.
 - Length by type:
   - `guides`: 900 to 1,800 words.
   - `ideas`: 1,200 to 2,500 words.

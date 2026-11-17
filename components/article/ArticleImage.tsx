@@ -6,7 +6,7 @@ import { ARTICLE_IMAGE_QUALITY, orientationOf, sizesFor } from "@/lib/content/im
 
 /** A markdown image. Dimensions are read from the file at build time so the
  *  page does not shift and the image is never cropped. Every body image is a
- *  Room Redo output unless proven otherwise, so it gets the AI redesign pill;
+ *  Nola Home output unless proven otherwise, so it gets the AI redesign pill;
  *  a real photo opts out with the title "photo" (`![alt](src "photo")`). Any
  *  other title becomes the visible caption. */
 export default function ArticleImage({

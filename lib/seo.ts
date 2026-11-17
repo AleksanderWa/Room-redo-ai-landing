@@ -2,7 +2,7 @@ import { faqs } from "@/data/faq";
 import { styles } from "@/data/styles";
 import { APP_STORE_URL, SITE_URL } from "@/lib/site";
 
-export const DESCRIPTION = `Room Redo redesigns your own room from a single photo, in ${styles.length} styles, from Japandi to a cat lounge. ${
+export const DESCRIPTION = `Nola Home redesigns your own room from a single photo, in ${styles.length} styles, from Japandi to a cat lounge. ${
   APP_STORE_URL
     ? "Download it on the App Store for iPhone."
     : "Coming soon on the App Store for iPhone."
@@ -15,7 +15,8 @@ export const homeJsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Room Redo",
+    name: "Nola Home",
+    alternateName: "Room Redo AI",
     operatingSystem: "iOS",
     applicationCategory: "LifestyleApplication",
     description: DESCRIPTION,

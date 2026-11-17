@@ -78,7 +78,7 @@ export default function ArticlePage({ article }: { article: Article }) {
           </div>
           {(article.heroCaption || article.hero.isAiRedesign) && (
             <figcaption>
-              {article.heroCaption ?? "A real room, redesigned in the Room Redo app."}
+              {article.heroCaption ?? "A real room, redesigned in the Nola Home app."}
             </figcaption>
           )}
         </figure>

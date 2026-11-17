@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { LegalLayout } from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Room Redo AI",
-  description: "How Room Redo AI collects and uses your data.",
+  title: "Privacy Policy — Nola Home",
+  description: "How Nola Home collects and uses your data.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -13,15 +13,15 @@ export default function PrivacyPage() {
   return (
     <LegalLayout title="Privacy Policy" effectiveDate={EFFECTIVE_DATE}>
       <p>
-        Room Redo AI (&quot;Room Redo,&quot; &quot;we,&quot; &quot;us&quot;) is operated by Aleksander Walkowski,
-        based in Poland. This policy explains what the Room Redo iOS app and this website collect, why,
+        Nola Home (formerly Room Redo AI) (&quot;Nola Home,&quot; &quot;we,&quot; &quot;us&quot;) is operated by Aleksander Walkowski,
+        based in Poland. This policy explains what the Nola Home iOS app and this website collect, why,
         and who we share it with. If you have questions, email{" "}
         <a href="mailto:support@airoomredo.com">support@airoomredo.com</a>.
       </p>
 
       <h2>No account, no name, no email required</h2>
       <p>
-        Room Redo has no sign-up. The first time you open the app, it generates a random device identifier
+        Nola Home has no sign-up. The first time you open the app, it generates a random device identifier
         and stores it in your device&apos;s secure keychain. That identifier — not a name, email, or phone
         number — is how the app recognizes your rooms and redesigns across sessions. We never ask for your
         real identity to use the app.
@@ -65,7 +65,7 @@ export default function PrivacyPage() {
       <p>We do not collect your precise location, contacts, or health data, and we do not request camera-roll access beyond the single photo you choose to use.</p>
 
       <h2>Who we share it with</h2>
-      <p>We use a small number of service providers to run Room Redo. Each receives the data it needs to provide its service:</p>
+      <p>We use a small number of service providers to run Nola Home. Each receives the data it needs to provide its service:</p>
       <ul>
         <li><strong>Cloud storage providers</strong> — store your room and redesign photos.</li>
         <li><strong>AI providers</strong> (third-party AI image and language-model providers) receive your room photo so they can create the redesigned image and check that the photo shows a usable room. We send them the photo and the instructions for your chosen style, not your name, email or any account details (the app has none). We use your photo to produce your result. The app asks for your permission before your photo is first sent to AI providers, and you can stop this at any time in the app&apos;s Settings.</li>
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
       </p>
 
       <h2>Children</h2>
-      <p>Room Redo is not directed at children under 16, and we do not knowingly collect data from them.</p>
+      <p>Nola Home is not directed at children under 16, and we do not knowingly collect data from them.</p>
 
       <h2>Changes to this policy</h2>
       <p>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
 
       <h2>Contact</h2>
       <p>
-        Room Redo AI, operated by Aleksander Walkowski, Poland. Email{" "}
+        Nola Home, operated by Aleksander Walkowski, Poland. Email{" "}
         <a href="mailto:support@airoomredo.com">support@airoomredo.com</a> for anything privacy-related.
       </p>
     </LegalLayout>
