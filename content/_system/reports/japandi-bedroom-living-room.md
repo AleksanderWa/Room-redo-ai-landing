@@ -38,5 +38,5 @@ Also softened: an unsourced "Most… go wrong", "fewer big pieces", and the intr
 Average: 4.7. Value/product split: about 80/20.
 
 ## Optional polish (not applied)
-- Say "the Room Redo style wall on our homepage".
+- Say "the Nola Home style wall on our homepage".
 - Vary one or two "Here's…" lead-ins.

@@ -42,7 +42,7 @@ value sections (each must pass the remove-the-app test; the first H2 is one of t
 5. Styling without clutter: a 3-zone layout (make, store, serve), what to display vs hide, one plant, one print, lighting (a plug-in sconce or under-shelf light; no hardwiring advice).
 6. Mistakes: no outlet nearby, a counter too shallow for the machine, everything on display, steam under hanging shelves or cabinets, a bar placed in the cooking zone traffic path.
 
-where the app fits: inside section 2 (the ideas list), at 2–3 ideas, with a before/after of a real room, plus one `:::looks` or `:::style-slider` if the images allow it. The mid `::cta` goes right after the first value section that has an app demo, never before section 1. Don't write an end `::cta` (the layout adds it). The last paragraph leads naturally into trying a coffee bar on your own spot. The intro answers the query directly and includes the one-sentence "Room Redo is an iPhone app" line (STYLE.md). Target about 70% reader help and 30% product.
+where the app fits: inside section 2 (the ideas list), at 2–3 ideas, with a before/after of a real room, plus one `:::looks` or `:::style-slider` if the images allow it. The mid `::cta` goes right after the first value section that has an app demo, never before section 1. Don't write an end `::cta` (the layout adds it). The last paragraph leads naturally into trying a coffee bar on your own spot. The intro answers the query directly and includes the one-sentence "Nola Home is an iPhone app" line (STYLE.md). Target about 70% reader help and 30% product.
 
 length: ideas, 1,500 to 2,500 words; length follows the value, don't pad.
 
@@ -67,7 +67,7 @@ length: ideas, 1,500 to 2,500 words; length follows the value, don't pad.
 - First screen and first 100 words: the primary keyword, one before/after, "iPhone app", "first redesign free".
 - Question H2s matching searches, each answered in the first sentence: "What do you need for a home coffee bar?", "How do you make a coffee bar in a small space?", "Where should a coffee bar go?".
 - The Wild-style caveat from FACTS: Wild styles rebuild the room around the idea, so expect bigger changes. The demos are idea boards, not a plan you can build 1:1. The app's renders show a café-scale counter, a commercial-looking espresso machine and a pastry case. Say plainly that a home version scales this down, and turn each render into takeaways a reader can copy at home size (mug rail, open shelves with canisters, a wood-panelled front, brass sconces, a jute rug, a herb pot).
-- Caption every app image as an AI redesign by Room Redo.
+- Caption every app image as an AI redesign by Nola Home.
 - Internal links: link to `/ideas/japandi-bedroom-living-room` where natural (e.g. styling a calm coffee nook) and to `/guides/ai-room-design-free` (trying it on your own room). Link back after guard PASS: add 1 contextual link from japandi or ai-room-design-free to this article.
 - Pricing only through the shared `::pricing` block, per FACTS.md, if prices come up at all.
 
@@ -81,7 +81,7 @@ length: ideas, 1,500 to 2,500 words; length follows the value, don't pad.
 
 ## Images
 
-The orchestrator viewed every image against its source photo on 2026-10-30. All the before photos are real phone photos (`roomredo-backend/fixtures/qa-photos/`, "deliberately imperfect real phone photos"). All the afters are real Room Redo outputs in Coffee & Matcha Bar. Write the descriptions from the pictures. Don't promise anything was kept; say "in this result…".
+The orchestrator viewed every image against its source photo on 2026-10-30. All the before photos are real phone photos (`roomredo-backend/fixtures/qa-photos/`, "deliberately imperfect real phone photos"). All the afters are real Nola Home outputs in Coffee & Matcha Bar. Write the descriptions from the pictures. Don't promise anything was kept; say "in this result…".
 
 1. **Dead-end stair landing.** The first demo (the first `::before-after` near the top), in the "landing / hall niche" idea.
    - before: `roomredo-backend/fixtures/qa-photos/stair-landing.jpg` (4032×3024, EXIF-rotated to portrait). A narrow, dim stair landing: white walls, a dark wood floor, the stair opening with a wood handrail and black balusters on the left, a black wire cage pendant, and a shoe rack, flat-pack boards and shopping bags against the right wall.
@@ -105,7 +105,7 @@ The orchestrator viewed every image against its source photo on 2026-10-30. All 
      - The black four-spot track light is still there in this result.
 3. **Messy attic bedroom.** The same room as the attic bedroom in `/ideas/japandi-bedroom-living-room`. Link to it ("the same attic bedroom we turned Japandi"). In the "coffee + matcha bar" or "a whole room" idea, or a `::before-after`.
    - before: reuse the japandi article's `public/images/articles/japandi-bedroom-living-room/attic-bedroom-before.webp`. Same source: `fixtures/qa-photos/cluttered-bedroom.jpg`. Copy it into this article's folder, or reference the existing path.
-   - after: `roomredo-backend/generated/style-cards-pilot-v2/coffee_matcha_bar__rep1.jpg` (2048×1536, landscape; an earlier app version, 2026-09-29, still a real Room Redo output).
+   - after: `roomredo-backend/generated/style-cards-pilot-v2/coffee_matcha_bar__rep1.jpg` (2048×1536, landscape; an earlier app version, 2026-09-29, still a real Nola Home output).
      - Sage walls with an oak half-panel wainscot.
      - Plywood-backed open shelves with jars, green cups and plants under the sloped ceiling.
      - An espresso machine and grinder on a stainless back bar.
