@@ -48,7 +48,7 @@ The searcher wants to see their own room redesigned by AI without paying, and of
   - "Is it really free?"
   - "Do I need to sign up or log in?"
   - "Can I use a photo of my own room?"
-  - "Does it work on Android or in a browser?" Answer in one sentence, positively: "Room Redo is an iPhone app; the web page is where you start." Don't dwell.
+  - "Does it work on Android or in a browser?" Answer in one sentence, positively: "Nola Home is an iPhone app; the web page is where you start." Don't dwell.
 - `::cta` mid-page and at the end.
 
 ## Must avoid

@@ -41,7 +41,7 @@ value sections (each must pass the remove-the-app test; the first H2 is one of t
 7. Start this weekend: what to remove first, then low-cost swaps in priority order (declutter surfaces, swap to linen bedding, warm bulbs, a paper lantern, one plant, and paint last). Use `:::steps` or a checklist.
 8. Mistakes that ruin Japandi: too cold or grey, all-matching blond wood, too much decor, Asian-themed kitsch, harsh overhead light, everything bright white.
 
-where the app fits: sections 3, 4 and 5. The app shows each rule applied to a real, ordinary room (messy attic bedroom, half-renovated living room). The mid `::cta` goes right after the first value section that has an app demo (section 3), never before section 1 or 2. Don't write an end `::cta` (the layout adds it). The last paragraph leads naturally into trying Japandi on your own room. The intro still answers the query directly and includes the one-sentence "Room Redo is an iPhone app" line (STYLE.md). Target about 70% reader help and 30% product.
+where the app fits: sections 3, 4 and 5. The app shows each rule applied to a real, ordinary room (messy attic bedroom, half-renovated living room). The mid `::cta` goes right after the first value section that has an app demo (section 3), never before section 1 or 2. Don't write an end `::cta` (the layout adds it). The last paragraph leads naturally into trying Japandi on your own room. The intro still answers the query directly and includes the one-sentence "Nola Home is an iPhone app" line (STYLE.md). Target about 70% reader help and 30% product.
 
 length: ideas, 1,200 to 2,500 words; length follows the value, don't pad.
 
@@ -68,7 +68,7 @@ Then practical Japandi rules (palette, wood, low furniture, linen, paper lantern
 - `::style-card` row: japandi, scandinavian, organic_modern, modern_minimalist (all Calm & Minimal styles in `data/styles.ts`).
 - Question H2s matching searches, each answered in the first sentence: "What colours are Japandi?", "Is Japandi the same as Scandinavian?", "Can I make a small bedroom Japandi?".
 - One `::cta`, placed as described in "Value first" above (no end CTA written; the layout adds it). Pricing only through the shared `::pricing` block, per FACTS.md.
-- Caption every image as an AI redesign by Room Redo.
+- Caption every image as an AI redesign by Nola Home.
 
 ## Must avoid
 
