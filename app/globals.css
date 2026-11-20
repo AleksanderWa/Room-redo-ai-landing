@@ -187,10 +187,10 @@ button {
   color: var(--rr-ink);
 }
 
-.rr-brand-lockup {
-  height: 48px;
+.rr-brand-mark {
+  display: block;
+  height: 42px;
   width: auto;
-  border-radius: 8px;
 }
 
 /* App Store buttons ---------------------------------------------------- */
@@ -1196,8 +1196,8 @@ button.rr-cta-badge {
   .rr-header-bar {
     height: 72px;
   }
-  .rr-brand-lockup {
-    height: 60px;
+  .rr-brand-mark {
+    height: 50px;
   }
   .rr-cta-compact {
     gap: 8px;

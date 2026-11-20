@@ -1,6 +1,6 @@
 // Generates the static 1200x630 Open Graph image from storage-after.jpg.
 // Run once after `bash scripts/copy-assets.sh` and `node scripts/make-brand-assets.mjs`
-// (it composites public/images/brand-lockup.png), and commit the result —
+// (it composites public/images/brand-wordmark.svg, see scripts/trace-wordmark.mjs), and commit the result —
 // this is deliberately a static, committed file rather than a dynamic
 // next/og route: the image never changes per-request, so a dynamic route
 // would only add a cold-start on the social-crawler fetch path for no
@@ -22,9 +22,9 @@ if (!existsSync(SRC)) {
   process.exit(1);
 }
 
-const LOCKUP = "public/images/brand-lockup.png";
+const WORDMARK = "public/images/brand-wordmark.svg";
 const FONT = "assets/fonts/dm-sans-latin-600-normal.woff";
-for (const f of [LOCKUP, FONT]) {
+for (const f of [WORDMARK, FONT]) {
   if (!existsSync(f)) {
     console.error(`error: ${f} not found.`);
     process.exit(1);
@@ -64,12 +64,25 @@ const tagline = Buffer.from(
   ).arrayBuffer(),
 );
 
+// Cream wordmark, same 76px height as ogCard(). Rasterised from the SVG at about
+// 4x the target height and downscaled, so the edges stay crisp.
+const markSvg = (await readFile(WORDMARK, "utf8")).replace("currentColor", "#f7f2ea");
+const markVb = markSvg.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/);
+const MARK_H = 76;
+const MARK_W = Math.round((MARK_H * markVb[1]) / markVb[2]);
+// sharp's density is dpi; SVG user units map to px at density / 72.
+const density = (72 * (MARK_H * 4)) / markVb[2];
+const mark = await sharp(Buffer.from(markSvg), { density })
+  .resize(MARK_W, MARK_H, { kernel: "lanczos3" })
+  .png()
+  .toBuffer();
+
 await sharp(SRC)
   .resize(1200, 630, { fit: "cover" })
   .composite([
     { input: scrim, top: 0, left: 0 },
-    { input: LOCKUP, top: 64, left: 64 },
-    { input: tagline, top: 64 + 180 + 12, left: 64 },
+    { input: mark, top: 64, left: 64 },
+    { input: tagline, top: 64 + MARK_H + 12, left: 64 },
   ])
   .jpeg({ quality: 88 })
   .toFile(DEST);

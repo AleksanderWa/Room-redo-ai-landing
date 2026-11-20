@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
 import sharp from "sharp";
+import { WORDMARK, wordmarkDataUri } from "@/lib/brandWordmark";
 
 // 1200x630 share cards. Satori rules: every div is display:flex, flexbox
 // only, hex colours only, fonts as ArrayBuffers (woff/ttf/otf, not woff2),
@@ -50,9 +51,10 @@ export async function ogCard({
   withBadges?: boolean;
 }) {
   const [serif, sans] = await fonts;
-  const lockup = await dataUri(path.join(root, "public/images/brand-lockup.png"));
   const hero = heroSrc ? await dataUri(path.join(root, "public", heroSrc), OG_SIZE) : null;
   const text = hero ? CREAM : INK;
+  const wordmark = wordmarkDataUri(text);
+  const wordmarkHeight = 76;
 
   return new ImageResponse(
     (
@@ -104,7 +106,7 @@ export async function ogCard({
         >
           <div style={{ display: "flex" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={lockup} width={144} height={72} alt="" style={{ borderRadius: 10, border: hero ? "none" : "1px solid #2c28241f" }} />
+            <img src={wordmark} width={Math.round(wordmarkHeight * WORDMARK.ratio)} height={wordmarkHeight} alt="" />
           </div>
           <div
             style={{
