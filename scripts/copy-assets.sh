@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Copies the landing page's images into public/images/ (and the favicon into
-# app/), from three places:
+# Copies the landing page's images into public/images/ from three places:
 #
 #   1. The RoomRedo app repo (style thumbs and the under-stairs
 #      photo the corners section starts from).

@@ -1,5 +1,6 @@
 // Generates the static 1200x630 Open Graph image from storage-after.jpg.
-// Run once after `bash scripts/copy-assets.sh`, and commit the result —
+// Run once after `bash scripts/copy-assets.sh` and `node scripts/make-brand-assets.mjs`
+// (it composites public/images/brand-lockup.png), and commit the result —
 // this is deliberately a static, committed file rather than a dynamic
 // next/og route: the image never changes per-request, so a dynamic route
 // would only add a cold-start on the social-crawler fetch path for no
@@ -45,7 +46,7 @@ const scrim = Buffer.from(
 // The tagline is DM Sans 600, the font ogCard() uses. Rendered with the same
 // next/og (satori) engine as the article cards, because librsvg cannot load a
 // woff. Transparent background, composited onto the photo.
-const { ImageResponse } = await import("next/dist/compiled/@vercel/og/index.node.js");
+const { ImageResponse } = await import("next/og.js");
 const tagline = Buffer.from(
   await new ImageResponse(
     {

@@ -36,7 +36,7 @@ Failures: missing config logs the missing var names and returns 503; any insert 
 - Section reveal is a CSS scroll-driven fade-up (`.rr-reveal`); it's skipped under `prefers-reduced-motion` and in browsers without `animation-timeline` support.
 - Rate limiting on `/api/waitlist` is a best-effort in-memory limiter (see `lib/ratelimit.ts`) — swap for Upstash Redis if real abuse shows up.
 - `data/faq.ts` feeds both the FAQ section and the homepage's `FAQPage` JSON-LD; edit it there and both stay in sync.
-- `app/icon.png` is the app's icon (`assets/icon-master.png` in the app repo), as a static file rather than a dynamic `icon.tsx` route because `next/image`'s optimizer and `next/og` share one process-wide `sharp`/libvips instance; the optimizer permanently blocks libvips' SVG loader (a hardcoded security measure) the first time it processes a real photo, which then breaks `ImageResponse`'s SVG→PNG rendering for the rest of the dev server's life. A static file sidesteps that pipeline entirely.
+- `app/icon.png` is the Nola Home icon (cut by `scripts/make-brand-assets.mjs` from `assets/brand/icon-source-1254.png`), as a static file rather than a dynamic `icon.tsx` route because `next/image`'s optimizer and `next/og` share one process-wide `sharp`/libvips instance; the optimizer permanently blocks libvips' SVG loader (a hardcoded security measure) the first time it processes a real photo, which then breaks `ImageResponse`'s SVG→PNG rendering for the rest of the dev server's life. A static file sidesteps that pipeline entirely.
 
 ## IndexNow
 
