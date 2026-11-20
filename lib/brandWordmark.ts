@@ -5,12 +5,17 @@ import path from "node:path";
 // scripts/trace-wordmark.mjs). Read at build/render time on the server only.
 const svg = fs.readFileSync(path.join(process.cwd(), "public/images/brand-wordmark.svg"), "utf8");
 
-const viewBox = svg.match(/viewBox="([^"]+)"/)![1];
+const viewBoxMatch = svg.match(/viewBox="([^"]+)"/);
+const pathMatch = svg.match(/\sd="([^"]+)"/);
+if (!viewBoxMatch || !pathMatch) {
+  throw new Error("brand-wordmark.svg: missing path d / viewBox");
+}
+const viewBox = viewBoxMatch[1];
 const [, , w, h] = viewBox.split(" ").map(Number);
 
 export const WORDMARK = {
   viewBox,
-  path: svg.match(/\sd="([^"]+)"/)![1],
+  path: pathMatch[1],
   /** width / height */
   ratio: w / h,
 };

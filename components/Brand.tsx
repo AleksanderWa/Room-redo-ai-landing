@@ -11,8 +11,8 @@ export default function Brand() {
     <Link href="/" aria-label="Nola Home, home page" className="rr-brand">
       <svg
         viewBox={WORDMARK.viewBox}
-        role="img"
-        aria-label="Nola Home"
+        aria-hidden="true"
+        focusable="false"
         className="rr-brand-mark"
         style={{ aspectRatio: WORDMARK.ratio }}
       >

@@ -64,13 +64,15 @@ const tagline = Buffer.from(
   ).arrayBuffer(),
 );
 
-// Cream wordmark, same 76px height as ogCard(). Rasterised from the SVG at 4x
-// the target size and downscaled, so the edges stay crisp.
+// Cream wordmark, same 76px height as ogCard(). Rasterised from the SVG at about
+// 4x the target height and downscaled, so the edges stay crisp.
 const markSvg = (await readFile(WORDMARK, "utf8")).replace("currentColor", "#f7f2ea");
 const markVb = markSvg.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/);
 const MARK_H = 76;
 const MARK_W = Math.round((MARK_H * markVb[1]) / markVb[2]);
-const mark = await sharp(Buffer.from(markSvg), { density: 72 * 4 })
+// sharp's density is dpi; SVG user units map to px at density / 72.
+const density = (72 * (MARK_H * 4)) / markVb[2];
+const mark = await sharp(Buffer.from(markSvg), { density })
   .resize(MARK_W, MARK_H, { kernel: "lanczos3" })
   .png()
   .toBuffer();
@@ -80,7 +82,7 @@ await sharp(SRC)
   .composite([
     { input: scrim, top: 0, left: 0 },
     { input: mark, top: 64, left: 64 },
-    { input: tagline, top: 64 + 180 + 12, left: 64 },
+    { input: tagline, top: 64 + MARK_H + 12, left: 64 },
   ])
   .jpeg({ quality: 88 })
   .toFile(DEST);

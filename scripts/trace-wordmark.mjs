@@ -10,8 +10,8 @@
 // the sunlight streaks drop out, potrace, then svgo + fill="currentColor".
 
 import sharp from "sharp";
-import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdtempSync } from "node:fs";
+import { execFileSync, execSync } from "node:child_process";
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -22,8 +22,14 @@ const SCALE = 3;
 const THRESHOLD = 120; // ink is ~40, cream/shadow streaks are >180
 const BLUR = 1.2;
 
+try {
+  execSync("command -v potrace", { stdio: "ignore" });
+} catch {
+  throw new Error("potrace not found: brew install potrace");
+}
+
 const dir = mkdtempSync(path.join(tmpdir(), "wordmark-"));
-const pbm = path.join(dir, "mark.pgm");
+const pgm = path.join(dir, "mark.pgm");
 const raw = path.join(dir, "mark.svg");
 
 const { data, info } = await sharp(SRC)
@@ -35,14 +41,13 @@ const { data, info } = await sharp(SRC)
   .raw()
   .toBuffer({ resolveWithObject: true });
 // 8-bit PGM that potrace reads directly.
-writeFileSync(pbm, Buffer.concat([Buffer.from(`P5\n${info.width} ${info.height}\n255\n`), data]));
+writeFileSync(pgm, Buffer.concat([Buffer.from(`P5\n${info.width} ${info.height}\n255\n`), data]));
 
 // -t 40 drops specks, -a 1.1 keeps corners (serifs) sharp, -O 0.4 simplifies curves.
-execFileSync("potrace", [pbm, "-s", "-o", raw, "-t", "40", "-a", "1.1", "-O", "0.4", "--flat", "-u", "10"]);
+execFileSync("potrace", [pgm, "-s", "-o", raw, "-t", "40", "-a", "1.1", "-O", "0.4", "--flat", "-u", "10"]);
 
+execFileSync("npx", ["--yes", "svgo@3", raw, "-o", raw, "--multipass", "--precision=1"], { stdio: "inherit" });
 let svg = readFileSync(raw, "utf8");
-writeFileSync(raw, svg);
-execFileSync("npx", ["--yes", "svgo", raw, "-o", raw, "--multipass", "--precision=1"], { stdio: "inherit" });
 svg = readFileSync(raw, "utf8");
 
 // Tight viewBox from the ink pixels (potrace coordinates are pixels of the
@@ -63,4 +68,5 @@ const out =
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x0} ${y0} ${x1 - x0 + 1} ${y1 - y0 + 1}">` +
   `<path fill="currentColor" d="${d}"/></svg>\n`;
 writeFileSync(DEST, out);
+rmSync(dir, { recursive: true, force: true });
 console.log(`wrote ${DEST} (${out.length} bytes, viewBox ${x0} ${y0} ${x1 - x0 + 1} ${y1 - y0 + 1})`);
