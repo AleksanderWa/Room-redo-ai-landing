@@ -319,7 +319,7 @@ export default function Home() {
               rel="noopener"
               style={{ fontSize: 15, fontWeight: 500, textDecoration: "underline" }}
             >
-              Follow @roomredoai on TikTok →
+              Follow @nolahome_app on TikTok →
             </a>
           </div>
         </section>

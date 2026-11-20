@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Copies the landing page's images into public/images/ (and the favicon into
-# app/), from three places:
+# Copies the landing page's images into public/images/ from three places:
 #
-#   1. The RoomRedo app repo (style thumbs, icon, and the under-stairs
+#   1. The RoomRedo app repo (style thumbs and the under-stairs
 #      photo the corners section starts from).
 #   2. The corners section's results: the app's corner-flow results for
 #      that photo, in CORNER_RESULTS_DIR (mapping: scripts/corner-results.json).
@@ -58,9 +57,8 @@ for f in "$APP_REPO"/assets/images/styles/thumbs/*.jpg; do
   copy "$f" "$DEST/styles/$(basename "$f")"
 done
 
-# 1c. App icon: favicon + header/footer mark.
-copy "$APP_REPO/assets/icon-master.png" "app/icon.png"
-copy "$APP_REPO/assets/icon-master.png" "$DEST/brand-icon.png"
+# 1c. Brand assets (favicon, apple icon, header lockup) are built from the
+# committed assets/brand/icon-source-1254.png: run scripts/make-brand-assets.mjs.
 
 # Temp dirs removed on exit, however the script ends.
 TMP_DIRS=()

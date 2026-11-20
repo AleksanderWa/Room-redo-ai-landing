@@ -1,6 +1,6 @@
 export const SITE_URL = "https://www.airoomredo.com";
 
-export const TIKTOK_URL = "https://www.tiktok.com/@roomredoai";
+export const TIKTOK_URL = "https://www.tiktok.com/@nolahome_app";
 
 export const SUPPORT_EMAIL = "support@airoomredo.com";
 

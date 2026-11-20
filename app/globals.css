@@ -180,7 +180,6 @@ button {
 .rr-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   color: var(--rr-ink);
 }
 
@@ -188,18 +187,10 @@ button {
   color: var(--rr-ink);
 }
 
-.rr-brand-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
-}
-
-.rr-brand-word {
-  font-family: var(--rr-serif);
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+.rr-brand-lockup {
+  height: 48px;
+  width: auto;
+  border-radius: 8px;
 }
 
 /* App Store buttons ---------------------------------------------------- */
@@ -1205,16 +1196,8 @@ button.rr-cta-badge {
   .rr-header-bar {
     height: 72px;
   }
-  .rr-brand {
-    gap: 12px;
-  }
-  .rr-brand-icon {
-    width: 28px;
-    height: 28px;
-  }
-  .rr-brand-word {
-    font-size: 20px;
-    letter-spacing: 0.24em;
+  .rr-brand-lockup {
+    height: 60px;
   }
   .rr-cta-compact {
     gap: 8px;
