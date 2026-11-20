@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: "Nola Home — before and after room redesign",
+        alt: "Nola Home: a redesigned room, before and after",
       },
     ],
   },

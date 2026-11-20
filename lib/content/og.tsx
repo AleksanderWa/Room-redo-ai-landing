@@ -50,7 +50,7 @@ export async function ogCard({
   withBadges?: boolean;
 }) {
   const [serif, sans] = await fonts;
-  const icon = await dataUri(path.join(root, "public/images/brand-icon.png"));
+  const lockup = await dataUri(path.join(root, "public/images/brand-lockup.png"));
   const hero = heroSrc ? await dataUri(path.join(root, "public", heroSrc), OG_SIZE) : null;
   const text = hero ? CREAM : INK;
 
@@ -102,20 +102,9 @@ export async function ogCard({
             color: text,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "flex" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={icon} width={44} height={44} alt="" style={{ borderRadius: 10 }} />
-            <div
-              style={{
-                display: "flex",
-                fontFamily: "Cormorant",
-                fontSize: 28,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-              }}
-            >
-              Nola Home
-            </div>
+            <img src={lockup} width={144} height={72} alt="" style={{ borderRadius: 10, border: hero ? "none" : "1px solid #2c28241f" }} />
           </div>
           <div
             style={{

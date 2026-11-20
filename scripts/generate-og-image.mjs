@@ -9,6 +9,7 @@
 
 import sharp from "sharp";
 import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 
 const SRC = "public/images/storage-after.jpg";
 const DEST = "public/og.jpg";
@@ -20,9 +21,56 @@ if (!existsSync(SRC)) {
   process.exit(1);
 }
 
+const LOCKUP = "public/images/brand-lockup.png";
+const FONT = "assets/fonts/dm-sans-latin-600-normal.woff";
+for (const f of [LOCKUP, FONT]) {
+  if (!existsSync(f)) {
+    console.error(`error: ${f} not found.`);
+    process.exit(1);
+  }
+}
+
+// Same left-to-right scrim as ogCard() in lib/content/og.tsx.
+const scrim = Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+    <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="rgb(20,16,12)" stop-opacity="0.78"/>
+      <stop offset="0.5" stop-color="rgb(20,16,12)" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="rgb(20,16,12)" stop-opacity="0"/>
+    </linearGradient></defs>
+    <rect width="1200" height="630" fill="url(#g)"/>
+  </svg>`,
+);
+
+// The tagline is DM Sans 600, the font ogCard() uses. Rendered with the same
+// next/og (satori) engine as the article cards, because librsvg cannot load a
+// woff. Transparent background, composited onto the photo.
+const { ImageResponse } = await import("next/dist/compiled/@vercel/og/index.node.js");
+const tagline = Buffer.from(
+  await new ImageResponse(
+    {
+      type: "div",
+      props: {
+        style: { display: "flex", fontFamily: "DM Sans", fontSize: 24, color: "#f7f2ea" },
+        children: "First redesign free · iPhone",
+      },
+    },
+    {
+      width: 400,
+      height: 40,
+      fonts: [{ name: "DM Sans", data: await readFile(FONT), style: "normal", weight: 600 }],
+    },
+  ).arrayBuffer(),
+);
+
 await sharp(SRC)
   .resize(1200, 630, { fit: "cover" })
-  .jpeg({ quality: 82 })
+  .composite([
+    { input: scrim, top: 0, left: 0 },
+    { input: LOCKUP, top: 64, left: 64 },
+    { input: tagline, top: 64 + 180 + 12, left: 64 },
+  ])
+  .jpeg({ quality: 88 })
   .toFile(DEST);
 
 console.log(`wrote ${DEST} (1200x630)`);
